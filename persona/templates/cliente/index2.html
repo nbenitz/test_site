@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		{% load bootstrap4 %} 
+		{% bootstrap_css %}
+		{% load static %}
+	</head>
+
+	<body>
+	
+		
+		<main role="main">
+		<div class="container mt-5">
+		<div class="row mb-5">
+		<div class="col-md-12">
+		<div class="table-responsive">
+		
+		{% if messages %}
+			<ul class="messages list-group mb-3">
+				{% for message in messages %}
+					<li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+				{% endfor %}
+	 		</ul>
+		{% endif %}
+		
+		<div align="left" class="btn_crear mb-3">
+			<a href="crear" type="button" class="btn btn-primary">Crear</a>
+		</div>
+		
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>CI</th>
+					<th width="35%">Nombre</th>
+					<th>Telefono</th>
+					<th>Direccion</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			
+			<tbody>  
+				<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
+				{% for cliente in object_list %}
+					<tr>
+						<td>{{ cliente.ci }}</td>
+						<td>{{ cliente.nombre }}</td>
+						<td>{{ cliente.telefono }}</td>
+						<td>{{ cliente.direccion }}</td>
+<!--						<td><img src="{% static 'uploads/'%}{{postre.img}}" alt="{{postre.nombre}}" class="img-fluid" width="7%"></td>
+-->						<td> 
+							<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->                        
+							<form method="POST" action="eliminar/{{cliente.ci}}">
+								{% csrf_token %}
+								<div class="btn-group"> 
+									<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
+									<a href="detalle/{{cliente.ci}}" title="Ver" type="button" class="btn btn-success">Ver </a>
+									<a href="editar/{{cliente.ci}}" title="Editar" type="button" class="btn btn-primary">Editar </a>
+									<button class="btn btn-danger" onclick="return eliminar();" type="submit">Eliminar</button>
+								</div>
+							</form> 
+						</td>
+					</tr>
+				{% endfor %} 
+			</tbody>
+		</table>
+		</div>
+		</div>
+		</div>
+		</div>
+		</main>
+
+		
+		<script type="text/javascript">
+			function eliminar() {
+				var x = confirm("Eliminar Cliente?");
+				if (x)
+					return true;
+				else
+					return false;
+			}
+		</script>
+		{% bootstrap_javascript jquery='full' %}
+	</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "dashboard/base.html" %}
+{% load widget_tweaks %}
+
+	{% block content %}
+	<!-- Page Heading -->
+	<h1 class="h3 mb-2 text-gray-800">Clientes</h1>
+	
+
+	
+	
+	<div class='row'>
+		<div class='col-sm-8 col-sm-offset-3'>
+			<div class="card shadow mb-4">
+			
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">Nuevo Cliente</h6>
+				</div>
+				
+				<div class="card-body">
+		
+					<form method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+					  
+						<!-- {{ form.as_p }} -->
+						<div class="form-group">
+							<label for="ci" class="txt_negrita">CI</label>
+							{{ form.ci|add_class:"form-control" }}
+						</div>
+						<div class="form-group">
+							<label for="nombre" class="txt_negrita">Nombre</label>
+							{{ form.nombre|add_class:"form-control" }} 
+						</div>
+						<div class="form-group">
+							<label for="telefono" class="txt_negrita">Telefono</label>
+							{{ form.telefono|add_class:"form-control" }} 
+						</div>
+						<div class="form-group">
+							<label for="direccion" class="txt_negrita">Direccion</label>
+							{{ form.direccion|add_class:"form-control" }}
+						</div>
+						
+					<!--	<div class="form-group">
+							<label for="img" class="txt_negrita">Imagen</label>
+							{{ form.img|add_class:"form-control mb-3" }}
+						</div> -->
+					  
+						<button type="submit" class="btn btn-primary">Aceptar</button>
+						<a href="./" type="submit" class="btn btn-primary">Cancelar</a>
+					 
+					</form>
+			
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endblock %}

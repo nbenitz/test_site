@@ -1,0 +1,10 @@
+boletin/migrations/
+estructura/migrations/
+parcial/migrations/
+persona/migrations/
+
+boletin/__pycache__/
+estructura/__pycache__/
+parcial/__pycache__/
+persona/__pycache__/
+project/__pycache__/

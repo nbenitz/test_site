@@ -20,7 +20,7 @@
 			{% endfor %}
 		</ul>
 	{% endif %}
-	
+
 	<!-- DataTables Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
@@ -28,7 +28,7 @@
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
-			
+
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
@@ -60,37 +60,37 @@
 						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla y los listamos -->
 						{% for habitacion in object_list %}
 							<tr>
-								<td>{{ habitacion.idhabitacion }}</td>
+								<td>{{ habitacion.id_habitacion }}</td>
 								<td>{{ habitacion.precio1 }}</td>
 								<td>{{ habitacion.numero }}</td>
-								<td>{{ habitacion.idcategoriafk }}</td>
+								<td>{{ habitacion.id_categoria_fk }}</td>
 								<td>{{ habitacion.caracteristicas }}</td>
 								<td>{{ habitacion.foto }}</td>
 								<td>{{ habitacion.estado }}</td>
-								<td> 
-									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->                        
-									<form method="POST" action="eliminar/{{habitacion.ci}}">
+								<td>
+									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
+									<form method="POST" action="eliminar/{{habitacion.id_habitacion}}">
 										{% csrf_token %}
-										<!--<div class="btn-group">--> 
+										<!--<div class="btn-group">-->
 											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-											<a href="detalle/{{habitacion.idhabitacion}}" title="Ver" class="btn btn-success">
+											<a href="detalle/{{habitacion.id_habitacion}}" title="Ver" class="btn btn-success">
 												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{habitacion.idhabitacion}}" title="Editar" class="btn btn-primary">
+											<a href="editar/{{habitacion.id_habitacion}}" title="Editar" class="btn btn-primary">
 												<i class="far fa-edit"></i></i></a>
 											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
-												<i class="far fa-trash-alt"></i></button>						
+												<i class="far fa-trash-alt"></i></button>
 										<!--</div>-->
-									</form> 
+									</form>
 								</td>
 							</tr>
-						{% endfor %} 
+						{% endfor %}
 					</tbody>
 				</table>
-				
+
 			</div>
 		</div>
 	</div>
-	
+
 	<script type="text/javascript">
 		function eliminar() {
 			var x = confirm("Eliminar Habitaci&oacute;n?");
@@ -100,5 +100,5 @@
 				return false;
 		}
 	</script>
-	
+
 {% endblock %}

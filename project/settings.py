@@ -29,7 +29,9 @@ SECRET_KEY = '$@m5a#h1oh-=fn4k#!!7tln^u^=km-puzov=f1fpuf(f2x^20p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'lucatronic.pythonanywhere.com',
+]
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'yonestor87@gmail.com'
@@ -57,7 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #apps terceros
     'crispy_forms',
-    'bootstrap4',
+    #'bootstrap4',
     'widget_tweaks',
     #mis apps
     'boletin',
@@ -103,10 +105,10 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gestion',
-        'USER': 'root',
-        'PASSWORD': '1223',
-        'HOST': '127.0.0.1',
+        'NAME': 'lucatronic$gestion',
+        'USER': 'lucatronic',
+        'PASSWORD': 'mysql1234',
+        'HOST': 'lucatronic.mysql.pythonanywhere-services.com',
         'PORT': '3306',
     }
 }

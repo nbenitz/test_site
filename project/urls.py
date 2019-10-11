@@ -26,8 +26,9 @@ urlpatterns = [
     path('', inicio, name='inicio'),
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
-    #url(r'^accounts/', include('registration.backends.default.urls')),   
-        
+    #url(r'^accounts/', include('registration.backends.default.urls')),
+    path('accounts/', include('registration.backends.default.urls')),
+
     path('persona/', include('persona.urls')),
     path('estructura/', include('estructura.urls')),
     path('parcial/', include('parcial.urls')),
@@ -36,5 +37,4 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    
-    
+

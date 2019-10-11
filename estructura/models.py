@@ -8,93 +8,93 @@
 from django.db import models
 
 class CategoriaHab(models.Model):
-    idcategoria = models.AutoField(db_column='idCategoria', primary_key=True)  # Field name made lowercase.
-    descripcion = models.CharField(db_column='Descripcion', max_length=50)  # Field name made lowercase.
+    id_categoria = models.AutoField(primary_key=True)
+    descripcion = models.CharField(max_length=50)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'categoria_hab'
-        
+
     def __unicode__(self):  #Python 2
         return self.descripcion
-    
+
     def __str__(self):      #Python 3
         return self.descripcion
 
 class CategoriaProd(models.Model):
-    idcategoria = models.AutoField(db_column='idCategoria', primary_key=True)  # Field name made lowercase.
-    descripcion = models.CharField(db_column='Descripcion', max_length=20)  # Field name made lowercase.
+    id_categoria = models.AutoField(primary_key=True)
+    descripcion = models.CharField(max_length=20)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'categoria_prod'
 
 class Habitacion(models.Model):
-    idhabitacion = models.AutoField(db_column='idHabitacion', primary_key=True)  # Field name made lowercase.
-    precio1 = models.PositiveIntegerField(db_column='Precio1')  # Field name made lowercase.
-    precio2 = models.PositiveIntegerField(db_column='Precio2')  # Field name made lowercase.
-    precio3 = models.PositiveIntegerField(db_column='Precio3')  # Field name made lowercase.
-    numero = models.IntegerField(db_column='Numero', unique=True)  # Field name made lowercase.
-    idcategoriafk = models.ForeignKey(CategoriaHab, models.DO_NOTHING, db_column='idCategoriaFK')  # Field name made lowercase.
-    caracteristicas = models.CharField(db_column='Caracteristicas', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    foto = models.ImageField(db_column='Foto', blank=True, null=True, upload_to='photos')  # Field name made lowercase.
+    id_habitacion = models.AutoField(primary_key=True)
+    precio1 = models.PositiveIntegerField()
+    precio2 = models.PositiveIntegerField()
+    precio3 = models.PositiveIntegerField()
+    numero = models.IntegerField(unique=True)
+    id_categoria_fk = models.ForeignKey(CategoriaHab, models.DO_NOTHING)
+    caracteristicas = models.CharField(max_length=50, blank=True, null=True)
+    foto = models.ImageField(blank=True, null=True, upload_to='photos')
     estado = models.CharField(max_length=10)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'habitacion2'
 
 class Proveedor(models.Model):
-    ruc = models.CharField(db_column='RUC', primary_key=True, max_length=15)  # Field name made lowercase.
-    nombre = models.CharField(db_column='Nombre', unique=True, max_length=20)  # Field name made lowercase.
-    telefono = models.CharField(db_column='Telefono', max_length=15, blank=True, null=True)  # Field name made lowercase.
-    direccion = models.CharField(db_column='Direccion', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    ruc = models.CharField(primary_key=True, max_length=15)
+    nombre = models.CharField(unique=True, max_length=20)
+    telefono = models.CharField(max_length=15, blank=True, null=True)
+    direccion = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'proveedor'
-        
+
     def __unicode__(self):  #Python 2
         return self.nombre
-    
+
     def __str__(self):      #Python 3
         return self.nombre
 
 class Producto(models.Model):
-    idproducto = models.CharField(db_column='idProducto', primary_key=True, max_length=20)  # Field name made lowercase.
-    idproveedorfk = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='idProveedorFK')  # Field name made lowercase.
-    descripcion = models.CharField(db_column='Descripcion', max_length=50)  # Field name made lowercase.
-    costo = models.PositiveIntegerField(db_column='Costo')  # Field name made lowercase.
-    precio1 = models.PositiveIntegerField(db_column='Precio1')  # Field name made lowercase.
-    precio2 = models.PositiveIntegerField(db_column='Precio2')  # Field name made lowercase.
-    precio3 = models.PositiveIntegerField(db_column='Precio3')  # Field name made lowercase.
-    preciopack = models.PositiveIntegerField(db_column='PrecioPack', blank=True, null=True)  # Field name made lowercase.
-    stock = models.FloatField(db_column='Stock')  # Field name made lowercase.
-    unidxpack = models.FloatField(db_column='UnidXpack', blank=True, null=True)  # Field name made lowercase.
-    porpack = models.CharField(db_column='PorPack', max_length=7, blank=True, null=True)  # Field name made lowercase.
-    foto = models.TextField(db_column='Foto', blank=True, null=True)  # Field name made lowercase.
-    iva = models.PositiveIntegerField(db_column='Iva')  # Field name made lowercase.
-    lado1 = models.FloatField(db_column='Lado1', blank=True, null=True)  # Field name made lowercase.
-    lado2 = models.FloatField(db_column='Lado2', blank=True, null=True)  # Field name made lowercase.
-    categoria = models.ForeignKey(CategoriaProd, models.DO_NOTHING, db_column='Categoria')  # Field name made lowercase.
+    id_producto = models.CharField(primary_key=True, max_length=20)
+    id_proveedor_fk = models.ForeignKey('Proveedor', models.DO_NOTHING)
+    descripcion = models.CharField(max_length=50)
+    costo = models.PositiveIntegerField()
+    precio1 = models.PositiveIntegerField()
+    precio2 = models.PositiveIntegerField()
+    precio3 = models.PositiveIntegerField()
+    precio_pack = models.PositiveIntegerField(blank=True, null=True)
+    stock = models.FloatField()
+    unid_x_pack = models.FloatField(blank=True, null=True)
+    por_pack = models.CharField(max_length=7, blank=True, null=True)
+    foto = models.TextField(blank=True, null=True)
+    iva = models.PositiveIntegerField()
+    lado1 = models.FloatField(blank=True, null=True)
+    lado2 = models.FloatField(blank=True, null=True)
+    categoria = models.ForeignKey(CategoriaProd, models.DO_NOTHING)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'producto'
-        
-            
+
+
     def __unicode__(self):  #Python 2
         return self.descripcion
-    
+
     def __str__(self):      #Python 3
         return self.descripcion
 
 class Servicio(models.Model):
-    idservicio = models.CharField(db_column='idServicio', primary_key=True, max_length=20)  # Field name made lowercase.
-    descripcion = models.CharField(db_column='Descripcion', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    precio = models.IntegerField(db_column='Precio', blank=True, null=True)  # Field name made lowercase.
+    id_servicio = models.CharField(primary_key=True, max_length=20)
+    descripcion = models.CharField(max_length=50, blank=True, null=True)
+    precio = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'servicio'
 

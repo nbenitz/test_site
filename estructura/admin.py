@@ -4,14 +4,14 @@ from django.contrib import admin
 from .models import CategoriaHab, CategoriaProd, Proveedor, Producto, Servicio, Habitacion
 
 class AdminProducto(admin.ModelAdmin):
-    list_display = ["idproducto", "descripcion", "precio1", "stock"]
-    list_filter = ["idproducto", "descripcion"]
-    search_fields = ["idproducto", "descripcion"]
-    
+    list_display = ["id_producto", "descripcion", "precio1", "stock"]
+    #list_filter = ["id_producto", "descripcion"]
+    search_fields = ["id_producto", "descripcion"]
+
 class AdminHabitacion(admin.ModelAdmin):
-    list_display = ["idhabitacion", "precio1", "numero", "idcategoriafk", "caracteristicas", "estado"]
-    list_filter = ["idhabitacion", "numero"]
-    search_fields = ["idhabitacion", "idhabitacion"]
+    list_display = ["id_habitacion", "precio1", "numero", "id_categoria_fk", "caracteristicas", "estado"]
+    #list_filter = ["id_habitacion", "numero"]
+    search_fields = ["id_habitacion", "idhabitacion"]
 
 admin.site.register(CategoriaHab)
 admin.site.register(CategoriaProd)

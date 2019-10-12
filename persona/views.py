@@ -35,6 +35,7 @@ class ClienteCrear(SuccessMessageMixin, CreateView):
     # Redireccionamos a la página principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerCliente') # Redireccionamos a la vista principal 'leer'
+
     
 class ClienteDetalle(DetailView): 
     model = Cliente # Llamamos a la clase 'Cliente' que se encuentra en nuestro archivo 'models.py'

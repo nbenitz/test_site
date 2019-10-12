@@ -1,25 +1,32 @@
 {% extends "dashboard/base.html" %}
 {% load static %}
 	{% block content %}
-		<div class='row'>
-			<div class='col-sm-6 col-sm-offset-3'>
-				<h1 class='text-align-center'>Detalles del Cliente</h1><hr/>
-	
-				<h4>Detalles</h4>
-				 
-				<p><span class="txt_negrita">CI:</span> <br> {{object.ci}}</p>
-				<p><span class="txt_negrita">Nombre:</span> <br> {{object.nombre}}</p>
-				<p><span class="txt_negrita">Telefono:</span> <br> {{object.telefono}}</p>
-				<p><span class="txt_negrita">Direccion:</span> <br> {{object.direccion}}</p>
+	<!-- Page Heading -->
+	<h1 class="h3 mb-2 text-gray-800">Clientes</h1>
+		
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Detalles del Cliente</h6>
+		</div>
+		<div class="card-body">
+		
+			<div class='row'>
+				<div class='col-sm-6 col-sm-offset-3'>		
 				
-				<!--<p><span class="txt_negrita">Imagen:</span> <br> <img src="{% static 'uploads/'%}{{object.img}}" alt="{{object.nombre}}" class="img-fluid"> </p>
-				-->
-				<!--<p><span class="txt_negrita">Creado:</span> <br> {{object.created_at}}</p>
-				<p><span class="txt_negrita">Actualizado:</span> <br> {{object.updated_at}}</p>-->
-				 
-				<!-- Boton para volver a la vista principal (Home) -->
-				<a href="../" type="submit" class="btn btn-primary">Volver</a>
-				
+					<p><strong>C.I. Nro.:</strong><br> {{object.ci}}</p>
+					<p><strong>Nombre:</strong><br> {{object.nombre}}</p>
+					<p><strong>Tel&eacute;fono:</strong><br> {{object.telefono}}</p>
+					<p><strong>Direcci&oacute;n:</strong><br> {{object.direccion}}</p>
+					
+					<a href="../" type="submit" class="btn btn-primary">
+						<i class="fas fa-caret-left"></i>
+						Volver
+					</a>
+					
+				</div>
 			</div>
 		</div>
+	</div>
+	
+
 	{% endblock %}

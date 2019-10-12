@@ -9,10 +9,10 @@ from django.db import models
 
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
-    ci = models.PositiveIntegerField(unique=True, max_length=15)
+    ci = models.CharField("C.I. Nro.", unique=True, max_length=15)
     nombre = models.CharField(max_length=30)
-    telefono = models.CharField(max_length=15, blank=True, null=True)
-    direccion = models.CharField(max_length=50, blank=True, null=True)
+    telefono = models.CharField("Tel&eacute;fono", max_length=15, blank=True, null=True)
+    direccion = models.CharField("Direcci&oacute;n", max_length=50, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -26,12 +26,12 @@ class Cliente(models.Model):
 
 class Empleado(models.Model):
     id_empleado = models.AutoField(primary_key=True)
-    ci = models.PositiveIntegerField(unique=True)
+    ci = models.CharField(max_length=15, unique=True)
     nombre = models.CharField(max_length=20)
     apellido = models.CharField( max_length=20)
-    telefono = models.CharField(max_length=15, blank=True, null=True)
-    direccion = models.CharField(max_length=30, blank=True, null=True)
-    comision = models.PositiveIntegerField(blank=True, null=True)
+    telefono = models.CharField("Tel&eacute;fono", max_length=15, blank=True, null=True)
+    direccion = models.CharField("Direcci&oacute;n", max_length=50, blank=True, null=True)
+    comision = models.PositiveIntegerField("Comisi&oacute;n", blank=True, null=True)
     estado = models.CharField(max_length=8)
 
     class Meta:

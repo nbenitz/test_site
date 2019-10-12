@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'lucatronic.pythonanywhere.com',
+    '127.0.0.1',
 ]
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -104,11 +105,18 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lucatronic$gestion',
-        'USER': 'lucatronic',
-        'PASSWORD': 'mysql1234',
-        'HOST': 'lucatronic.mysql.pythonanywhere-services.com',
+        'ENGINE': 'django.db.backends.mysql',        
+        
+        'NAME': 'gestion',
+        'USER': 'root',
+        'PASSWORD': '1223',
+        'HOST': '127.0.0.1',
+        
+        #'NAME': 'lucatronic$gestion',
+        #'USER': 'lucatronic',
+        #'PASSWORD': 'mysql1234',
+        #'HOST': 'lucatronic.mysql.pythonanywhere-services.com',
+        
         'PORT': '3306',
     }
 }

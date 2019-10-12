@@ -1,6 +1,5 @@
 {% extends "dashboard/base.html" %}
-{% load static %}
-{% load widget_tweaks %}
+{% load crispy_forms_tags %}
 
 	{% block content %}
 	<!-- Page Heading -->
@@ -17,33 +16,16 @@
 					<form method="post" enctype="multipart/form-data">
 						{% csrf_token %}
 					  
-						<!-- {{ form.as_p }} -->
-						<div class="form-group">
-							<label for="ci" class="txt_negrita">CI</label>
-							{{ form.ci|add_class:"form-control" }} <!-- Usamos la libreria 'widget_tweaks' para crear esta caja de texto -->
-						</div>
-						<div class="form-group">
-							<label for="nombre" class="txt_negrita">Nombre</label>
-							{{ form.nombre|add_class:"form-control" }}
-						</div>
-						<div class="form-group">
-							<label for="telefono" class="txt_negrita">Telefono</label>
-							{{ form.telefono|add_class:"form-control" }}
-						</div>
-						<div class="form-group">
-							<label for="direccion" class="txt_negrita">Direccion</label>
-							{{ form.direccion|add_class:"form-control" }}
-						</div>
-						
-					<!--	<div class="form-group">
-							<label for="img" class="txt_negrita">Imagen</label>
-							{{ form.img|add_class:"form-control mb-3" }}
-							<p class="txt_negrita">Imagen Actual:</p>
-							<img src="{% static 'uploads/'%}{{object.img}}" class="img-fluid" alt="{{object.nombre}}">
-						</div>-->
-					
-						<button type="submit" class="btn btn-primary">Aceptar</button>
-						<a href="../" type="submit" class="btn btn-primary">Volver</a>		
+						{{ form|crispy }}
+											
+						<button type="submit" class="btn btn-primary">
+							<i class="fas fa-save"></i>
+							Aceptar
+						</button>						
+						<a href="../" type="submit" class="btn btn-primary">
+							<i class="fas fa-caret-left"></i>
+							Cancelar
+						</a>		
 					</form>
 				</div>
 			</div>

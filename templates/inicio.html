@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "dashboard/base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block head_title %}Bienvenidos | {% endblock %}
+{% block head_title %}Bienvenidos{% endblock %}
 
 	<style>
 		{% block style %}
@@ -20,16 +20,7 @@
 {% block jumbotron %}
 	{% if request.user.is_staff %}
 		<p>Jaja<p/>
-		<table class="table">
-		{% for instance in queryset %}
-			<tr>
-				<td>{{ forloop.counter }}</td>
-				<td>{{ instance }}</td>
-				<td>{{ instance.nombre }}</td>
-				<td>hace {{ instance.timestamp|timesince }}</td>
-			</tr><br/>
-		{% endfor %}
-		</table>
+
 	{% else %}
 		<!-- Main component for a primary marketing message or call to action -->
 		<div class="jumbotron">

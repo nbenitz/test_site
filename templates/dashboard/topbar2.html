@@ -1,0 +1,101 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+
+
+	<div class="container">
+	
+	
+	
+		<a class="navbar-brand" href="/">
+			<div class="row">
+			<div class="sidebar-brand-icon rotate-n-15">
+				<i class="fas fa-hotel"></i>
+			</div>
+			<div class="sidebar-brand-text mx-3">Proyecto II</div>
+			</div>
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarsExample04">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Inicio</a>
+				</li>
+
+				<li class="nav-item dropdown active">
+					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Reservas</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown04">
+						<a class="dropdown-item" href="#">Reservar Habitaci&oacute;n</a>
+						<a class="dropdown-item" href="#">Ampliar Reserva</a>
+						<a class="dropdown-item" href="#">Anular Reserva</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Consumos</a>
+						<a class="dropdown-item" href="#">Pagos</a>
+					</div>
+				</li>
+				
+				<li class="nav-item dropdown active">
+					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Datos Primarios</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown04">
+						<a class="dropdown-item" href="{% url 'leerCliente' %}">Clientes</a>
+						<a class="dropdown-item" href="#">Empleados</a>
+						<a class="dropdown-item" href="#">Usuarios</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Habitaci&oacute;n</a>
+						<a class="dropdown-item" href="#">Productos</a>
+						<a class="dropdown-item" href="#">Servicios</a>
+					</div>
+				</li>
+				
+				<li class="nav-item dropdown active">
+					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Informes</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown04">
+						<a class="dropdown-item" href="#">..</a>
+						<a class="dropdown-item" href="#">..</a>
+						<a class="dropdown-item" href="#">..</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">...</a>
+						<a class="dropdown-item" href="#">..</a>
+						<a class="dropdown-item" href="#">..</a>
+					</div>
+				</li>
+				
+				<li class="nav-item active">
+					<a class="nav-link" href="{% url 'about' %}">Acerca de</a>
+				</li>
+				
+				<li class="nav-item active">
+					<a class="nav-link" href="{% url 'contact' %}">Contacto</a>
+				</li>
+				
+			</ul>
+			
+
+			
+			<ul class="navbar-nav navbar-right">
+				{% if request.user.is_authenticated %}
+					<li class="nav-item active">
+						<a class="nav-link" href="{% url 'auth_logout' %}">
+							Salir</a>
+					</li>
+				{% else %}
+					<li class="nav-item active">
+						<a class="nav-link" href="{% url 'registration_register' %}">
+							Registrarme</a></li>
+					<li class="nav-item active">
+						<a class="nav-link" href="{% url 'auth_login' %}">
+							Entrar</a></li>
+							
+						
+				{% endif %}
+			</ul>
+			
+			
+			
+		</div>
+	</div>	
+</nav>

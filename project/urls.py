@@ -31,7 +31,7 @@ urlpatterns = [
 
     path('persona/', include('persona.urls')),
     path('estructura/', include('estructura.urls')),
-    path('parcial/', include('parcial.urls')),
+    #path('parcial/', include('parcial.urls')),
 ]
 
 if settings.DEBUG:

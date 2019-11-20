@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'boletin',
     'persona',
     'estructura',
-    'parcial',
+    #'parcial',
 ]
 
 MIDDLEWARE = [

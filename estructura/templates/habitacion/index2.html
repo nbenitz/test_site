@@ -1,0 +1,110 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block style %}
+	<script src="plugins/fancybox/fancybox.min.js" type="text/javascript"></script>
+
+{% endblock %}
+
+{% block content %}
+	<!-- Page Heading -->
+	<div class='row'>
+		<div class='col-sm-6 col-sm-offset-3'>
+			<h1 class="h3 mb-2 text-gray-800">Habitaciones</h1>
+		</div>
+		<div align="right" class='col-sm-6 btn_crear mb-3'>
+			<a href="crear" class="btn btn-primary">
+				<i class="fas fa-plus"></i> Nueva Habitaci&oacute;n</a>
+		</div>
+	</div>
+<!--          <p class="mb-4">.</p>
+-->
+	{% if messages %}
+		<ul class="messages list-group mb-3">
+			{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	
+	<!-- DataTables Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Lista de Habitaciones</h6>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+
+				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Precio</th>
+							<th>N&uacute;mero</th>
+							<th>Categor&iacute;a</th>
+							<th>Caracter&iacute;sticas</th>
+							<th>Foto</th>
+							<th>Estado</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+
+					<tfoot>
+						<tr>
+							<th>ID</th>
+							<th>Precio</th>
+							<th>N&uacute;mero</th>
+							<th>Categor&iacute;a</th>
+							<th>Caracter&iacute;sticas</th>
+							<th>Foto</th>
+							<th>Estado</th>
+							<th>Acciones</th>
+						</tr>
+					</tfoot>
+
+					<tbody>
+						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla y los listamos -->
+						{% for habitacion in object_list %}
+							<tr>
+								<td>{{ habitacion.id_habitacion }}</td>
+								<td>{{ habitacion.precio1 }}</td>
+								<td>{{ habitacion.numero }}</td>
+								<td>{{ habitacion.id_categoria_fk }}</td>
+								<td>{{ habitacion.caracteristicas }}</td>
+								<td><img src="{{object.foto.url}}" class="img-fluid"></td>
+								<td>{{ habitacion.estado }}</td>
+								<td>
+									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
+									<form method="POST" action="eliminar/{{habitacion.id_habitacion}}">
+										{% csrf_token %}
+										<!--<div class="btn-group">-->
+											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
+											<a href="detalle/{{habitacion.id_habitacion}}" title="Ver" class="btn btn-success">
+												<i class="far fa-eye"></i></i></a>
+											<a href="editar/{{habitacion.id_habitacion}}" title="Editar" class="btn btn-primary">
+												<i class="far fa-edit"></i></i></a>
+											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
+												<i class="far fa-trash-alt"></i></button>
+										<!--</div>-->
+									</form>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function eliminar() {
+			var x = confirm("Eliminar Habitaci&oacute;n?");
+			if (x)
+				return true;
+			else
+				return false;
+		}
+	</script>
+
+{% endblock %}

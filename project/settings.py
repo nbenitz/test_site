@@ -60,10 +60,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #apps terceros
     'crispy_forms',
-    #'bootstrap4',
-    'widget_tweaks',
+    'bootstrap4',
+    #'widget_tweaks',
     #mis apps
-    'boletin',
     'persona',
     'estructura',
     #'parcial',
@@ -166,10 +165,10 @@ STATICFILES_DIRS = [
     # '/var/www/static/',
 ]
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_env", "static_root")
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_env", "media_root")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
 
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 SITE_ID = 1

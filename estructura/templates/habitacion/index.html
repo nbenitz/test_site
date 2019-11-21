@@ -1,6 +1,15 @@
 {% extends "dashboard/base.html" %}
 
-{% block content %}
+{% block head_title %}Habitaciones{% endblock %}
+
+
+{% block in_head %}
+
+{% endblock %}
+
+
+{% block content %}	
+	
 	<!-- Page Heading -->
 	<div class='row'>
 		<div class='col-sm-6 col-sm-offset-3'>
@@ -21,77 +30,64 @@
 		</ul>
 	{% endif %}
 
-	<!-- DataTables Example -->
-	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">Lista de Habitaciones</h6>
-		</div>
-		<div class="card-body">
-			<div class="table-responsive">
-
-				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Precio</th>
-							<th>N&uacute;mero</th>
-							<th>Categor&iacute;a</th>
-							<th>Caracter&iacute;sticas</th>
-							<th>Foto</th>
-							<th>Estado</th>
-							<th>Acciones</th>
-						</tr>
-					</thead>
-
-					<tfoot>
-						<tr>
-							<th>ID</th>
-							<th>Precio</th>
-							<th>N&uacute;mero</th>
-							<th>Categor&iacute;a</th>
-							<th>Caracter&iacute;sticas</th>
-							<th>Foto</th>
-							<th>Estado</th>
-							<th>Acciones</th>
-						</tr>
-					</tfoot>
-
-					<tbody>
-						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla y los listamos -->
-						{% for habitacion in object_list %}
-							<tr>
-								<td>{{ habitacion.id_habitacion }}</td>
-								<td>{{ habitacion.precio1 }}</td>
-								<td>{{ habitacion.numero }}</td>
-								<td>{{ habitacion.id_categoria_fk }}</td>
-								<td>{{ habitacion.caracteristicas }}</td>
-								<td>{{ habitacion.foto }}</td>
-								<td>{{ habitacion.estado }}</td>
-								<td>
-									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
-									<form method="POST" action="eliminar/{{habitacion.id_habitacion}}">
+	<!-- Content Row -->
+	   
+		
+		{% for habitacion in object_list %}
+<div class="row">
+		<!-- Card Temperatura -->
+		<div class="col-sm-12">
+			<div class="card h-100 py-1">				
+				<div class="card-body">					
+					<div class="row align-items-center">					
+					
+						<aside class="col-md-3">
+<!--							<img src="{{habitacion.foto.url}}" class="img-fluid">
+-->						</aside>						
+						
+						
+						<div class="col-md-6">
+							<div class="info-main">
+								<div class="h5 title"><strong>Habitaci&oacute;n {{ habitacion.foto }}</strong></div>
+								<br>				
+								<p><strong>Categor&iacute;a:&nbsp;</strong>{{habitacion.id_categoria_fk}}</p>
+								<p><strong>Caracter&iacute;sticas:&nbsp;</strong>{{habitacion.caracteristicas}}</p>
+							</div> <!-- info-main.// -->
+						</div> <!-- col.// -->
+						
+						
+						<aside class="col-sm-3">
+							<div class="info-aside">
+								<div class="price-wrap">
+									<span class="h5"> Gs.  {{ habitacion.precio1 }}</span>	
+								</div> <!-- info-price-detail // -->
+								<br>
+								<form method="POST" action="eliminar/{{habitacion.id_habitacion}}">
 										{% csrf_token %}
 										<!--<div class="btn-group">-->
 											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-											<a href="detalle/{{habitacion.id_habitacion}}" title="Ver" class="btn btn-success">
-												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{habitacion.id_habitacion}}" title="Editar" class="btn btn-primary">
-												<i class="far fa-edit"></i></i></a>
-											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
-												<i class="far fa-trash-alt"></i></button>
+											<a href="detalle/{{habitacion.id_habitacion}}" title="Ver" class="btn btn-success btn-block">
+												<i class="far fa-eye"></i>&nbsp;Detalles</a>
+											<a href="editar/{{habitacion.id_habitacion}}" title="Editar" class="btn btn-primary btn-block">
+												<i class="far fa-edit"></i>&nbsp;Editar</a>
+											<button class="btn btn-danger btn-block" onclick="return eliminar();" title="Eliminar">
+												<i class="far fa-trash-alt"></i>&nbsp;Eliminar</button>
 										<!--</div>-->
 									</form>
-								</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
+							</div> <!-- info-aside.// -->
+						</aside> <!-- col.// -->
 
+
+
+					</div>
+				</div>
+			</div>
 			</div>
 		</div>
-	</div>
-
-	<script type="text/javascript">
+		{% endfor %}
+		
+		
+		<script type="text/javascript">
 		function eliminar() {
 			var x = confirm("Eliminar Habitaci&oacute;n?");
 			if (x)
@@ -100,5 +96,7 @@
 				return false;
 		}
 	</script>
-
+			
+	
+	
 {% endblock %}

@@ -78,11 +78,11 @@ class Privilegio(models.Model):
         return self.rol
 
 class Usuario(models.Model):
-    id_usuario = models.AutoField(primary_key=True)  # Field name made lowercase.
-    usuario = models.CharField(unique=True, max_length=20)  # Field name made lowercase.
-    pass_field = models.CharField(max_length=20)  # Field name made lowercase. Field renamed because it was a Python reserved word.
-    id_privilegio_fk = models.ForeignKey(Privilegio, models.DO_NOTHING)  # Field name made lowercase.
-    id_empleado_fk = models.ForeignKey(Empleado, models.DO_NOTHING, unique=True)  # Field name made lowercase.
+    id_usuario = models.AutoField(primary_key=True)  
+    usuario = models.CharField(unique=True, max_length=20)  
+    pass_field = models.CharField(max_length=20) 
+    id_privilegio_fk = models.ForeignKey(Privilegio, models.DO_NOTHING)  
+    id_empleado_fk = models.ForeignKey(Empleado, models.DO_NOTHING, unique=True) 
 
     class Meta:
         managed = False

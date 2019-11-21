@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from PIL import Image
 
 class CategoriaHab(models.Model):
     id_categoria = models.AutoField(primary_key=True)
@@ -34,16 +35,20 @@ class Habitacion(models.Model):
     precio1 = models.PositiveIntegerField()
     precio2 = models.PositiveIntegerField()
     precio3 = models.PositiveIntegerField()
-    numero = models.IntegerField(unique=True)
-    id_categoria_fk = models.ForeignKey(CategoriaHab, models.DO_NOTHING)
+    numero = models.IntegerField(unique=True, verbose_name="N&uacute;mero")
+    id_categoria_fk = models.ForeignKey(CategoriaHab, 
+                                        models.DO_NOTHING, 
+                                        db_column='id_categoria_fk',
+                                        verbose_name="Categor&iacute;a")
     caracteristicas = models.CharField(max_length=50, blank=True, null=True)
-    foto = models.ImageField(blank=True, null=True, upload_to='photos')
+    foto = models.ImageField(blank=True, null=True, upload_to='hab-img')
     estado = models.CharField(max_length=10)
 
     class Meta:
         managed = True
         db_table = 'habitacion2'
-
+            
+        
 class Proveedor(models.Model):
     ruc = models.CharField(primary_key=True, max_length=15)
     nombre = models.CharField(unique=True, max_length=20)

@@ -5,10 +5,10 @@ from .views import HabitacionListado, HabitacionDetalle, HabitacionCrear, Habita
 
 urlpatterns = [
     path('habitacion/', HabitacionListado.as_view(template_name = "habitacion/index.html"), name='leerHabitacion'),
-    path('habitacion/detalle/<str:pk>', HabitacionDetalle.as_view(template_name = "habitacion/detalles.html"), name='detalles'),
-    path('habitacion/crear', HabitacionCrear.as_view(template_name = "habitacion/crear.html"), name='crear'),
-    path('habitacion/editar/<str:pk>', HabitacionActualizar.as_view(template_name = "habitacion/actualizar.html"), name='actualizar'),
-    path('habitacion/eliminar/<str:pk>', HabitacionEliminar.as_view(), name='eliminar'),
+    path('habitacion/detalle/<str:pk>', HabitacionDetalle.as_view(template_name = "habitacion/detalles.html"), name='detallesHabitacion'),
+    path('habitacion/crear', HabitacionCrear.as_view(template_name = "habitacion/crear.html"), name='crearHabitacion'),
+    path('habitacion/editar/<str:pk>', HabitacionActualizar.as_view(template_name = "habitacion/actualizar.html"), name='actualizarHabitacion'),
+    path('habitacion/eliminar/<str:pk>', HabitacionEliminar.as_view(), name='eliminarHabitacion'),
 
 ]
 

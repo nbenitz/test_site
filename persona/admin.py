@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Cliente, Empleado, Usuario, Privilegio
+from .models import Cliente, Empleado
 
 
 class AdminCliente(admin.ModelAdmin):
@@ -26,6 +26,4 @@ class AdminEmpleado(admin.ModelAdmin):
 
 
 admin.site.register(Cliente, AdminCliente)
-admin.site.register(Empleado, AdminEmpleado)
-admin.site.register(Usuario)
-admin.site.register(Privilegio)
+admin.site.register(Empleado)

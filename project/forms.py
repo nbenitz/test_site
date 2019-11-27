@@ -1,4 +1,5 @@
 from django import forms
+
     
 class ContactForm(forms.Form):
     nombre = forms.CharField(required=False)

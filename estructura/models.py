@@ -8,27 +8,28 @@
 from django.db import models
 from PIL import Image
 
+
 class CategoriaHab(models.Model):
     id_categoria = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=50)
 
     class Meta:
-        managed = True
         db_table = 'categoria_hab'
 
-    def __unicode__(self):  #Python 2
+    def __unicode__(self):  # Python 2
         return self.descripcion
 
-    def __str__(self):      #Python 3
+    def __str__(self):  # Python 3
         return self.descripcion
+
 
 class CategoriaProd(models.Model):
     id_categoria = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=20)
 
     class Meta:
-        managed = True
         db_table = 'categoria_prod'
+
 
 class Habitacion(models.Model):
     id_habitacion = models.AutoField(primary_key=True)
@@ -36,8 +37,8 @@ class Habitacion(models.Model):
     precio2 = models.PositiveIntegerField()
     precio3 = models.PositiveIntegerField()
     numero = models.IntegerField(unique=True, verbose_name="N&uacute;mero")
-    id_categoria_fk = models.ForeignKey(CategoriaHab, 
-                                        models.DO_NOTHING, 
+    id_categoria_fk = models.ForeignKey(CategoriaHab,
+                                        models.DO_NOTHING,
                                         db_column='id_categoria_fk',
                                         verbose_name="Categor&iacute;a")
     caracteristicas = models.CharField(max_length=50, blank=True, null=True)
@@ -45,7 +46,6 @@ class Habitacion(models.Model):
     estado = models.CharField(max_length=10)
 
     class Meta:
-        managed = True
         db_table = 'habitacion2'
             
         
@@ -56,14 +56,14 @@ class Proveedor(models.Model):
     direccion = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        managed = True
         db_table = 'proveedor'
 
-    def __unicode__(self):  #Python 2
+    def __unicode__(self):  # Python 2
         return self.nombre
 
-    def __str__(self):      #Python 3
+    def __str__(self):  # Python 3
         return self.nombre
+
 
 class Producto(models.Model):
     id_producto = models.CharField(primary_key=True, max_length=20)
@@ -84,15 +84,14 @@ class Producto(models.Model):
     categoria = models.ForeignKey(CategoriaProd, models.DO_NOTHING)
 
     class Meta:
-        managed = True
         db_table = 'producto'
 
-
-    def __unicode__(self):  #Python 2
+    def __unicode__(self):  # Python 2
         return self.descripcion
 
-    def __str__(self):      #Python 3
+    def __str__(self):  # Python 3
         return self.descripcion
+
 
 class Servicio(models.Model):
     id_servicio = models.CharField(primary_key=True, max_length=20)
@@ -100,6 +99,5 @@ class Servicio(models.Model):
     precio = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = True
         db_table = 'servicio'
 

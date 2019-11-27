@@ -11,14 +11,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-#from django.conf.global_settings import EMAIL_HOST, EMAIL_HOST_USER,\
+# from django.conf.global_settings import EMAIL_HOST, EMAIL_HOST_USER,\
 #    EMAIL_HOST_PASSWORD, EMAIL_PORT, EMAIL_USE_TLS, STATICFILES_DIRS,\
 #    LOGIN_REDIRECT_URL
-#from test_app.settings import SITE_ID
+# from test_app.settings import SITE_ID
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -45,12 +44,11 @@ Para usar gmail hay que desbloquear el captcha
 https://accounts.google.com/displayunlockcaptcha
 """
 
-
 # Application definition
 
 INSTALLED_APPS = [
-    #apps django
-    'registration', #should be immediately above 'django.contrib.admin'
+    # apps django
+    'registration',  # should be immediately above 'django.contrib.admin'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,14 +56,14 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #apps terceros
+    # apps terceros
     'crispy_forms',
     'bootstrap4',
-    #'widget_tweaks',
-    #mis apps
+    # 'widget_tweaks',
+    # mis apps
     'persona',
     'estructura',
-    #'parcial',
+    # 'parcial',
 ]
 
 MIDDLEWARE = [
@@ -98,28 +96,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',        
+        'ENGINE': 'django.db.backends.mysql',
         
         'NAME': 'gestion',
         'USER': 'root',
-        'PASSWORD': '1223',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         
-        #'NAME': 'lucatronic$gestion',
-        #'USER': 'lucatronic',
-        #'PASSWORD': 'mysql1234',
-        #'HOST': 'lucatronic.mysql.pythonanywhere-services.com',
+        # 'NAME': 'lucatronic$gestion',
+        # 'USER': 'lucatronic',
+        # 'PASSWORD': 'mysql1234',
+        # 'HOST': 'lucatronic.mysql.pythonanywhere-services.com',
         
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -139,7 +135,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -153,13 +148,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-#/static/imagenes/img1.jpg
+# /static/imagenes/img1.jpg
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_pro", "static"),
     # '/var/www/static/',

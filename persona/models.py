@@ -15,7 +15,6 @@ class Cliente(models.Model):
     direccion = models.CharField("Direcci&oacute;n", max_length=50, blank=True, null=True)
 
     class Meta:
-        managed = True
         db_table = 'cliente'
 
     def __unicode__(self):  #Python 2
@@ -35,7 +34,6 @@ class Empleado(models.Model):
     estado = models.CharField(max_length=8)
 
     class Meta:
-        managed = True
         db_table = 'empleado'
 
     def __unicode__(self):  #Python 2
@@ -43,53 +41,3 @@ class Empleado(models.Model):
 
     def __str__(self):      #Python 3
         return self.nombre
-
-class Privilegio(models.Model):
-    id_privilegio = models.AutoField(primary_key=True)  # Field name made lowercase.
-    rol = models.CharField(unique=True, max_length=20)  # Field name made lowercase.
-    prod_consult = models.TextField()  # Field name made lowercase. This field type is a guess.
-    prod_reg = models.TextField()  # Field name made lowercase. This field type is a guess.
-    prod_actualiz = models.TextField()  # Field name made lowercase. This field type is a guess.
-    prod_eliminar = models.TextField()  # Field name made lowercase. This field type is a guess.
-    ventas_consult = models.TextField()  # Field name made lowercase. This field type is a guess.
-    ventas_reg = models.TextField()  # Field name made lowercase. This field type is a guess.
-    compras_consult = models.TextField()  # Field name made lowercase. This field type is a guess.
-    compras_reg = models.TextField()  # Field name made lowercase. This field type is a guess.
-    prov_consult = models.TextField()  # Field name made lowercase. This field type is a guess.
-    prov_reg = models.TextField()  # Field name made lowercase. This field type is a guess.
-    prov_actualiz = models.TextField()  # Field name made lowercase. This field type is a guess.
-    prov_eliminar = models.TextField()  # Field name made lowercase. This field type is a guess.
-    emple_admin = models.TextField()  # Field name made lowercase. This field type is a guess.
-    usu_admin = models.TextField()  # Field name made lowercase. This field type is a guess.
-    finanzas_admin = models.TextField()  # Field name made lowercase. This field type is a guess.
-    hab_admin = models.TextField()  # Field name made lowercase. This field type is a guess.
-    cuentas_admin = models.TextField()  # Field name made lowercase. This field type is a guess.
-    devol_autori_cli = models.TextField()
-    devol_autori_prov = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'privilegio'
-
-    def __unicode__(self):  #Python 2
-        return self.rol
-
-    def __str__(self):      #Python 3
-        return self.rol
-
-class Usuario(models.Model):
-    id_usuario = models.AutoField(primary_key=True)  
-    usuario = models.CharField(unique=True, max_length=20)  
-    pass_field = models.CharField(max_length=20) 
-    id_privilegio_fk = models.ForeignKey(Privilegio, models.DO_NOTHING)  
-    id_empleado_fk = models.ForeignKey(Empleado, models.DO_NOTHING, unique=True) 
-
-    class Meta:
-        managed = False
-        db_table = 'usuario'
-
-    def __unicode__(self):  #Python 2
-        return self.usuario
-
-    def __str__(self):      #Python 3
-        return self.usuario

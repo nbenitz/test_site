@@ -31,7 +31,27 @@
 	{% endif %}
 
 	<!-- Content Row -->
-	   
+	
+	<header class="border-bottom mb-4 pb-3">
+		<div class="form-inline">
+			<span class="mr-md-auto">32 Items found </span>
+			<select class="mr-2 form-control">
+				<option>Latest items</option>
+				<option>Trending</option>
+				<option>Most Popular</option>
+				<option>Cheapest</option>
+			</select>
+			<div class="btn-group">
+				<a href="#" class="btn btn-outline-secondary active" data-toggle="tooltip" title="List view"> 
+					<i class="fa fa-bars"></i></a>
+				<a href="#" class="btn  btn-outline-secondary" data-toggle="tooltip" title="Grid view"> 
+					<i class="fa fa-th"></i></a>
+			</div>
+		</div>
+	</header><!-- sect-heading -->
+	
+	
+	
 		
 		{% for habitacion in object_list %}
 <div class="row">
@@ -42,13 +62,13 @@
 					<div class="row align-items-center">					
 					
 						<aside class="col-md-3">
-<!--							<img src="{{habitacion.foto.url}}" class="img-fluid">
--->						</aside>						
+							<a href="#" class="img-wrap"><img src="{{habitacion.foto.url}}" class="img-fluid"></a>
+						</aside>						
 						
 						
 						<div class="col-md-6">
 							<div class="info-main">
-								<div class="h5 title"><strong>Habitaci&oacute;n {{ habitacion.foto }}</strong></div>
+								<div class="h5 title"><strong>Habitaci&oacute;n {{ habitacion.id_habitacion }}</strong></div>
 								<br>				
 								<p><strong>Categor&iacute;a:&nbsp;</strong>{{habitacion.id_categoria_fk}}</p>
 								<p><strong>Caracter&iacute;sticas:&nbsp;</strong>{{habitacion.caracteristicas}}</p>

@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'persona',
     'estructura',
     'reserva',
+    'reporte',
 ]
 
 MIDDLEWARE = [

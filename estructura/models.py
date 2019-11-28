@@ -28,7 +28,8 @@ class CategoriaProd(models.Model):
 
     class Meta:
         db_table = 'categoria_prod'
-
+    def __str__(self):  # Python 3
+        return self.descripcion
 
 class Habitacion(models.Model):
     id_habitacion = models.AutoField(primary_key=True)
@@ -84,7 +85,7 @@ class Producto(models.Model):
     precio3 = models.PositiveIntegerField()
     stock = models.FloatField()
     presentacion = models.CharField(max_length=6, blank=True, null=True)
-    foto = models.TextField(blank=True, null=True)
+    foto = models.ImageField(upload_to='prod-img', default='prod-img/no-foto.jpeg')
     iva = models.PositiveIntegerField()
     precio_pack = models.PositiveIntegerField(blank=True, null=True)
     unid_x_pack = models.FloatField(blank=True, null=True)

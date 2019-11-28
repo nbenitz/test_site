@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'persona',
     'estructura',
     'reserva',
+    'reporte',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +106,7 @@ DATABASES = {
         
         'NAME': 'gestion',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': '1223',
         'HOST': '127.0.0.1',
         
         # 'NAME': 'lucatronic$gestion',

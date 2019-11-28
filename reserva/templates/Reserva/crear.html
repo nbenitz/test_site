@@ -16,7 +16,7 @@
 				
 				<div class="card-body">
 		
-					<form method="post" enctype="multipart/form-data">
+					<form method="post" enctype="multipart/form-data"  id="reservaForm" data-precio-url="{% url 'ajax_load_precio' %}" data-hab-disp-url="{% url 'ajax_load_hab_disponible' %}" novalidate>
 						{% csrf_token %}
 					  
 						{{ form|crispy }} 
@@ -37,4 +37,58 @@
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+		$("#id_id_habitacion_fk").change(function () {
+			var url = $("#reservaForm").attr("data-precio-url");  // get the url of the `load_cities` view
+			var habitacionId = $(this).val();  // get the selected country ID from the HTML input
+
+			$.ajax({                       // initialize an AJAX request
+				url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+				data: {
+					'habitacion': habitacionId       // add the country id to the GET parameters
+				},
+				success: function (data) {   // `data` is the return of the `load_cities` view function
+					//$("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+					$("#id_costo_alojamiento").val(data)
+				}
+			});
+
+		});
+		
+		$("#id_fecha_salida").change(function () {
+			var url = $("#reservaForm").attr("data-hab-disp-url"); 
+			var fecha_entrada = $("#id_fecha_entrada").val();
+			var fecha_salida = $(this).val();
+
+			$.ajax({
+				url: url,
+				data: {
+					'entrada': fecha_entrada,
+					'salida': fecha_salida
+				},
+				success: function (data) {
+					//$("#id_city").html(data);
+					console.log(data);
+					var dat = JSON.parse(data);
+					console.log(dat.habitaciones);
+					$("#id_id_habitacion_fk option").remove();
+					for (var i = 0; i < dat.habitaciones.length; i++) {
+						console.log(dat.habitaciones[i].habitacion);
+						$("#id_id_habitacion_fk").append('<option>'+ dat.habitaciones[i].habitacion +'</option>');
+					};
+				}
+			});
+
+		});
+	
+	
+	
+	
+		//function prueba() {
+		//	console.log("Prueba exitosa");
+		//	$("#id_costo_alojamiento").val("50000");
+		//}
+	</script>
+	
 	{% endblock %}

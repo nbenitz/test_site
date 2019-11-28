@@ -35,7 +35,7 @@ class Reserva(models.Model):
         db_table = 'reserva'
         
     def __str__(self):      #Python 3
-        return self.id_reserva
+        return str(self.id_reserva)
 
 class DetalleVentaProd(models.Model):
     id_detalle_venta = models.AutoField(primary_key=True)

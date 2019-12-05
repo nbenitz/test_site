@@ -1,5 +1,5 @@
 beautifulsoup4==4.8.0
-Django==2.2.4
+Django==2.2.8
 django-bootstrap4==1.0.1
 django-crispy-forms==1.7.2
 django-registration-redux==2.6

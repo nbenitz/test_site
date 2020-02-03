@@ -12,12 +12,17 @@
 		
 			<div class='row'>
 				<div class='col-sm-6 col-sm-offset-3'>		
-				
-					<p><strong>C.I. Nro.:</strong><br> {{object.ci}}</p>
-					<p><strong>Nombre:</strong><br> {{object.nombre}}</p>
-					<p><strong>Tel&eacute;fono:</strong><br> {{object.telefono}}</p>
-					<p><strong>Direcci&oacute;n:</strong><br> {{object.direccion}}</p>
 					
+					<p><strong>C.I. Nro.:&nbsp;</strong>{{object.cliente.ci}}</p>
+					<p><strong>Nombre:&nbsp;</strong>{{object.first_name}} {{object.last_name}}</p>
+					<p><strong>Tel&eacute;fono:&nbsp;</strong>{{object.telefono}}</p>
+					<p><strong>Direcci&oacute;n:&nbsp;</strong>{{object.direccion}}</p>
+					<p><strong>E-mail:&nbsp;</strong>{{object.direccion}}</p>
+					<p><strong>Usuario:&nbsp;</strong>{{object.username}}</p>
+					<p><strong>Contrasena:&nbsp;</strong>{{object.password}}</p>
+					<p><strong>&Uacute;ltimo Ingreso:&nbsp;</strong>{{object.last_login}}</p>
+					<p><strong>Fecha de Registro:&nbsp;</strong>{{object.date_joined}}</p>
+
 					<a href="../" type="submit" class="btn btn-primary">
 						<i class="fas fa-caret-left"></i>
 						Volver

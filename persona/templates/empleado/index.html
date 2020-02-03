@@ -7,7 +7,7 @@
 			<h1 class="h3 mb-2 text-gray-800">Empleados</h1>
 		</div>
 		<div align="right" class='col-sm-6 btn_crear mb-3'>
-			<a href="crear" class="btn btn-primary">
+			<a href="{% url 'crearEmpleado' %}" class="btn btn-primary">
 				<i class="fas fa-plus"></i> Nuevo Empleado</a>
 		</div>
 	</div>
@@ -34,11 +34,8 @@
 						<tr>
 							<th>CI</th>
 							<th>Nombre</th>
-							<th>Apellido</th>
-							<th>Tel&eacute;fono</th>
-							<th>Direcci&oacute;n</th>
-							<th>Comisi&oacute;n</th>
-							<th>Estado</th>
+							<th>Telefono</th>
+							<th>Direccion</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
@@ -47,35 +44,29 @@
 						<tr>
 							<th>CI</th>
 							<th>Nombre</th>
-							<th>Apellido</th>
-							<th>Tel&eacute;fono</th>
-							<th>Direcci&oacute;n</th>
-							<th>Comisi&oacute;n</th>
-							<th>Estado</th>
+							<th>Telefono</th>
+							<th>Direccion</th>
 							<th>Acciones</th>
 						</tr>
 					</tfoot>
 
 					<tbody>
 						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
-						{% for empleado in object_list %}
+						{% for user in object_list %}
 							<tr>
-								<td>{{ empleado.ci }}</td>
-								<td>{{ empleado.nombre }}</td>
-								<td>{{ empleado.apellido }}</td>
-								<td>{{ empleado.telefono }}</td>
-								<td>{{ empleado.direccion }}</td>
-								<td>{{ empleado.comision }}</td>
-								<td>{{ empleado.estado }}</td>
+								<td>{{ user.empleado.ci }}</td>
+								<td>{{ user.first_name }} {{user.last_name}}</td>
+								<td>{{ user.telefono }}</td>
+								<td>{{ user.direccion }}</td>
 								<td>
 									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
-									<form method="POST" action="eliminar/{{empleado.id_empleado}}">
+									<form method="POST" action="eliminar/{{user.id}}">
 										{% csrf_token %}
 										<!--<div class="btn-group">-->
 											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-											<a href="detalle/{{empleado.id_empleado}}" title="Ver" class="btn btn-success">
+											<a href="detalle/{{user.id}}" title="Ver" class="btn btn-success">
 												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{empleado.id_empleado}}" title="Editar" class="btn btn-primary">
+											<a href="editar/{{user.id}}" title="Editar" class="btn btn-primary">
 												<i class="far fa-edit"></i></i></a>
 											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
 												<i class="far fa-trash-alt"></i></button>

@@ -33,11 +33,13 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yonestor87@gmail.com'
 EMAIL_HOST_PASSWORD = 'electronica1'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 
 """
 Para usar gmail hay que desbloquear el captcha
@@ -82,7 +84,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'DIRS': [os.path.join(BASE_DIR, "project/templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,7 +108,7 @@ DATABASES = {
         
         'NAME': 'gestion',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': '1223',
         'HOST': '127.0.0.1',
         
         # 'NAME': 'lucatronic$gestion',
@@ -151,6 +153,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+AUTH_USER_MODEL = "persona.User" 
+REGISTRATION_DEFAULT_GROUP_NAME = "Cliente"
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

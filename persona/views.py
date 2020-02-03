@@ -1,108 +1,268 @@
-# from django.shortcuts import render
 
-# Instanciamos las vistas genéricas de Django 
 from django.views.generic import ListView, DetailView 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
- 
-# Instanciamos el modelo 'Empleado' y 'Cliente' para poder usarlo en nuestras Vistas CRUD
-from .models import Empleado, Cliente
-
-# Nos sirve para redireccionar despues de una acción revertiendo patrones de expresiones regulares 
-from django.urls import reverse
- 
-# Habilitamos el uso de mensajes en Django
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
 from django.contrib import messages 
- 
-# Habilitamos los mensajes para class-based views 
-from django.contrib.messages.views import SuccessMessageMixin 
- 
-# Habilitamos los formularios en Django
-# from django import forms
+from django.contrib.auth import get_user_model, authenticate, login
+from persona.forms import UserForm, ClienteForm, EmpleadoForm, SignUpForm
+from django.contrib.auth.forms import UserCreationForm
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+from persona.tokens import account_activation_token
+from django.conf import settings
+
+
+
 
 # Create your views here.
 
 
 #=================================== CLIENTE ===========================================
-class ClienteListado(ListView): 
-    model = Cliente  # Llamamos a la clase 'Cliente' que se encuentra en nuestro archivo 'models.py'
-    # paginate_by = 10
-
+class ClienteListado(LoginRequiredMixin, ListView): 
+    model = get_user_model()  # Llamamos a la clase 'Cliente' que se encuentra en nuestro archivo 'models.py'
     
-class ClienteCrear(SuccessMessageMixin, CreateView): 
-    model = Cliente  # Llamamos a la clase 'Cliente' que se encuentra en nuestro archivo 'models.py'
-    form = Cliente  # Definimos nuestro formulario con el nombre de la clase o modelo 'Cliente'
-    fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'cliente' de nuestra Base de Datos 
-    success_message = 'Cliente Creado Correctamente !'  # Mostramos este Mensaje luego de Crear un Postre
- 
-    # Redireccionamos a la página principal luego de crear un registro o postre
-    def get_success_url(self):        
-        return reverse('leerCliente')  # Redireccionamos a la vista principal 'leer'
-
+    def get_queryset(self):
+        qs = self.model.objects.filter(is_client=1)
+        return qs
+    
     
 class ClienteDetalle(DetailView): 
-    model = Cliente  # Llamamos a la clase 'Cliente' que se encuentra en nuestro archivo 'models.py'
-
- 
-class ClienteActualizar(SuccessMessageMixin, UpdateView): 
-    model = Cliente  # Llamamos a la clase 'Cliente' que se encuentra en nuestro archivo 'models.py' 
-    form = Cliente  # Definimos nuestro formulario con el nombre de la clase o modelo 'Cliente' 
-    fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'cliente' de nuestra Base de Datos 
-    success_message = 'Cliente Actualizado Correctamente !'  # Mostramos este Mensaje luego de Editar un Postre 
- 
-    # Redireccionamos a la página principal luego de actualizar un registro o postre
-    def get_success_url(self):               
-        return reverse('leerCliente')  # Redireccionamos a la vista principal 'leer'
-
-   
-class ClienteEliminar(SuccessMessageMixin, DeleteView): 
-    model = Cliente 
-    form = Cliente
-    fields = "__all__"     
- 
-    # Redireccionamos a la página principal luego de eliminar un registro o cliente
-    def get_success_url(self): 
-        success_message = 'Cliente Eliminado Correctamente !'  # Mostramos este Mensaje luego de Editar un Cliente 
-        messages.success (self.request, (success_message))       
-        return reverse('leerCliente')  # Redireccionamos a la vista principal 'leer'
-
+    model = get_user_model()
+    
+    
+def create_client(request):
+    
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, prefix='UF')
+        cliente_form = ClienteForm(request.POST, prefix='PF')
+            
+        if user_form.is_valid() and cliente_form.is_valid():         
+            user = user_form.save(commit=False)
+            user_form.instance.is_client = True
+            user.save()
+    
+            user.cliente.ci = cliente_form.cleaned_data.get('ci')
+            user.cliente.save()
+            messages.success(request, ('Cliente creado correctmente'))
+            return redirect('leerCliente')
+            
+    else:
+        user_form = UserForm(prefix='UF')
+        cliente_form = ClienteForm(prefix='PF')
+        
+    return render(request, 'cliente/crear.html',{
+        'user_form': user_form,
+        'cliente_form': cliente_form,
+        })
+    
+def edit_client(request, pk):
+    
+    user = get_user_model().objects.get(id=pk)
+    
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, prefix='UF', instance=user)
+        cliente_form = ClienteForm(request.POST, prefix='PF', instance=user.cliente)
+            
+        if user_form.is_valid() and cliente_form.is_valid():
+            user = user_form.save(commit=False)
+            user_form.instance.is_client = True
+            user.save()
+    
+            user.cliente.ci = cliente_form.cleaned_data.get('ci')
+            user.cliente.save()
+            messages.success(request, ('Cliente actualizado correctmente'))
+            return redirect('leerCliente')
+            
+    else:
+        user_form = UserForm(prefix='UF', instance=user)
+        cliente_form = ClienteForm(prefix='PF', instance=user.cliente)
+        
+    return render(request, 'cliente/crear.html',{
+        'user_form': user_form,
+        'cliente_form': cliente_form,
+        })
+    
+    
+    
 #=================================== EMPLEADO ===========================================
 
-
 class EmpleadoListado(ListView): 
-    model = Empleado 
-
+    model = get_user_model() 
     
-class EmpleadoCrear(SuccessMessageMixin, CreateView): 
-    model = Empleado
-    form = Empleado
-    fields = "__all__"
-    success_message = 'Empleado Creado Correctamente !'
-
-    def get_success_url(self):
-        return reverse('leerEmpleado')
-
+    def get_queryset(self):
+        qs = self.model.objects.filter(is_client=0)
+        return qs
+    
     
 class EmpleadoDetalle(DetailView): 
-    model = Empleado
-
+    model = get_user_model()
     
-class EmpleadoActualizar(SuccessMessageMixin, UpdateView): 
-    model = Empleado
-    form = Empleado
-    fields = "__all__" 
-    success_message = 'Empleado Actualizado Correctamente !'
- 
-    def get_success_url(self):
-        return reverse('leerEmpleado')
-
-
-class EmpleadoEliminar(SuccessMessageMixin, DeleteView): 
-    model = Empleado 
-    form = Empleado
-    fields = "__all__"     
- 
-    def get_success_url(self): 
-        success_message = 'Empleado Eliminado Correctamente !'
-        messages.success (self.request, (success_message))
-        return reverse('leerEmpleado')
     
+def create_empleado(request):
+    
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, prefix='UF')
+        empleado_form = EmpleadoForm(request.POST, prefix='PF')
+            
+        if user_form.is_valid() and empleado_form.is_valid():
+            user = user_form.save(commit=False)
+            user.save()
+    
+            user.empleado.ci = empleado_form.cleaned_data.get('ci')
+            user.empleado.save()
+            messages.success(request, ('Empleado creado correctmente'))
+            return redirect('leerEmpleado')
+            
+    else:
+        user_form = UserForm(prefix='UF')
+        empleado_form = ClienteForm(prefix='PF')
+        
+    return render(request, 'empleado/crear.html',{
+        'user_form': user_form,
+        'empleado_form': empleado_form,
+        })
+
+
+def edit_empleado(request, pk):
+    
+    user = get_user_model().objects.get(id=pk)
+    
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, prefix='UF', instance=user)
+        empleado_form = EmpleadoForm(request.POST, prefix='PF', instance=user.empleado)
+            
+        if user_form.is_valid() and empleado_form.is_valid():
+            user = user_form.save(commit=False)
+            user.save()
+    
+            user.empleado.ci = empleado_form.cleaned_data.get('ci')
+            user.empleado.save()
+            messages.success(request, ('Cliente actualizado correctmente'))
+            return redirect('leerEmpleado')
+            
+    else:
+        user_form = UserForm(prefix='UF', instance=user)
+        empleado_form = EmpleadoForm(prefix='PF', instance=user.empleado)
+        
+    return render(request, 'empleado/crear.html',{
+        'user_form': user_form,
+        'empleado_form': empleado_form,
+        })
+#=================================== USUARIO ===========================================
+class UsuarioListado(ListView): 
+    model = get_user_model() 
+    
+class UsuarioDetalle(DetailView): 
+    model = get_user_model()
+    
+    
+def create_client2(request):
+    
+    if request.method == 'POST':
+        user_form = SignUpForm(request.POST, prefix='UF')
+        cliente_form = ClienteForm(request.POST, prefix='PF')
+            
+        if user_form.is_valid() and cliente_form.is_valid():         
+            user = user_form.save(commit=False)
+            user_form.instance.is_client = True
+            user_form.instance.is_active = False
+            user.save()
+    
+            user.cliente.ci = cliente_form.cleaned_data.get('ci')
+            user.cliente.save()
+            #messages.success(request, ('Cliente creado correctmente'))
+            #return redirect('leerCliente')
+            
+            
+            current_site = get_current_site(request)
+            subject = 'Por favor activa tu cuenta'
+            email_from = settings.EMAIL_HOST_USER
+            message = render_to_string('registration/activation_request.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            user.email_user(subject, message, email_from)
+        
+            return redirect('activation_send')
+            
+            
+    else:
+        user_form = SignUpForm(prefix='UF')
+        cliente_form = ClienteForm(prefix='PF')
+        
+    return render(request, 'cliente/crear.html',{
+        'user_form': user_form,
+        'cliente_form': cliente_form,
+        })
+
+
+def signup_view(request):
+    user_form = SignUpForm(request.POST, prefix='UF')
+    cliente_form = ClienteForm(request.POST, prefix='PF')
+    
+    if user_form.is_valid() and cliente_form.is_valid():
+        user = user_form.save(commit=False)
+        user_form.instance.is_client = True
+        user_form.instance.is_active = False
+        user.save()
+    
+        user.cliente.ci = cliente_form.cleaned_data.get('ci')
+        user.cliente.save()
+        
+        
+        current_site = get_current_site(request)
+        subject = 'Por favor activa tu cuenta'
+        email_from = settings.EMAIL_HOST_USER
+        # load a template like get_template() 
+        # and calls its render() method immediately.
+        message = render_to_string('registration/activation_request.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            # method will generate a hash value with user related data
+            'token': account_activation_token.make_token(user),
+        })
+        user.email_user(subject, message, email_from)
+        
+        
+        
+        return redirect('activation_send')
+    
+    
+    else:
+        user_form = SignUpForm(prefix='UF')
+        cliente_form = ClienteForm(prefix='PF')
+    return render(request,
+                  'registration/registration_form.html',
+                  {'user_form': user_form,
+                   'cliente_form': cliente_form,})
+    
+    
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = get_user_model().objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
+        user = None
+    # checking if the user exists, if the token is valid.
+    if user is not None and account_activation_token.check_token(user, token):
+        # if valid set active true 
+        user.is_active = True
+        # set signup_confirmation true
+        user.signup_confirmation = True
+        user.save()
+        login(request, user)
+        return redirect('activation_complete')
+    else:
+        return render(request, 'activation_invalid.html')
+    
+def activation_sent_view(request):
+    return render(request, 'registration/registration_complete.html')
+
+def activation_complete_view(request):
+    return render(request, 'registration/activation_complete.html')

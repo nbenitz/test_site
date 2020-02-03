@@ -4,11 +4,11 @@
 	<!-- Page Heading -->
 	<div class='row'>
 		<div class='col-sm-6 col-sm-offset-3'>
-			<h1 class="h3 mb-2 text-gray-800">Clientes</h1>
+			<h1 class="h3 mb-2 text-gray-800">Usuarios</h1>
 		</div>
 		<div align="right" class='col-sm-6 btn_crear mb-3'>
-			<a href="{% url 'crearCliente' %}" class="btn btn-primary">
-				<i class="fas fa-plus"></i> Nuevo Cliente</a>
+			<a href="{% url 'crearClient' %}" class="btn btn-primary">
+				<i class="fas fa-plus"></i> Nuevo Usuario</a>
 		</div>
 	</div>
 <!--          <p class="mb-4">.</p>
@@ -24,7 +24,7 @@
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">Lista de Clientes</h6>
+			<h6 class="m-0 font-weight-bold text-primary">Lista de Empleados</h6>
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
@@ -34,8 +34,7 @@
 						<tr>
 							<th>CI</th>
 							<th>Nombre</th>
-							<th>Telefono</th>
-							<th>Direccion</th>
+							<th>Apellido</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
@@ -44,29 +43,27 @@
 						<tr>
 							<th>CI</th>
 							<th>Nombre</th>
-							<th>Telefono</th>
-							<th>Direccion</th>
+							<th>Apellido</th>
 							<th>Acciones</th>
 						</tr>
 					</tfoot>
 
 					<tbody>
 						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
-						{% for user in object_list %}
+						{% for usuario in object_list %}
 							<tr>
-								<td>{{ user.cliente.ci }}</td>
-								<td>{{ user.first_name }} {{user.last_name}}</td>
-								<td>{{ user.telefono }}</td>
-								<td>{{ user.direccion }}</td>
+								<td>{{ usuario.worker.ci }}</td>
+								<td>{{ usuario.first_name }}</td>
+								<td>{{ usuario.last_name }}</td>
 								<td>
 									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
-									<form method="POST" action="eliminar/{{user.id}}">
+									<form method="POST" action="eliminar/{{usuario.id}}">
 										{% csrf_token %}
 										<!--<div class="btn-group">-->
 											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-											<a href="detalle/{{user.id}}" title="Ver" class="btn btn-success">
+											<a href="detalle/{{usuario.id}}" title="Ver" class="btn btn-success">
 												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{user.id}}" title="Editar" class="btn btn-primary">
+											<a href="editar/{{usuario.id}}" title="Editar" class="btn btn-primary">
 												<i class="far fa-edit"></i></i></a>
 											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
 												<i class="far fa-trash-alt"></i></button>
@@ -75,6 +72,8 @@
 								</td>
 							</tr>
 						{% endfor %}
+
+
 					</tbody>
 				</table>
 

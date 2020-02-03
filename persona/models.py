@@ -6,41 +6,58 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+#from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from django.contrib.auth.models import AbstractUser
 
 
-class Cliente(models.Model):
-    id_cliente = models.AutoField(primary_key=True)
-    ci = models.CharField("C.I. Nro.", unique=True, max_length=15)
-    nombre = models.CharField(max_length=30)
+class User(AbstractUser):
     telefono = models.CharField("Tel&eacute;fono", max_length=15, blank=True, null=True)
     direccion = models.CharField("Direcci&oacute;n", max_length=50, blank=True, null=True)
+    is_client = models.BooleanField(default=False)
+    signup_confirmation = models.BooleanField(default=False)
+    
+    class Meta:
+        db_table = 'auth_user'
 
+    def __unicode__(self):  # Python 2
+        return self.first_name + " " + self.last_name
+
+    def __str__(self):  # Python 3
+        return self.first_name + " " + self.last_name
+    
+class Cliente(models.Model):
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                null=True,
+                                related_name='cliente')
+    ci = models.CharField(max_length=15, unique=True)
+    
     class Meta:
         db_table = 'cliente'
-
-    def __unicode__(self):  # Python 2
-        return self.nombre
-
-    def __str__(self):  # Python 3
-        return self.nombre
-
-
+  
 class Empleado(models.Model):
-    id_empleado = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                null=True,
+                                related_name='empleado')
     ci = models.CharField(max_length=15, unique=True)
-    nombre = models.CharField(max_length=20)
-    apellido = models.CharField(max_length=20)
-    telefono = models.CharField("Tel&eacute;fono", max_length=15, blank=True, null=True)
-    direccion = models.CharField("Direcci&oacute;n", max_length=50, blank=True, null=True)
-    comision = models.PositiveIntegerField("Comisi&oacute;n", blank=True, null=True)
-    estado = models.CharField(max_length=8)
-
+    
     class Meta:
         db_table = 'empleado'
-
-    def __unicode__(self):  # Python 2
-        return self.nombre
-
-    def __str__(self):  # Python 3
-        return self.nombre
-
+    
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if instance.is_client:
+        Cliente.objects.get_or_create(user = instance)
+    else:
+        Empleado.objects.get_or_create(user = instance)
+    
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    if instance.is_client:
+        instance.cliente.save()
+    else:
+        instance.empleado.save()

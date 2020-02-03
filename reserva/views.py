@@ -12,6 +12,9 @@ from reserva.forms import ReservaForm
 from django.http import HttpResponse
 from estructura.models import Habitacion
 
+def index(request):
+    return HttpResponse("MyClub Event Calendar")
+
 # Create your views here.
 #=================================== Reserva ===========================================
 class ReservaCrear(SuccessMessageMixin, CreateView): 
@@ -19,7 +22,7 @@ class ReservaCrear(SuccessMessageMixin, CreateView):
     success_message = 'Reserva Creada Correctamente !' 
     
     def form_valid(self, form):
-        empleado = Empleado.objects.get(id_empleado=1)        
+        empleado = Empleado.objects.get(id=1)
         form.instance.id_empleado_fk = empleado
         form.instance.costo_alojamiento = "50000"
         return super().form_valid(form)    

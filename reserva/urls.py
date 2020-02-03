@@ -2,6 +2,7 @@
 from django.urls import path
 
 from .views import ReservaListado, ReservaDetalle, ReservaCrear, ReservaActualizar, load_precio, load_habitacion_disponible
+from . import views
 
 urlpatterns = [
     path('reserva/', ReservaListado.as_view(template_name = "reserva/index.html"), name='leerReserva'),
@@ -11,4 +12,7 @@ urlpatterns = [
 
     path('reserva/ajax/load-precio/', load_precio, name='ajax_load_precio'),
     path('reserva/ajax/load-hab-disponible/', load_habitacion_disponible, name='ajax_load_hab_disponible'),
+
+    #path('', views.index, name='index'),
+
 ]

@@ -1,29 +1,23 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+#from django.contrib.auth.models import User
 
 # Register your models here.
-from .models import Cliente, Empleado
+from .models import User, Cliente, Empleado
 
-
-class AdminCliente(admin.ModelAdmin):
-    list_display = ["id_cliente", "ci", "nombre", "telefono", "direccion"]
-    # form = RegModelForm
-    # list_display_links = ["nombre"]
-    # list_filter = ["ci", "nombre", "telefono", "direccion"]
-    # list_editable = ["nombre"]
-    search_fields = ["ci", "nombre"]
-    # class Meta:
-    #    model = Registrado
     
-class AdminEmpleado(admin.ModelAdmin):
-    list_display = ["id_empleado", "ci", "nombre", "telefono", "direccion"]
-    # form = RegModelForm
-    # list_display_links = ["nombre"]
-    # list_filter = ["ci", "nombre", "telefono", "direccion"]
-    # list_editable = ["nombre"]
-    search_fields = ["ci", "nombre"]
-    # class Meta:
-    #    model = Registrado
+# Define an inline admin descriptor for Worker model
+# which acts a bit like a singleton
+class ClientProfileInline(admin.StackedInline):
+    model = Cliente
+    can_delete = False
+    verbose_name_plural = 'Clientes'
+
+# Define a new User admin
+class UserAdmin(BaseUserAdmin):
+    inlines = (ClientProfileInline,)
 
 
-admin.site.register(Cliente, AdminCliente)
+admin.site.register(User, UserAdmin)
+admin.site.register(Cliente)
 admin.site.register(Empleado)

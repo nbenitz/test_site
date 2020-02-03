@@ -22,14 +22,14 @@ from django.conf.urls import include
 from .views import about, contact, inicio
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),    
+    
     path('', inicio, name='inicio'),
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
-    # url(r'^accounts/', include('registration.backends.default.urls')),
     path('accounts/', include('registration.backends.default.urls')),
 
-    path('persona/', include('persona.urls')),
+    path('', include('persona.urls')),
     path('estructura/', include('estructura.urls')),
     path('reserva/', include('reserva.urls')),
     path('reporte/', include('reporte.urls')),

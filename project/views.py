@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.core.mail import send_mail 
-from django.shortcuts import render
 
 from .forms import ContactForm
+from django.shortcuts import render
+
+
 # Create your views here.
 
 
@@ -35,12 +37,15 @@ def contact(request):
             email_mensaje,
             email_from,
             email_to,
-            fail_silently=False            
+            fail_silently=False
             )
-        # print(email, mensaje, nombre)
+        print(form_email, email_mensaje, form_nombre)
         
     context = {
         "titulo": titulo,
         "form": form,
     }
     return render(request, "contact.html", context)
+    
+    
+

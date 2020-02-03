@@ -28,6 +28,7 @@ class CategoriaProd(models.Model):
 
     class Meta:
         db_table = 'categoria_prod'
+        
     def __str__(self):  # Python 3
         return self.descripcion
 
@@ -46,7 +47,7 @@ class Habitacion(models.Model):
     estado = models.CharField(max_length=10)
 
     class Meta:
-        db_table = 'habitacion2'
+        db_table = 'habitacion'
         
     def __str__(self):      #Python 3
         return str(self.numero)

@@ -14,8 +14,8 @@
 <!--          <p class="mb-4">.</p>
 -->
 	<!-- Large modal -->
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
-	
+<!--	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+-->	
 	
 	
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
@@ -57,28 +57,22 @@
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
-							<th>N&uacute;mero</th>
 							<th>Habitaci&oacute;n</th>
 							<th>Cliente</th>
 							<th>Fecha Reserva</th>
 							<th>Fecha Entrada</th>
 							<th>Fecha Salida</th>
-							<th>Costo Alojamiento</th>
-							<th>Estado</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
 
 					<tfoot>
 						<tr>
-							<th>N&uacute;mero</th>
 							<th>Habitaci&oacute;n</th>
 							<th>Cliente</th>
 							<th>Fecha Reserva</th>
 							<th>Fecha Entrada</th>
 							<th>Fecha Salida</th>
-							<th>Costo Alojamiento</th>
-							<th>Estado</th>
 							<th>Acciones</th>
 						</tr>
 					</tfoot>
@@ -87,28 +81,15 @@
 						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
 						{% for reserva in object_list %}
 							<tr>
-								<td>{{ reserva.id_reserva }}</td>
 								<td>{{ reserva.id_habitacion_fk }}</td>
 								<td>{{ reserva.id_cliente_fk }}</td>
-								<td>{{ reserva.fecha_reserva }}</td>
-								<td>{{ reserva.fecha_entrada }}</td>
-								<td>{{ reserva.fecha_salida }}</td>
-								<td>{{ reserva.costo_alojamiento }}</td>
-								<td>{{ reserva.estado }}</td>
+								<td>{{ reserva.fecha_reserva|date:'d/m/y H:i' }}</td>
+								<td>{{ reserva.fecha_entrada|date:'d/m/y' }}</td>
+								<td>{{ reserva.fecha_salida|date:'d/m/y' }}</td>
 								<td>
-									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
-									<form method="POST" action="eliminar/{{reserva.id_reserva}}">
-										{% csrf_token %}
-										<!--<div class="btn-group">-->
-											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-											<a href="detalle/{{reserva.id_reserva}}" title="Ver" class="btn btn-success">
-												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{reserva.id_reserva}}" title="Editar" class="btn btn-primary">
-												<i class="far fa-edit"></i></i></a>
-											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
-												<i class="far fa-trash-alt"></i></button>
-										<!--</div>-->
-									</form>
+									<a href="detalle/{{reserva.id_reserva}}" title="Ver" class="btn btn-success btn-block">
+										<i class="far fa-eye"> Ver</i>
+									</a>
 								</td>
 							</tr>
 						{% endfor %}

@@ -9,11 +9,8 @@ from django.contrib.auth.forms import UserCreationForm
 class UserForm(ModelForm):
     class Meta:
         model = get_user_model()
-        fields = ('username', 'password', 'email', 'first_name', 'last_name', 'telefono', 'direccion')
+        fields = ('username', 'email', 'first_name', 'last_name', 'telefono', 'direccion')
         
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
 
 class ClienteForm(ModelForm):
     

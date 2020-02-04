@@ -37,12 +37,8 @@
 							<th>proveedor</th>
 							<th>Descripci&oacute;n</th>
 							<th>Categor&iacute;a</th>
-							<th>Costo</th>
 							<th>Precio</th>
 							<th>Stock</th>
-							<th>Presentaci&oacute;n</th>
-							<th>Foto</th>
-							<th>IVA</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
@@ -54,12 +50,8 @@
 							<th>proveedor</th>
 							<th>Descripci&oacute;n</th>
 							<th>Categor&iacute;a</th>
-							<th>Costo</th>
 							<th>Precio</th>
 							<th>Stock</th>
-							<th>Presentaci&oacute;n</th>
-							<th>Foto</th>
-							<th>IVA</th>
 							<th>Acciones</th>
 						</tr>
 					</tfoot>
@@ -73,12 +65,8 @@
 								<td>{{ producto.id_proveedor_fk}}</td>
 								<td>{{ producto.descripcion}}</td>
 								<td>{{ producto.id_categoria_fk}}</td>
-								<td>{{ producto.costo }}</td>
 								<td>{{ producto.precio1 }}</td>
 								<td>{{ producto.stock }}</td>
-								<td>{{ producto.presentacion }}</td>
-								<td>{{ producto.foto }}</td>
-								<td>{{ producto.iva }}</td>
 								<td>
 									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
 									<form method="POST" action="eliminar/{{producto.id_producto}}">

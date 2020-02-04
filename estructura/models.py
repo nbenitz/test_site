@@ -42,7 +42,10 @@ class Habitacion(models.Model):
                                         models.DO_NOTHING,
                                         db_column='id_categoria_fk',
                                         verbose_name="Categor&iacute;a")
-    caracteristicas = models.CharField(max_length=50, blank=True, null=True)
+    caracteristicas = models.CharField(max_length=50,
+                                       blank=True,
+                                       null=True,
+                                       verbose_name="Caracter&iacute;sticas")
     foto = models.ImageField(upload_to='hab-img', default='hab-img/no-foto.jpeg')
     estado = models.CharField(max_length=10)
 
@@ -75,17 +78,22 @@ class Producto(models.Model):
     barcode = models.CharField(unique=True, max_length=20)
     id_proveedor_fk = models.ForeignKey(Proveedor, 
                                         models.DO_NOTHING, 
-                                        db_column='id_proveedor_fk')
+                                        db_column='id_proveedor_fk',
+                                        verbose_name="Proveedor")
     descripcion = models.CharField(max_length=50)
     id_categoria_fk = models.ForeignKey(CategoriaProd, 
                                         models.DO_NOTHING, 
-                                        db_column='id_categoria_fk')
+                                        db_column='id_categoria_fk',
+                                        verbose_name="Categor&iacute;a")
     costo = models.PositiveIntegerField()
     precio1 = models.PositiveIntegerField()
-    precio2 = models.PositiveIntegerField()
-    precio3 = models.PositiveIntegerField()
+    precio2 = models.PositiveIntegerField(blank=True, null=True)
+    precio3 = models.PositiveIntegerField(blank=True, null=True)
     stock = models.FloatField()
-    presentacion = models.CharField(max_length=6, blank=True, null=True)
+    presentacion = models.CharField(max_length=6,
+                                    blank=True,
+                                    null=True,
+                                    verbose_name="Presentaci&oacute;n")
     foto = models.ImageField(upload_to='prod-img', default='prod-img/no-foto.jpeg')
     iva = models.PositiveIntegerField()
     precio_pack = models.PositiveIntegerField(blank=True, null=True)

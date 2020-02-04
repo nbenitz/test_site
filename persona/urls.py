@@ -7,7 +7,7 @@ from persona.views import EmpleadoListado, EmpleadoDetalle
 from persona.views import UsuarioListado
 
 from persona.views import create_client, edit_client, create_empleado, edit_empleado,\
-    signup_view, create_client2
+    create_client2
 
 urlpatterns = [
     path('cliente/', ClienteListado.as_view(template_name="cliente/index.html"), name='leerCliente'),
@@ -26,7 +26,7 @@ urlpatterns = [
     #path('usuario/crear', WorkerCrear.as_view(template_name="usuario/crear.html"), name='crearUsuario'),
     #path('usuario/editar/<str:pk>', UsuarioActualizar.as_view(template_name="usuario/actualizar.html"), name='actualizarEmpleado'),
 
-    path('signup/', signup_view, name="signup"),
+    path('signup/', create_client2, name="signup"),
     path('sent/', activation_sent_view, name="activation_send"),
     path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
     path('activated/', activation_complete_view, name='activation_complete'),

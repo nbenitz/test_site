@@ -22,10 +22,7 @@ class User(AbstractUser):
     class Meta:
         db_table = 'auth_user'
 
-    def __unicode__(self):  # Python 2
-        return self.first_name + " " + self.last_name
-
-    def __str__(self):  # Python 3
+    def __str__(self):
         return self.first_name + " " + self.last_name
     
 class Cliente(models.Model):
@@ -37,6 +34,10 @@ class Cliente(models.Model):
     
     class Meta:
         db_table = 'cliente'
+
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name
+    
   
 class Empleado(models.Model):
     user = models.OneToOneField(User,
@@ -47,6 +48,10 @@ class Empleado(models.Model):
     
     class Meta:
         db_table = 'empleado'
+        
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name
+        
     
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

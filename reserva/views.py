@@ -11,18 +11,17 @@ import json
 from reserva.forms import ReservaForm
 from django.http import HttpResponse
 from estructura.models import Habitacion
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-def index(request):
-    return HttpResponse("MyClub Event Calendar")
 
 # Create your views here.
 #=================================== Reserva ===========================================
-class ReservaCrear(SuccessMessageMixin, CreateView): 
+class ReservaCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     form_class = ReservaForm 
     success_message = 'Reserva Creada Correctamente !' 
     
     def form_valid(self, form):
-        empleado = Empleado.objects.get(id=1)
+        empleado = Empleado.objects.get(user_id=self.request.user.id)
         form.instance.id_empleado_fk = empleado
         form.instance.costo_alojamiento = "50000"
         return super().form_valid(form)    
@@ -77,13 +76,13 @@ def load_habitacion_disponible(request):
                         
     return HttpResponse(json.dumps(JSONer))
 
-class ReservaListado(ListView): 
+class ReservaListado(LoginRequiredMixin, ListView): 
     model = Reserva
     
-class ReservaDetalle(DetailView): 
+class ReservaDetalle(LoginRequiredMixin, DetailView): 
     model = Reserva
  
-class ReservaActualizar(SuccessMessageMixin, UpdateView): 
+class ReservaActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Reserva 
     form = Reserva 
     fields = "__all__" 

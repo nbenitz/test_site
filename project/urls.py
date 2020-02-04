@@ -27,7 +27,7 @@ urlpatterns = [
     path('', inicio, name='inicio'),
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
-    path('accounts/', include('registration.backends.default.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 
     path('', include('persona.urls')),
     path('estructura/', include('estructura.urls')),

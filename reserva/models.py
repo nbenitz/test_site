@@ -25,7 +25,7 @@ class Reserva(models.Model):
                                       models.DO_NOTHING, 
                                       db_column='id_cliente_fk',
                                       verbose_name="Cliente")
-    fecha_reserva = models.DateTimeField()
+    fecha_reserva = models.DateTimeField(auto_now_add=True)
     fecha_entrada = models.DateField()
     fecha_salida = models.DateField()
     costo_alojamiento = models.IntegerField()

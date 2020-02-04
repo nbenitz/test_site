@@ -1,7 +1,7 @@
 {% autoescape off %}
-Hi {{ user.username }},
+Hola {{ user.username }},
 
-Please click the following link to confirm your registration:
+Haz click en el siguiente enlace para activar tu cuena:
 
 http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 {% endautoescape %}

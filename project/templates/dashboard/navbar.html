@@ -23,11 +23,16 @@
 					<a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
 				</li>
 
+				{% if request.user.is_authenticated %}
 				<li class="nav-item dropdown active">
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Reservas</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
+						{% if request.user.is_client %}
+						<a class="dropdown-item" href="{% url 'crearReserva' %}">Reservar Habitaci&oacute;n</a>
+						{% else %}
 						<a class="dropdown-item" href="{% url 'leerReserva' %}">Reservar Habitaci&oacute;n</a>
+						{% endif %}
 						<a class="dropdown-item" href="#">Ampliar Reserva</a>
 						<a class="dropdown-item" href="#">Anular Reserva</a>
 						<div class="dropdown-divider"></div>
@@ -36,6 +41,7 @@
 					</div>
 				</li>
 				
+				{% if not request.user.is_client %}
 				<li class="nav-item dropdown active">
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Datos Primarios</a>
@@ -45,8 +51,12 @@
 						<a class="dropdown-item" href="{% url 'leerUsuario' %}">Usuarios</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="{% url 'leerHabitacion' %}">Habitaci&oacute;n</a>
-						<a class="dropdown-item" href="#">Productos</a>
-						<a class="dropdown-item" href="#">Servicios</a>
+						<a class="dropdown-item" href="{% url 'leerProducto' %}">Productos</a>
+						<a class="dropdown-item" href="{% url 'leerServicio' %}">Servicios</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{% url 'leerProveedor' %}">Proveedor</a>
+						<a class="dropdown-item" href="{% url 'leerCategoriaHab' %}">Categor&iacute;a Habitaci&oacute;n</a>
+						<a class="dropdown-item" href="{% url 'leerCategoriaProd' %}">Categor&iacute;a Producto</a>
 					</div>
 				</li>
 				
@@ -63,6 +73,8 @@
 						<a class="dropdown-item" href="#">..</a>
 					</div>
 				</li>
+				{% endif %}
+				{% endif %}
 				
 				<li class="nav-item active">
 					<a class="nav-link" href="{% url 'about' %}">Acerca de</a>
@@ -79,15 +91,21 @@
 			<ul class="navbar-nav navbar-right">
 				{% if request.user.is_authenticated %}
 					<li class="nav-item active">
-						<a class="nav-link" href="{% url 'auth_logout' %}">
-							Salir</a>
-					</li>
+					{% if request.user.is_client %}
+						<a class="nav-link" href="{% url 'detallesCliente' request.user.id %}">
+					{% else %}
+						<a class="nav-link" href="{% url 'detallesEmpleado' request.user.id %}">				
+					{% endif %}
+						Cuenta</a></li>
+					<li class="nav-item active">
+						<a class="nav-link" href="{% url 'logout' %}">
+							Salir</a></li>
 				{% else %}
 					<li class="nav-item active">
 						<a class="nav-link" href="{% url 'signup' %}">
 							Registrarme</a></li>
 					<li class="nav-item active">
-						<a class="nav-link" href="{% url 'auth_login' %}">
+						<a class="nav-link" href="{% url 'login' %}">
 							Entrar</a></li>
 							
 						

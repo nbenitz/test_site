@@ -2,28 +2,40 @@
 {% load static %}
 	{% block content %}
 	<!-- Page Heading -->
-	<h1 class="h3 mb-2 text-gray-800">Clientes</h1>
-		
-	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">Detalles del Cliente</h6>
-		</div>
-		<div class="card-body">
-		
-			<div class='row'>
-				<div class='col-sm-6 col-sm-offset-3'>		
+	<h1 class="h3 mb-2 text-gray-800">Reservas</h1>
+	
+	<div class='row justify-content-center'>
+		<div class='col-auto col-sm-offset-3'>				
+			<div class="card shadow mb-4">
+			
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary text-align-center">Detalles de la Reserva</h6>
+				</div>
 				
-					<p><strong>C.I. Nro.:</strong><br> {{object.ci}}</p>
-					<p><strong>Nombre:</strong><br> {{object.nombre}}</p>
-					<p><strong>Tel&eacute;fono:</strong><br> {{object.telefono}}</p>
-					<p><strong>Direcci&oacute;n:</strong><br> {{object.direccion}}</p>
+				<div class="card-body">	
+				
+					<p><strong>Cliente: </strong>{{object.id_cliente_fk}}</p>
+					<p><strong>Habitaci&oacute;n </strong>{{object.id_habitacion_fk}}</p>
+					<p><strong>Fecha de Reserva: </strong>{{object.fecha_reserva}}</p>
+					<p><strong>Fecha de Entrada: </strong>{{object.fecha_entrada}}</p>
+					<p><strong>Fecha de Salida: </strong>{{object.fecha_salida}}</p>
+					<p><strong>Costo de Alojamiento: </strong>{{object.costo_alojamiento}}</p>
+					<p><strong>Estado: </strong>{{object.estado}}</p>
+					<p><strong>Recepcionista: </strong>{{object.id_empleado_fk}}</p>
+					
+					<div class='row justify-content-center'>
 					
 					<a href="../" type="submit" class="btn btn-primary">
-						<i class="fas fa-caret-left"></i>
-						Volver
-					</a>
+						<i class="fas fa-caret-left"></i> Volver</a>&nbsp;&nbsp;
+					<a href="#" title="Ampliar" class="btn btn-success">
+						<i class="far fa-edit"></i> Ampliar</a>&nbsp;&nbsp;
+					<a href="#" title="Anular" class="btn btn-danger">
+						<i class="far fa-trash-alt"></i> Anular</a>
+						
+					</div>
 					
 				</div>
+				
 			</div>
 		</div>
 	</div>

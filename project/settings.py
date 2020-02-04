@@ -50,7 +50,6 @@ https://accounts.google.com/displayunlockcaptcha
 
 INSTALLED_APPS = [
     # apps django
-    'registration',  # should be immediately above 'django.contrib.admin'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

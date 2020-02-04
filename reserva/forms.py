@@ -11,7 +11,7 @@ class ReservaForm(ModelForm):
     #costo_alojamiento = forms.CharField(initial="50000")    
     class Meta:
         model = Reserva
-        fields = ['id_empleado_fk', 'id_cliente_fk', 'fecha_entrada', 'fecha_salida', 'id_habitacion_fk', 'costo_alojamiento']
+        fields = ['id_cliente_fk', 'fecha_entrada', 'fecha_salida', 'id_habitacion_fk', 'costo_alojamiento']
         
         widgets = {
             #'id_cliente_fk': Select(attrs={'placeholder': 'Seleccionar Cliente'}),

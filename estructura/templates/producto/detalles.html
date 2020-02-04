@@ -11,19 +11,22 @@
 		<div class="card-body">
 		
 			<div class='row'>
-				<div class='col-sm-6 col-sm-offset-3'>		
+				<div class='col-sm-6 col-sm-offset-3'>	
+					<a href="../" type="submit" class="btn btn-primary">
+						<i class="fas fa-caret-left"></i>
+						Volver
+					</a><br><br>
 				
-					<p><strong>ID :</strong><br> {{object.id_producto}}</p>
-					<p><strong>Codigo de Barras:</strong><br> {{object.barcode}}</p>
-					<p><strong>Proveedor:</strong><br> {{object.id_proveedor_fk}}</p>
-					<p><strong>Descripci&oacute;n:</strong><br> {{object.descripcion}}</p>
-					<p><strong>ID Categor&iacute;a:</strong><br> {{object.id_categoria_fk}}</p>
-					<p><strong>Precio:</strong><br> {{object.precio1}}</p>
-					<p><strong>Stock:</strong><br> {{object.stock}}</p>
-					<p><strong>Presentaci&oacute;n:</strong><br> {{object.presentacion}}</p>
-					<p><strong>Foto:&nbsp;</strong><img src="{{object.foto.url}}" class="img-fluid"> </p>
-					<p><strong>IVA:</strong><br> {{object.iva}}</p>
-					
+					<p><strong>ID: </strong>{{object.id_producto}}</p>
+					<p><strong>Codigo de Barras: </strong>{{object.barcode}}</p>
+					<p><strong>Proveedor: </strong>{{object.id_proveedor_fk}}</p>
+					<p><strong>Descripci&oacute;n: </strong>{{object.descripcion}}</p>
+					<p><strong>Categor&iacute;a: </strong>{{object.id_categoria_fk}}</p>
+					<p><strong>Precio: </strong>{{object.precio1}}</p>
+					<p><strong>Stock: </strong>{{object.stock}}</p>
+					<p><strong>Presentaci&oacute;n: </strong>{{object.presentacion}}</p>
+					<p><strong>Foto: </strong><br/><img src="{{object.foto.url}}" class="img-fluid"> </p>
+					<p><strong>IVA: </strong>{{object.iva}}</p>
 					
 					<a href="../" type="submit" class="btn btn-primary">
 						<i class="fas fa-caret-left"></i>

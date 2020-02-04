@@ -13,6 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from persona.tokens import account_activation_token
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -29,7 +30,7 @@ class ClienteListado(LoginRequiredMixin, ListView):
         return qs
     
     
-class ClienteDetalle(DetailView): 
+class ClienteDetalle(LoginRequiredMixin, DetailView): 
     model = get_user_model()
     
     
@@ -57,7 +58,9 @@ def create_client(request):
         'user_form': user_form,
         'cliente_form': cliente_form,
         })
-    
+
+
+@login_required
 def edit_client(request, pk):
     
     user = get_user_model().objects.get(id=pk)
@@ -89,7 +92,7 @@ def edit_client(request, pk):
     
 #=================================== EMPLEADO ===========================================
 
-class EmpleadoListado(ListView): 
+class EmpleadoListado(LoginRequiredMixin, ListView): 
     model = get_user_model() 
     
     def get_queryset(self):
@@ -97,7 +100,7 @@ class EmpleadoListado(ListView):
         return qs
     
     
-class EmpleadoDetalle(DetailView): 
+class EmpleadoDetalle(LoginRequiredMixin, DetailView): 
     model = get_user_model()
     
     
@@ -126,6 +129,7 @@ def create_empleado(request):
         })
 
 
+@login_required
 def edit_empleado(request, pk):
     
     user = get_user_model().objects.get(id=pk)
@@ -152,13 +156,13 @@ def edit_empleado(request, pk):
         'empleado_form': empleado_form,
         })
 #=================================== USUARIO ===========================================
-class UsuarioListado(ListView): 
+class UsuarioListado(LoginRequiredMixin, ListView): 
     model = get_user_model() 
     
-class UsuarioDetalle(DetailView): 
+class UsuarioDetalle(LoginRequiredMixin, DetailView): 
     model = get_user_model()
-    
-    
+
+
 def create_client2(request):
     
     if request.method == 'POST':
@@ -199,48 +203,6 @@ def create_client2(request):
         'user_form': user_form,
         'cliente_form': cliente_form,
         })
-
-
-def signup_view(request):
-    user_form = SignUpForm(request.POST, prefix='UF')
-    cliente_form = ClienteForm(request.POST, prefix='PF')
-    
-    if user_form.is_valid() and cliente_form.is_valid():
-        user = user_form.save(commit=False)
-        user_form.instance.is_client = True
-        user_form.instance.is_active = False
-        user.save()
-    
-        user.cliente.ci = cliente_form.cleaned_data.get('ci')
-        user.cliente.save()
-        
-        
-        current_site = get_current_site(request)
-        subject = 'Por favor activa tu cuenta'
-        email_from = settings.EMAIL_HOST_USER
-        # load a template like get_template() 
-        # and calls its render() method immediately.
-        message = render_to_string('registration/activation_request.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            # method will generate a hash value with user related data
-            'token': account_activation_token.make_token(user),
-        })
-        user.email_user(subject, message, email_from)
-        
-        
-        
-        return redirect('activation_send')
-    
-    
-    else:
-        user_form = SignUpForm(prefix='UF')
-        cliente_form = ClienteForm(prefix='PF')
-    return render(request,
-                  'registration/registration_form.html',
-                  {'user_form': user_form,
-                   'cliente_form': cliente_form,})
     
     
 def activate(request, uidb64, token):
@@ -259,7 +221,7 @@ def activate(request, uidb64, token):
         login(request, user)
         return redirect('activation_complete')
     else:
-        return render(request, 'activation_invalid.html')
+        return render(request, 'registration/activation_invalid.html')
     
 def activation_sent_view(request):
     return render(request, 'registration/registration_complete.html')

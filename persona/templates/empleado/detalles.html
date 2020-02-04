@@ -19,7 +19,6 @@
 					<p><strong>Direcci&oacute;n:&nbsp;</strong>{{object.direccion}}</p>
 					<p><strong>E-mail:&nbsp;</strong>{{object.direccion}}</p>
 					<p><strong>Usuario:&nbsp;</strong>{{object.username}}</p>
-					<p><strong>Contrasena:&nbsp;</strong>{{object.password}}</p>
 					<p><strong>&Uacute;ltimo Ingreso:&nbsp;</strong>{{object.last_login}}</p>
 					<p><strong>Fecha de Registro:&nbsp;</strong>{{object.date_joined}}</p>
 
@@ -27,7 +26,13 @@
 						<i class="fas fa-caret-left"></i>
 						Volver
 					</a>
-					
+					<a href="{% url 'actualizarEmpleado' object.id %}" title="Editar" class="btn btn-primary">
+						<i class="far fa-edit"></i>
+						Editar
+					</a><br/><br/>
+					{% if request.user.id == object.id %}
+					<p><a href="{% url 'password_change' %}">Cambiar Contraseña</a></p>
+					{% endif %}					
 				</div>
 			</div>
 		</div>

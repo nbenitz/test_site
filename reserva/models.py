@@ -20,7 +20,9 @@ class Reserva(models.Model):
     id_empleado_fk = models.ForeignKey(Empleado, 
                                        models.DO_NOTHING, 
                                        db_column='id_empleado_fk',
-                                       verbose_name="Empleado")
+                                       verbose_name="Empleado",
+                                       blank=True, 
+                                       null=True)
     id_cliente_fk = models.ForeignKey(Cliente, 
                                       models.DO_NOTHING, 
                                       db_column='id_cliente_fk',

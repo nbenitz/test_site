@@ -3,12 +3,13 @@ from .models import Reserva
 from django.forms.models import ModelForm
 import datetime
 from django.forms.widgets import Select, TextInput
+from django.template.context_processors import request
 
 class DateInput(forms.DateInput):
     input_type = 'date'
 
 class ReservaForm(ModelForm):
-    #costo_alojamiento = forms.CharField(initial="50000")    
+    #costo_alojamiento = forms.CharField(initial="50000")
     class Meta:
         model = Reserva
         fields = ['id_cliente_fk', 'fecha_entrada', 'fecha_salida', 'id_habitacion_fk', 'costo_alojamiento']
@@ -21,6 +22,14 @@ class ReservaForm(ModelForm):
             #'costo_alojamiento': TextInput(attrs={'id' : "id_costo_alojamiento"}),
         }
         
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')  # To get request.user. Do not use kwargs.pop('user', None) due to potential security hole
+
+        super(ReservaForm, self).__init__(*args, **kwargs)
+        
+        if self.user.is_client:
+            del self.fields['id_cliente_fk']
+                
     def clean_fecha_entrada(self):
         fecha_entrada = self.cleaned_data['fecha_entrada']
         if fecha_entrada < datetime.date.today():
@@ -38,5 +47,5 @@ class ReservaForm(ModelForm):
                 raise forms.ValidationError("La fecha de salida debe ser posterior a la fecha de entrada")
             return fecha_salida
     
-    
+
 

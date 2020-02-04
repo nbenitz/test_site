@@ -1,10 +1,9 @@
 {% extends "dashboard/base.html" %}
 {% load crispy_forms_tags %}
 
-	{% block content %}
+{% block content %}
 	<!-- Page Heading -->
 	<h1 class="h3 mb-2 text-gray-800">Reservas</h1>
-	
 	
 	<div class='row'>
 		<div class='col-sm-8 col-sm-offset-3'>
@@ -16,7 +15,7 @@
 				
 				<div class="card-body">
 		
-					<form method="post" enctype="multipart/form-data"  id="reservaForm" data-precio-url="{% url 'ajax_load_precio' %}" data-hab-disp-url="{% url 'ajax_load_hab_disponible' %}" novalidate>
+					<form method="post" enctype="multipart/form-data"  id="reservaForm" data-hab-disp-url="{% url 'ajax_load_hab_disponible' %}" novalidate>
 						{% csrf_token %}
 					  
 						{{ form|crispy }} 
@@ -38,21 +37,29 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript">
-		$("#id_id_habitacion_fk").change(function () {
-			var url = $("#reservaForm").attr("data-precio-url");  // get the url of the `load_cities` view
-			var habitacionId = $(this).val();  // get the selected country ID from the HTML input
+<script type="text/javascript">
+	$(document).ready(function(){
 
-			$.ajax({                       // initialize an AJAX request
-				url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-				data: {
-					'habitacion': habitacionId       // add the country id to the GET parameters
-				},
-				success: function (data) {   // `data` is the return of the `load_cities` view function
+
+		var habs;
+	
+		$("#id_id_habitacion_fk").change(function () {
+			//var url = $("#reservaForm").attr("data-precio-url");	// get the url of the `load_cities` view
+			//var habitacionId = $(this).val();	// get the selected country ID from the HTML input
+
+			//$.ajax({							// initialize an AJAX request
+				//url: url,						// set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+				//data: {
+					//'habitacion': habitacionId	// add the country id to the GET parameters
+				//},
+				//success: function (data) {		// `data` is the return of the `load_cities` view function
 					//$("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
-					$("#id_costo_alojamiento").val(data)
-				}
-			});
+					//$("#id_costo_alojamiento").val(data)
+				//}
+			//});
+			
+			var i = $(this).find(":selected").index();
+			$("#id_costo_alojamiento").val(habs[i-1].precio);
 
 		});
 		
@@ -71,17 +78,20 @@
 					//$("#id_city").html(data);
 					console.log(data);
 					var dat = JSON.parse(data);
-					console.log(dat.habitaciones);
+					habs = dat.habitaciones;
+					console.log(habs);
 					$("#id_id_habitacion_fk option").remove();
-					for (var i = 0; i < dat.habitaciones.length; i++) {
-						console.log(dat.habitaciones[i].habitacion);
-						$("#id_id_habitacion_fk").append('<option>'+ dat.habitaciones[i].habitacion +'</option>');
+					$("#id_id_habitacion_fk").append('<option value selected>---------</option>');
+					for (var i = 0; i < habs.length; i++) {
+						console.log(habs[i].nro);
+						$("#id_id_habitacion_fk").append('<option value="'+ habs[i].id +'">'+ habs[i].nro +'</option>');
 					};
 				}
 			});
 
 		});
-	
+		
+
 	
 	
 	
@@ -89,6 +99,13 @@
 		//	console.log("Prueba exitosa");
 		//	$("#id_costo_alojamiento").val("50000");
 		//}
-	</script>
+
+
+
+
+
+
+	});		
+</script>
 	
-	{% endblock %}
+{% endblock %}

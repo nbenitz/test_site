@@ -5,7 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.urls import reverse
-from persona.models import Empleado
+from persona.models import Empleado, Cliente
 import json
 
 from reserva.forms import ReservaForm
@@ -20,20 +20,29 @@ class ReservaCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = ReservaForm 
     success_message = 'Reserva Creada Correctamente !' 
     
+    # Sending user object to the form, to verify which fields to display/remove (depending on group)
+    def get_form_kwargs(self):
+        kwargs = super(ReservaCrear, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+    
     def form_valid(self, form):
-        empleado = Empleado.objects.get(user_id=self.request.user.id)
-        form.instance.id_empleado_fk = empleado
-        form.instance.costo_alojamiento = "50000"
+        if self.request.user.is_client:
+            cliente = Cliente.objects.get(user_id=self.request.user.id)
+            form.instance.id_cliente_fk = cliente
+        else:            
+            empleado = Empleado.objects.get(user_id=self.request.user.id)
+            form.instance.id_empleado_fk = empleado
+            
         return super().form_valid(form)    
  
     def get_success_url(self):        
         return reverse('leerReserva')
+
     
 def load_precio(request):
     id_habitacion = request.GET.get('habitacion')
     precio = Habitacion.objects.filter(id_habitacion=id_habitacion).values_list('precio1', flat=True)[0]
-    #cities = City.objects.filter(country_id=country_id).order_by('name')
-    #return render(request, 'hr/city_dropdown_list_options.html', {'cities': '135000'})
     return HttpResponse(precio)
 
 def load_habitacion_disponible(request):
@@ -54,22 +63,22 @@ def load_habitacion_disponible(request):
                 ).order_by('id_habitacion_fk')
                 
     lista_hab_reservada = list(hab_reservada.values('id_habitacion_fk'))
-    lista_habitaciones = list(habitaciones.values('id_habitacion'))
+    lista_habitaciones = list(habitaciones.values())
     lista_hab_disponible = []
-    
+
     for habitacion in lista_habitaciones:
-        for id_habitacion in habitacion.keys():
-            flag_habitacion_libre = True
-            for hab_reservada in lista_hab_reservada:            
-                for id_hab_reservada in hab_reservada.keys():
-                    if hab_reservada[id_hab_reservada]==habitacion[id_habitacion]:
-                        flag_habitacion_libre = False
-                if flag_habitacion_libre == False:
-                    print("Habitacion %s reservada" %(habitacion[id_habitacion]))
-                    break
-            if flag_habitacion_libre == True:
-                print("Habitacion %s libre" %(habitacion[id_habitacion]))
-                lista_hab_disponible.append({'habitacion': habitacion[id_habitacion]})
+        flag_habitacion_libre = True
+        for hab_reservada in lista_hab_reservada:            
+            if hab_reservada['id_habitacion_fk'] == habitacion['id_habitacion']:
+                flag_habitacion_libre = False
+                print("Habitacion %s reservada" %(habitacion['id_habitacion']))
+                break
+        if flag_habitacion_libre == True:
+            print("Habitacion %s libre" %(habitacion['id_habitacion']))
+            lista_hab_disponible.append({'id': habitacion['id_habitacion'],
+                                         'nro': habitacion['numero'],
+                                         'precio': habitacion['precio1'],
+                                         })    
                 
     JSONer = {}                
     JSONer['habitaciones'] = lista_hab_disponible

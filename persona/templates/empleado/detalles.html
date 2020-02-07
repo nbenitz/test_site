@@ -1,39 +1,41 @@
 {% extends "dashboard/base.html" %}
 {% load static %}
 	{% block content %}
-	<!-- Page Heading -->
-	<h1 class="h3 mb-2 text-gray-800">Empleados</h1>
-		
-	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">Detalles del Empleado</h6>
-		</div>
-		<div class="card-body">
-		
-			<div class='row'>
-				<div class='col-sm-6 col-sm-offset-3'>		
-					
-					<p><strong>C.I. Nro.:&nbsp;</strong>{{object.empleado.ci}}</p>
-					<p><strong>Nombre:&nbsp;</strong>{{object.first_name}} {{object.last_name}}</p>
-					<p><strong>Tel&eacute;fono:&nbsp;</strong>{{object.telefono}}</p>
-					<p><strong>Direcci&oacute;n:&nbsp;</strong>{{object.direccion}}</p>
-					<p><strong>E-mail:&nbsp;</strong>{{object.direccion}}</p>
-					<p><strong>Usuario:&nbsp;</strong>{{object.username}}</p>
-					<p><strong>&Uacute;ltimo Ingreso:&nbsp;</strong>{{object.last_login}}</p>
-					<p><strong>Fecha de Registro:&nbsp;</strong>{{object.date_joined}}</p>
-
-					<a href="../" type="submit" class="btn btn-primary">
-						<i class="fas fa-caret-left"></i>
-						Volver
-					</a>
-					<a href="{% url 'actualizarEmpleado' object.id %}" title="Editar" class="btn btn-primary">
-						<i class="far fa-edit"></i>
-						Editar
-					</a><br/><br/>
-					{% if request.user.id == object.id %}
-					<p><a href="{% url 'password_change' %}">Cambiar Contraseña</a></p>
-					{% endif %}					
+	
+		<div class='row justify-content-center '>
+		<div class='col-auto col-sm-offset-3'>				
+			<div class="card shadow mb-4">
+			
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary text-align-center">Detalles de la Cuenta</h6>
 				</div>
+				
+				<div class="card-body">	
+					<p><strong>C.I. Nro.: </strong>{{object.empleado.ci}}</p>
+					<p><strong>Nombre: </strong>{{object.first_name}} {{object.last_name}}</p>
+					<p><strong>Tel&eacute;fono: </strong>{{object.telefono}}</p>
+					<p><strong>Direcci&oacute;n: </strong>{{object.direccion}}</p>
+					<p><strong>E-mail: </strong>{{object.direccion}}</p>
+					<p><strong>Usuario: </strong>{{object.username}}</p>
+					<p><strong>&Uacute;ltimo Ingreso: </strong>{{object.last_login}}</p>
+					<p><strong>Fecha de Registro: </strong>{{object.date_joined}}</p>
+					
+					<div class='row justify-content-center'>
+						<a href="../" type="submit" class="btn btn-primary">
+							<i class="fas fa-caret-left"></i>
+							Volver
+						</a>&nbsp;
+						<a href="{% url 'actualizarEmpleado' object.id %}" title="Editar" class="btn btn-success">
+							<i class="far fa-edit"></i>
+							Editar
+						</a>
+					</div><br/>
+					<div class='row justify-content-center'>
+						<p><a href="{% url 'password_change' %}">Cambiar Contraseña</a></p>
+					</div>
+					
+				</div>
+				
 			</div>
 		</div>
 	</div>

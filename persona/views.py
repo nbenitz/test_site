@@ -83,7 +83,7 @@ def edit_client(request, pk):
         user_form = UserForm(prefix='UF', instance=user)
         cliente_form = ClienteForm(prefix='PF', instance=user.cliente)
         
-    return render(request, 'cliente/crear.html',{
+    return render(request, 'cliente/actualizar.html',{
         'user_form': user_form,
         'cliente_form': cliente_form,
         })
@@ -151,7 +151,7 @@ def edit_empleado(request, pk):
         user_form = UserForm(prefix='UF', instance=user)
         empleado_form = EmpleadoForm(prefix='PF', instance=user.empleado)
         
-    return render(request, 'empleado/crear.html',{
+    return render(request, 'empleado/actualizar.html',{
         'user_form': user_form,
         'empleado_form': empleado_form,
         })

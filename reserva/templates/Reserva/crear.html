@@ -2,11 +2,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-	<!-- Page Heading -->
-	<h1 class="h3 mb-2 text-gray-800">Reservas</h1>
 	
-	<div class='row'>
-		<div class='col-sm-8 col-sm-offset-3'>
+	<div class='row justify-content-center'>
+		<div class='col-sm-6 col-sm-offset-3'>
 			<div class="card shadow mb-4">
 			
 				<div class="card-header py-3">
@@ -16,8 +14,7 @@
 				<div class="card-body">
 		
 					<form method="post" enctype="multipart/form-data"  id="reservaForm" data-hab-disp-url="{% url 'ajax_load_hab_disponible' %}" novalidate>
-						{% csrf_token %}
-					  
+						{% csrf_token %}					  
 						{{ form|crispy }} 
 					  
 						<button type="submit" class="btn btn-primary">
@@ -39,9 +36,10 @@
 	
 <script type="text/javascript">
 	$(document).ready(function(){
-
-
 		var habs;
+		
+		$("#id_id_habitacion_fk option").remove();
+		$("#id_id_habitacion_fk").append('<option value selected>---------</option>');
 	
 		$("#id_id_habitacion_fk").change(function () {
 			//var url = $("#reservaForm").attr("data-precio-url");	// get the url of the `load_cities` view
@@ -63,10 +61,18 @@
 
 		});
 		
+		$("#id_fecha_entrada").change(function () {
+			filterHabs();
+		});
+		
 		$("#id_fecha_salida").change(function () {
+			filterHabs();
+		});
+		
+		function filterHabs(){
 			var url = $("#reservaForm").attr("data-hab-disp-url"); 
 			var fecha_entrada = $("#id_fecha_entrada").val();
-			var fecha_salida = $(this).val();
+			var fecha_salida = $("#id_fecha_salida").val();
 
 			$.ajax({
 				url: url,
@@ -88,21 +94,13 @@
 					};
 				}
 			});
-
-		});
+		}
 		
 
-	
-	
-	
 		//function prueba() {
 		//	console.log("Prueba exitosa");
 		//	$("#id_costo_alojamiento").val("50000");
 		//}
-
-
-
-
 
 
 	});		

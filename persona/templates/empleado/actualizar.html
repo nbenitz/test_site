@@ -2,29 +2,28 @@
 {% load crispy_forms_tags %}
 
 	{% block content %}
-	<!-- Page Heading -->	
 	
 	<div class='row justify-content-center'>
 		<div class='col-sm-6 col-sm-offset-3'>
 			<div class="card shadow mb-4">
 			
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">Editar Categoria de Habitacion</h6>
+					<h6 class="m-0 font-weight-bold text-primary">Datos del Empleado</h6>
 				</div>
 				
 				<div class="card-body">
 		
 					<form method="post" enctype="multipart/form-data">
 						{% csrf_token %}
-					  
-						{{ form|crispy }} 
+						{{ user_form|crispy}}
+						{{ empleado_form|crispy }}
 					  
 						<button type="submit" class="btn btn-primary">
 							<i class="fas fa-save"></i>
 							Aceptar
 						</button>
 						
-						<a href="./" type="submit" class="btn btn-primary">
+						<a href="/empleado/" type="submit" class="btn btn-primary">
 							<i class="fas fa-caret-left"></i>
 							Cancelar
 						</a>

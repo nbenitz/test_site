@@ -24,10 +24,17 @@
 							Aceptar
 						</button>
 						
+						{% if request.user.is_client %}
+						<a href="{% url 'detallesCliente' request.user.id %}" type="submit" class="btn btn-primary">
+							<i class="fas fa-caret-left"></i>
+							Cancelar
+						</a>
+						{% else %}
 						<a href="/cliente/" type="submit" class="btn btn-primary">
 							<i class="fas fa-caret-left"></i>
 							Cancelar
 						</a>
+						{% endif %}
 					 
 					</form>
 			

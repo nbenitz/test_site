@@ -18,17 +18,24 @@
 						{% csrf_token %}
 						{{ user_form|crispy}}
 						{{ cliente_form|crispy }}
-					  
+
 						<button type="submit" class="btn btn-primary">
 							<i class="fas fa-save"></i>
 							Aceptar
 						</button>
-						
+
+						{% if request.user.is_client %}
+						<a href="/" type="submit" class="btn btn-primary">
+							<i class="fas fa-caret-left"></i>
+							Cancelar
+						</a>
+						{% else %}
 						<a href="/cliente/" type="submit" class="btn btn-primary">
 							<i class="fas fa-caret-left"></i>
 							Cancelar
 						</a>
-					 
+						{% endif %}
+
 					</form>
 			
 				</div>

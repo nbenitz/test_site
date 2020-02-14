@@ -103,13 +103,13 @@
 	
 		$("#id_id_habitacion_fk").change(function () {
 			//var url = $("#reservaForm").attr("data-precio-url");	// get the url of the `load_cities` view
-			//var habitacionId = $(this).val();	// get the selected country ID from the HTML input
+				//data: {
+					//'habitacion': habitacionId	// add the country id to the GET parameters
+				//var habitacionId = $(this).val();	// get the selected country ID from the HTML input
 
 			//$.ajax({							// initialize an AJAX request
 				//url: url,						// set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-				//data: {
-					//'habitacion': habitacionId	// add the country id to the GET parameters
-				//},
+			//},
 				//success: function (data) {		// `data` is the return of the `load_cities` view function
 					//$("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
 					//$("#id_costo_alojamiento").val(data)
@@ -121,7 +121,8 @@
 
 		});
 		
-		$("#id_id_habitacion_fk").click(function () {
+        $("#id_id_habitacion_fk").click(function () {
+			$("#id_id_habitacion_fk option").remove();
 			$(".modal-body div").remove();
 			
 			for (var i = 0; i < habs.length; i++) {
@@ -143,8 +144,10 @@
 			filterHabs();
 		});
 		
-		function filterHabs(){
-			var url = $("#reservaForm").attr("data-hab-disp-url"); 
+		function filterHabs(){            
+            $("#id_id_habitacion_fk option").remove();
+            $("#id_costo_alojamiento").val("");
+			var url = $("#reservaForm").attr("data-hab-disp-url");
 			var fecha_entrada = $("#id_fecha_entrada").val();
 			var fecha_salida = $("#id_fecha_salida").val();
 
@@ -173,9 +176,14 @@
 	});	
 	
 	function selectHab(id, nro, precio) {
-		$("#id_id_habitacion_fk").val('Habitación ' + nro);
-		$("#id_costo_alojamiento").val(precio);
-		//console.log("Prueba exitosa");
+        //$("#id_id_habitacion_fk").val('Habitación ' + nro);
+		$("#id_id_habitacion_fk").append('<option value=' + id + ' selected>Habitación ' + nro + ' </option>');
+
+		var fecha_salida = moment($("#id_fecha_salida").val());
+        var fecha_entrada = moment($("#id_fecha_entrada").val());
+        var dias = fecha_salida.diff(fecha_entrada, 'days');
+        $("#id_costo_alojamiento").val(precio * dias);
+		console.log(dias, "días de difirencia");
 	}
 			
 </script>

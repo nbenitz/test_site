@@ -23,7 +23,7 @@ class ReservaForm(ModelForm):
             #                                     'style': 'background-color: white',
             #                                     }),
             #'id_habitacion_fk': Select(attrs={'placeholder' : "Seleccionar habitacion"}),
-            #'costo_alojamiento': TextInput(attrs={'id' : "id_costo_alojamiento"}),
+            'costo_alojamiento': TextInput(attrs={'readonly' : 'true'}),
         }
         
     def __init__(self, *args, **kwargs):

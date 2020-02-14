@@ -31,7 +31,7 @@ class Reserva(models.Model):
     fecha_entrada = models.DateField()
     fecha_salida = models.DateField()
     costo_alojamiento = models.IntegerField()
-    estado = models.CharField(max_length=10)
+    estado = models.CharField(max_length=10, default="Impago")
 
     class Meta:
         db_table = 'reserva'

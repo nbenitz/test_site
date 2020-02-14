@@ -10,7 +10,7 @@ import json
 
 from reserva.forms import ReservaForm
 from django.http import HttpResponse
-from estructura.models import Habitacion
+from estructura.models import Habitacion, CategoriaHab
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -75,10 +75,15 @@ def load_habitacion_disponible(request):
                 break
         if flag_habitacion_libre == True:
             print("Habitacion %s libre" %(habitacion['id_habitacion']))
+            categoria = CategoriaHab.objects.get(id_categoria=habitacion['id_categoria_fk_id'])
             lista_hab_disponible.append({'id': habitacion['id_habitacion'],
                                          'nro': habitacion['numero'],
+                                         'categ': str(categoria),
+                                         'carac': habitacion['caracteristicas'],
                                          'precio': habitacion['precio1'],
-                                         })    
+                                         'img': habitacion['foto'],
+                                         })
+
                 
     JSONer = {}                
     JSONer['habitaciones'] = lista_hab_disponible

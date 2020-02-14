@@ -1,4 +1,4 @@
-from django import forms
+﻿from django import forms
 from .models import Reserva
 from django.forms.models import ModelForm
 import datetime
@@ -18,7 +18,11 @@ class ReservaForm(ModelForm):
             #'id_cliente_fk': Select(attrs={'placeholder': 'Seleccionar Cliente'}),
             'fecha_entrada': DateInput(),
             'fecha_salida': DateInput(),
-            #'id_habitacion_fk': Select(attrs={'onclick' : "return prueba();"}),
+            'id_habitacion_fk': TextInput(attrs={'placeholder': 'Seleccionar Habitación',
+                                                 'readonly': 'true',
+                                                 'style': 'background-color: white',
+                                                 }),
+            #'id_habitacion_fk': Select(attrs={'placeholder' : "Seleccionar habitacion"}),
             #'costo_alojamiento': TextInput(attrs={'id' : "id_costo_alojamiento"}),
         }
         

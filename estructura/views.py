@@ -19,10 +19,10 @@ class HabitacionListado(LoginRequiredMixin, ListView):
 class HabitacionCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     model = Habitacion  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
     form = Habitacion  # Definimos nuestro formulario con el nombre de la clase o modelo 'Habitacion'
-    fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
+    fields = ['numero', 'precio1', 'id_categoria_fk', 'caracteristicas', 'foto']
     success_message = 'Habitacion Creada Correctamente !'  # Mostramos este Mensaje luego de Crear un Postre
  
-    # Redireccionamos a la página principal luego de crear un registro o postre
+    # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerHabitacion')  # Redireccionamos a la vista principal 'leer'
 
@@ -34,10 +34,10 @@ class HabitacionDetalle(LoginRequiredMixin, DetailView):
 class HabitacionActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Habitacion  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py' 
     form = Habitacion  # Definimos nuestro formulario con el nombre de la clase o modelo 'Habitacion' 
-    fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
+    fields = ['numero', 'precio1', 'id_categoria_fk', 'caracteristicas', 'foto']
     success_message = 'Habitacion Actualizada Correctamente !'  # Mostramos este Mensaje luego de Editar un Postre 
  
-    # Redireccionamos a la página principal luego de actualizar un registro o postre
+    # Redireccionamos a la pagina principal luego de actualizar un registro o postre
     def get_success_url(self):               
         return reverse('leerHabitacion')  # Redireccionamos a la vista principal 'leer'
 
@@ -47,7 +47,7 @@ class HabitacionEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     form = Habitacion
     fields = "__all__"     
  
-    # Redireccionamos a la página principal luego de eliminar un registro o Habitacion
+    # Redireccionamos a la pagina principal luego de eliminar un registro o Habitacion
     def get_success_url(self): 
         success_message = 'Proveedor Eliminado Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       
@@ -64,7 +64,7 @@ class ProveedorCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Proveedor Creado Correctamente !'  # Mostramos este Mensaje luego de Crear un Postre
  
-    # Redireccionamos a la página principal luego de crear un registro o postre
+    # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerProveedor')  # Redireccionamos a la vista principal 'leer'
 
@@ -79,7 +79,7 @@ class ProveedorActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Proveedor Actualizado Correctamente !'  # Mostramos este Mensaje luego de Editar un Postre 
  
-    # Redireccionamos a la página principal luego de actualizar un registro o postre
+    # Redireccionamos a la pagina principal luego de actualizar un registro o postre
     def get_success_url(self):               
         return reverse('leerProveedor')  # Redireccionamos a la vista principal 'leer'
 
@@ -89,7 +89,7 @@ class ProveedorEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     form = Proveedor
     fields = "__all__"     
  
-    # Redireccionamos a la página principal luego de eliminar un registro o Habitacion
+    # Redireccionamos a la pagina principal luego de eliminar un registro o Habitacion
     def get_success_url(self): 
         success_message = 'Proveedor Eliminado Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       
@@ -107,7 +107,7 @@ class ProductoCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     fields = ['barcode', 'descripcion', 'costo', 'precio1', 'stock', 'presentacion', 'foto', 'iva', 'id_categoria_fk', 'id_proveedor_fk']
     success_message = 'Producto Creado Correctamente !'  # Mostramos este Mensaje luego de Crear un Postre
  
-    # Redireccionamos a la página principal luego de crear un registro o postre
+    # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerProducto')  # Redireccionamos a la vista principal 'leer'
 
@@ -122,7 +122,7 @@ class ProductoActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     fields = ['barcode', 'descripcion', 'costo', 'precio1', 'stock', 'presentacion', 'foto', 'iva', 'id_categoria_fk', 'id_proveedor_fk']
     success_message = 'Producto Actualizado Correctamente !'  # Mostramos este Mensaje luego de Editar un Postre 
  
-    # Redireccionamos a la página principal luego de actualizar un registro o postre
+    # Redireccionamos a la pagina principal luego de actualizar un registro o postre
     def get_success_url(self):               
         return reverse('leerProducto')  # Redireccionamos a la vista principal 'leer'
 
@@ -132,7 +132,7 @@ class ProductoEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     form = Producto
     fields = "__all__"     
  
-    # Redireccionamos a la página principal luego de eliminar un registro o Habitacion
+    # Redireccionamos a la pagina principal luego de eliminar un registro o Habitacion
     def get_success_url(self): 
         success_message = 'Producto Eliminado Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       
@@ -150,7 +150,7 @@ class CategoriaHabCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Categoria Habitacion Creada Correctamente !'  # Mostramos este Mensaje luego de Crear un Postre
  
-    # Redireccionamos a la página principal luego de crear un registro o postre
+    # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerCategoriaHab')  # Redireccionamos a la vista principal 'leer'
 
@@ -165,7 +165,7 @@ class CategoriaHabActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Categoria Habitacion Actualizada Correctamente !'  # Mostramos este Mensaje luego de Editar un Postre 
  
-    # Redireccionamos a la página principal luego de actualizar un registro o postre
+    # Redireccionamos a la pagina principal luego de actualizar un registro o postre
     def get_success_url(self):               
         return reverse('leerCategoriaHab')  # Redireccionamos a la vista principal 'leer'
 
@@ -175,7 +175,7 @@ class CategoriaHabEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     form = CategoriaHab
     fields = "__all__"     
  
-    # Redireccionamos a la página principal luego de eliminar un registro o Habitacion
+    # Redireccionamos a la pagina principal luego de eliminar un registro o Habitacion
     def get_success_url(self): 
         success_message = 'Categoria Habitacion Eliminada Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       
@@ -192,7 +192,7 @@ class CategoriaProdCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Categoria Producto Creada Correctamente !'  # Mostramos este Mensaje luego de Crear un Postre
  
-    # Redireccionamos a la página principal luego de crear un registro o postre
+    # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerCategoriaProd')  # Redireccionamos a la vista principal 'leer'
 
@@ -207,7 +207,7 @@ class CategoriaProdActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateVie
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Categoria Producto Actualizada Correctamente !'  # Mostramos este Mensaje luego de Editar un Postre 
  
-    # Redireccionamos a la página principal luego de actualizar un registro o postre
+    # Redireccionamos a la pagina principal luego de actualizar un registro o postre
     def get_success_url(self):               
         return reverse('leerCategoriaProd')  # Redireccionamos a la vista principal 'leer'
 
@@ -217,7 +217,7 @@ class CategoriaProdEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView)
     form = CategoriaProd
     fields = "__all__"     
  
-    # Redireccionamos a la página principal luego de eliminar un registro o Habitacion
+    # Redireccionamos a la pagina principal luego de eliminar un registro o Habitacion
     def get_success_url(self): 
         success_message = 'Categoria Producto Eliminada Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       
@@ -235,7 +235,7 @@ class ServicioCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Servicio Creado Correctamente !'  # Mostramos este Mensaje luego de Crear un Postre
  
-    # Redireccionamos a la página principal luego de crear un registro o postre
+    # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerServicio')  # Redireccionamos a la vista principal 'leer'
 
@@ -250,7 +250,7 @@ class ServicioActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     fields = "__all__"  # Le decimos a Django que muestre todos los campos de la tabla 'Habitacion' de nuestra Base de Datos 
     success_message = 'Servicio Actualizado Correctamente !'  # Mostramos este Mensaje luego de Editar un Postre 
  
-    # Redireccionamos a la página principal luego de actualizar un registro o postre
+    # Redireccionamos a la pagina principal luego de actualizar un registro o postre
     def get_success_url(self):               
         return reverse('leerServicio')  # Redireccionamos a la vista principal 'leer'
 
@@ -260,7 +260,7 @@ class ServicioEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     form = Servicio
     fields = "__all__"     
  
-    # Redireccionamos a la página principal luego de eliminar un registro o Habitacion
+    # Redireccionamos a la pagina principal luego de eliminar un registro o Habitacion
     def get_success_url(self): 
         success_message = 'Servicio Eliminado Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       

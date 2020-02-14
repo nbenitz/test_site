@@ -144,7 +144,7 @@ def edit_empleado(request, pk):
     
             user.empleado.ci = empleado_form.cleaned_data.get('ci')
             user.empleado.save()
-            messages.success(request, ('Cliente actualizado correctmente'))
+            messages.success(request, ('Empleado actualizado correctmente'))
             return redirect('leerEmpleado')
             
     else:

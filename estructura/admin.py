@@ -11,7 +11,7 @@ class AdminProducto(admin.ModelAdmin):
 
 
 class AdminHabitacion(admin.ModelAdmin):
-    list_display = ["id_habitacion", "precio1", "numero", "id_categoria_fk", "caracteristicas", "foto", "estado"]
+    list_display = ["id_habitacion", "precio1", "numero", "id_categoria_fk", "caracteristicas", "foto"]
     # list_filter = ["id_habitacion", "numero"]
     search_fields = ["id_habitacion", "idhabitacion"]
 

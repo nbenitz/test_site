@@ -1,15 +1,13 @@
-boletin/migrations/
 estructura/migrations/
-parcial/migrations/
 persona/migrations/
 reporte/migrations/
 reserva/migrations/
 
-boletin/__pycache__/
 estructura/__pycache__/
-parcial/__pycache__/
 persona/__pycache__/
 reporte/__pycache__/
 reserva/__pycache__/
 project/__pycache__/
 __pycache__
+
+venv/

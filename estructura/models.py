@@ -11,12 +11,10 @@ from django.db import models
 class CategoriaHab(models.Model):
     id_categoria = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'categoria_hab'
-
-    def __unicode__(self):  # Python 2
-        return self.descripcion
 
     def __str__(self):  # Python 3
         return self.descripcion
@@ -25,6 +23,7 @@ class CategoriaHab(models.Model):
 class CategoriaProd(models.Model):
     id_categoria = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'categoria_prod'
@@ -34,10 +33,10 @@ class CategoriaProd(models.Model):
 
 class Habitacion(models.Model):
     id_habitacion = models.AutoField(primary_key=True)
-    precio1 = models.PositiveIntegerField()
-    precio2 = models.PositiveIntegerField()
-    precio3 = models.PositiveIntegerField()
-    numero = models.IntegerField(unique=True, verbose_name="N&uacute;mero")
+    precio1 = models.PositiveIntegerField(verbose_name="Precio")
+    precio2 = models.PositiveIntegerField(blank=True, null=True)
+    precio3 = models.PositiveIntegerField(blank=True, null=True)
+    numero = models.IntegerField(unique=True, verbose_name="Número")
     id_categoria_fk = models.ForeignKey(CategoriaHab,
                                         models.DO_NOTHING,
                                         db_column='id_categoria_fk',
@@ -47,7 +46,7 @@ class Habitacion(models.Model):
                                        null=True,
                                        verbose_name="Caracter&iacute;sticas")
     foto = models.ImageField(upload_to='hab-img', default='hab-img/no-foto.jpeg')
-    estado = models.CharField(max_length=10)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'habitacion'
@@ -62,6 +61,7 @@ class Proveedor(models.Model):
     nombre = models.CharField(max_length=20)
     telefono = models.CharField(max_length=15, blank=True, null=True)
     direccion = models.CharField(max_length=20, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'proveedor'
@@ -98,6 +98,7 @@ class Producto(models.Model):
     iva = models.PositiveIntegerField()
     precio_pack = models.PositiveIntegerField(blank=True, null=True)
     unid_x_pack = models.FloatField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'producto'
@@ -113,6 +114,7 @@ class Servicio(models.Model):
     id_servicio = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=50, blank=True, null=True)
     precio = models.IntegerField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'servicio'

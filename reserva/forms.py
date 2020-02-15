@@ -16,8 +16,8 @@ class ReservaForm(ModelForm):
         
         widgets = {
             #'id_cliente_fk': Select(attrs={'placeholder': 'Seleccionar Cliente'}),
-            'fecha_entrada': DateInput(),
-            'fecha_salida': DateInput(),
+            #'fecha_entrada': DateInput(),
+            #'fecha_salida': DateInput(),
             #'id_habitacion_fk': TextInput(attrs={'placeholder': 'Seleccionar Habitación',
             #                                     'readonly': 'true',
             #                                     'style': 'background-color: white',

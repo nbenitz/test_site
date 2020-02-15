@@ -24,12 +24,20 @@
 					<p><strong>Recepcionista: </strong>{{object.id_empleado_fk}}</p>
 					
 					<div class='row justify-content-center'>					
-						<a href="../" type="submit" class="btn btn-primary">
+						<a href="{% url "leerReserva" operacion %}" type="submit" class="btn btn-primary">
 							<i class="fas fa-caret-left"></i> Volver</a>&nbsp;&nbsp;
-						<a href="#" title="Ampliar" class="btn btn-success">
-							<i class="far fa-edit"></i> Ampliar</a>&nbsp;&nbsp;
-						<a href="#" title="Anular" class="btn btn-danger">
-							<i class="far fa-trash-alt"></i> Anular</a>
+						
+						{% if operacion == "ampliar" %}
+							<a href="{% url "ampliarReserva" object.id_reserva %}" class="btn btn-success">
+								<i class="far fa-edit"></i> Ampliar</a>&nbsp;&nbsp;
+						{% elif operacion == "anular" %}
+							<form method="POST" action="{% url "anularReserva" object.id_reserva %}">
+								{% csrf_token %}
+								<button class="btn btn-danger" onclick="return anular();">
+									<i class="far fa-trash-alt"></i> Anular</button>
+							</form>
+						{% endif %}	
+
 					</div>
 					
 				</div>
@@ -37,6 +45,16 @@
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+		function anular() {
+			var x = confirm("Anular Reserva?");
+			if (x)
+				return true;
+			else
+				return false;
+		}
+	</script>
 	
 
 	{% endblock %}

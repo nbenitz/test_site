@@ -94,57 +94,49 @@
 	
 	$(document).ready(function(){
 		
-				
-		$("#id_id_habitacion_fk option").remove();
+		$("#id_fecha_entrada").attr('readonly', 'true');
+		var fecha_entrada = $("#id_fecha_entrada").val();
+		var fecha_salida = $("#id_fecha_salida").val();
+		fecha_entrada = fecha_entrada.split("/").reverse().join("-");
+		fecha_salida = fecha_salida.split("/").reverse().join("-");
+		$("#id_fecha_entrada").val(fecha_entrada);
+		$("#id_fecha_salida").val(fecha_salida);
+		$("#id_fecha_entrada").attr('type', 'date');
+		$("#id_fecha_salida").attr('type', 'date');
+		$("#id_costo_alojamiento").attr('readonly', 'true');
+		$("#id_id_habitacion_fk").attr('readonly', 'true');
+		//$("#id_id_habitacion_fk option").remove();
 		//$("#id_id_habitacion_fk").append('<option value selected>Seleccionar Habitacion</option>');
-		$("#id_id_habitacion_fk").attr('data-toggle', 'modal');
-		$("#id_id_habitacion_fk").attr('data-target', '.bd-example-modal-lg');
-		//$('#id_id_habitacion_fk').css("background-color", "#ffffff");
+		//$("#id_id_habitacion_fk").attr('data-toggle', 'modal');
+		//$("#id_id_habitacion_fk").attr('data-target', '.bd-example-modal-lg');
+		filterHabs();
+		$('#id_id_habitacion_fk').css("background-color", "#ffffff");
 	
 		$("#id_id_habitacion_fk").change(function () {
-			//var url = $("#reservaForm").attr("data-precio-url");	// get the url of the `load_cities` view
-			//var habitacionId = $(this).val();	// get the selected country ID from the HTML input
-
-			//$.ajax({							// initialize an AJAX request
-				//url: url,						// set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-				//data: {
-					//'habitacion': habitacionId	// add the country id to the GET parameters
-				//},
-				//success: function (data) {		// `data` is the return of the `load_cities` view function
-					//$("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
-					//$("#id_costo_alojamiento").val(data)
-				//}
-			//});
-			
 			var i = $(this).find(":selected").index();
 			$("#id_costo_alojamiento").val(habs[i-1].precio);
-
+			console.log(habs[i-1].precio);
 		});
 		
-		$("#id_id_habitacion_fk").click(function () {
-			$(".modal-body div").remove();
-			
-			for (var i = 0; i < habs.length; i++) {
-						$(".modal-body").append($("#template").html());
-						$(".hab-title").eq(i).text("Habitación " + habs[i].nro);
-						$(".hab-categ").eq(i).text(habs[i].categ);
-						$(".hab-carac").eq(i).text(habs[i].carac);
-						$(".hab-prec").eq(i).text("Gs. " + habs[i].precio);
-						$(".hab-img").eq(i).attr('src', "/media/" + habs[i].img);
-						$(".hab-btn").eq(i).attr('onclick', 'return selectHab(' + habs[i].id + ',' + habs[i].nro + ');');
-					};
+		
+        $("#id_id_habitacion_fk").click(function () {			
+			//$("#id_id_habitacion_fk option").remove();
+			//$(".modal-body div").remove();
+			//filterHabs();			
 		});
 		
 		$("#id_fecha_entrada").change(function () {
-			filterHabs();
+			//filterHabs();
 		});
 		
 		$("#id_fecha_salida").change(function () {
-			filterHabs();
+			//filterHabs();
 		});
 		
-		function filterHabs(){
-			var url = $("#reservaForm").attr("data-hab-disp-url"); 
+		function filterHabs(){            
+            //$("#id_id_habitacion_fk option").remove();
+            //$("#id_costo_alojamiento").val("");
+			var url = $("#reservaForm").attr("data-hab-disp-url");
 			var fecha_entrada = $("#id_fecha_entrada").val();
 			var fecha_salida = $("#id_fecha_salida").val();
 
@@ -156,25 +148,45 @@
 				},
 				success: function (data) {
 					//$("#id_city").html(data);
-					console.log(data);
+					//console.log(data);
 					var dat = JSON.parse(data);
 					habs = dat.habitaciones;
 					console.log(habs);
 					//$("#id_id_habitacion_fk option").remove();
 					//$("#id_id_habitacion_fk").append('<option value selected>---------</option>');
+					//for (var i = 0; i < habs.length; i++) {
+						//console.log(habs[i].nro);
+						//$("#id_id_habitacion_fk").append('<option value="'+ habs[i].id +'">'+ habs[i].nro +'</option>');
+					//};
+
+					
 					for (var i = 0; i < habs.length; i++) {
 						console.log(habs[i].nro);
-						//$("#id_id_habitacion_fk").append('<option value="'+ habs[i].id +'">'+ habs[i].nro +'</option>');
+						$(".modal-body").append($("#template").html());
+						$(".hab-title").eq(i).text("Habitación " + habs[i].nro);
+						$(".hab-categ").eq(i).text(habs[i].categ);
+						$(".hab-carac").eq(i).text(habs[i].carac);
+						$(".hab-prec").eq(i).text("Gs. " + habs[i].precio);
+						$(".hab-img").eq(i).attr('src', "/media/" + habs[i].img);
+						$(".hab-btn").eq(i).attr('onclick', 'return selectHab(' + habs[i].id + ',' + habs[i].nro + ',' + habs[i].precio + ');');
 					};
+					
+					
 				}
 			});
 		}
 
 	});	
 	
-	function selectHab(id, nro) {
-		$("#id_id_habitacion_fk").val('Habitación ' + nro);
-		//console.log("Prueba exitosa");
+	function selectHab(id, nro, precio) {
+        //$("#id_id_habitacion_fk").val('Habitación ' + nro);
+		$("#id_id_habitacion_fk").append('<option value=' + id + ' selected>Habitación ' + nro + ' </option>');
+
+		var fecha_salida = moment($("#id_fecha_salida").val());
+        var fecha_entrada = moment($("#id_fecha_entrada").val());
+        var dias = fecha_salida.diff(fecha_entrada, 'days');
+        $("#id_costo_alojamiento").val(precio * dias);
+		console.log(dias, "días de difirencia");
 	}
 			
 </script>

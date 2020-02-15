@@ -28,13 +28,9 @@
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Reservas</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
-						{% if request.user.is_client %}
-							<a class="dropdown-item" href="{% url 'crearReserva' %}">Reserva de Habitaciones</a>
-						{% else %}
-							<a class="dropdown-item" href="{% url 'leerReserva' %}">Reservar Habitaci&oacute;n</a>
-						{% endif %}
-						<a class="dropdown-item" href="#">Ampliar Reserva</a>
-						<a class="dropdown-item" href="#">Anular Reserva</a>
+						<a class="dropdown-item" href="{% url 'crearReserva' %}">Reservar Habitaci&oacute;n</a>
+						<a class="dropdown-item" href="{% url 'leerReserva' "ampliar" %}">Ampliar Reserva</a>
+						<a class="dropdown-item" href="{% url 'leerReserva' "anular" %}">Anular Reserva</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#">Consumos</a>
 						<a class="dropdown-item" href="#">Pagos</a>

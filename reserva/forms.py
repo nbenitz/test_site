@@ -17,13 +17,13 @@ class ReservaForm(ModelForm):
         widgets = {
             #'id_cliente_fk': Select(attrs={'placeholder': 'Seleccionar Cliente'}),
             'fecha_entrada': DateInput(),
-            'fecha_salida': DateInput(),
-            #'id_habitacion_fk': TextInput(attrs={'placeholder': 'Seleccionar Habitación',
-            #                                     'readonly': 'true',
-            #                                     'style': 'background-color: white',
-            #                                     }),
+            #'fecha_salida': DateInput(),
+            'id_habitacion_fk': TextInput(attrs={'placeholder': 'Seleccionar Habitación',
+                                                 'readonly': 'true',
+                                                 'style': 'background-color: white',
+                                                 }),
             #'id_habitacion_fk': Select(attrs={'placeholder' : "Seleccionar habitacion"}),
-            'costo_alojamiento': TextInput(attrs={'readonly' : 'true'}),
+            #'costo_alojamiento': TextInput(attrs={'id' : "id_costo_alojamiento"}),
         }
         
     def __init__(self, *args, **kwargs):

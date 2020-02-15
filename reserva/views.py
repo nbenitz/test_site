@@ -34,10 +34,10 @@ class ReservaCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             empleado = Empleado.objects.get(user_id=self.request.user.id)
             form.instance.id_empleado_fk = empleado
             
-        return super().form_valid(form)    
+        return super().form_valid(form)
  
-    def get_success_url(self):        
-        return reverse('leerReserva')
+    def get_success_url(self):
+        return reverse('leerReserva', args=['creado',])
 
     
 def load_precio(request):
@@ -92,18 +92,48 @@ def load_habitacion_disponible(request):
 
 class ReservaListado(LoginRequiredMixin, ListView): 
     model = Reserva
+    #extra_context={'titulo': 'Anular Reserva'}
+    
+    def get_queryset(self):
+        qs = self.model.objects.exclude(estado="Anulado")
+        return qs    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context["operacion"] = self.kwargs['operacion']
+        return context
     
 class ReservaDetalle(LoginRequiredMixin, DetailView): 
     model = Reserva
- 
-class ReservaActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context["operacion"] = self.kwargs['operacion']
+        return context
+    
+    
+class ReservaAnular(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Reserva 
     form = Reserva 
-    fields = "__all__" 
-    success_message = 'Reserva Actualizada Correctamente !'
+    fields = []
+    success_message = 'Reserva Anulada Correctamente !'
+    
+    def form_valid(self, form):
+        form.instance.estado = "Anulado"
+        return super().form_valid(form)
  
-    def get_success_url(self):               
-        return reverse('leerReserva')
+    def get_success_url(self):
+        return reverse('leerReserva', args=['anular',])
+    
+class ReservaAmpliar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
+    model = Reserva 
+    form = Reserva 
+    fields = ['fecha_entrada', 'fecha_salida', 'id_habitacion_fk', 'costo_alojamiento',]
+    success_message = 'Reserva Ampliada Correctamente !' 
+    
+ 
+    def get_success_url(self):
+        return reverse('leerReserva', args=['ampliar',])
     
     
     

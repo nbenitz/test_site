@@ -30,9 +30,9 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     path('', include('persona.urls')),
-    path('estructura/', include('estructura.urls')),
-    path('reserva/', include('reserva.urls')),
-    path('reporte/', include('reporte.urls')),
+    path('', include('estructura.urls')),
+    path('', include('reserva.urls')),
+    path('', include('reporte.urls')),
 ]
 
 if settings.DEBUG:

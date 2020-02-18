@@ -111,6 +111,33 @@
 		//$("#id_id_habitacion_fk").attr('data-target', '.bd-example-modal-lg');
 		filterHabs();
 		$('#id_id_habitacion_fk').css("background-color", "#ffffff");
+
+		jQuery.browser = {};
+		$(function() {			
+			$( "#id_fecha_salida" ).datepicker({
+				changeMonth: true,
+				changeYear: true,
+				minDate: fecha_salida,
+				dateFormat: "yy-mm-dd",
+			});		
+		});
+		
+		$("#id_fecha_salida").click(function () {
+			$("#id_fecha_salida").attr('type', 'text');
+		});
+		
+		$(!"#id_fecha_salida").focus(function () {
+			console.log("has Focus");
+		});
+		
+		$("#id_fecha_salida").change(function () {
+			$("#id_fecha_salida").attr('type', 'date');
+			//$("#id_id_habitacion_fk option").remove();
+			//$("#id_costo_alojamiento").val("");
+
+			fecha_salida = new Date($("#id_fecha_salida").val());
+			console.log(fecha_salida);
+		});
 	
 		$("#id_id_habitacion_fk").change(function () {
 			var i = $(this).find(":selected").index();

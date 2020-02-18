@@ -126,9 +126,9 @@
                 changeMonth: true,
                 changeYear: true,
                 minDate: dateToday,
-                dateFormat: "DD, d MM, yy",
+                dateFormat: "yy-mm-dd",
                 //monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septimbre', 'Octubre', 'Noviembre', 'Diciembre'],
-				//monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+				//monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'],
 				//dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 
 			});
@@ -137,7 +137,7 @@
 				changeMonth: true,
 				changeYear: true,
 				minDate: dateToday,
-				dateFormat: "D, d M, yy",
+				dateFormat: "yy-mm-dd",
 				//monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 				//dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 			});				
@@ -158,19 +158,20 @@
 		});
 		
 		$("#id_fecha_entrada").change(function () {
+			$("#id_fecha_entrada").attr('type', 'date');
 			$("#id_id_habitacion_fk option").remove();
             $("#id_costo_alojamiento").val("");
 
             fecha_entrada = new Date($("#id_fecha_entrada").val());			
 
             var fecha_salida_min = new Date(fecha_entrada);
-			fecha_salida_min.setDate(fecha_salida_min.getDate() + 1);	
+			fecha_salida_min.setDate(fecha_salida_min.getDate() + 2);	
             $("#id_fecha_salida").datepicker("option", "minDate", fecha_salida_min);
-
             console.log(fecha_entrada);
 		});
 		
 		$("#id_fecha_salida").change(function () {
+			$("#id_fecha_salida").attr('type', 'date');
 			$("#id_id_habitacion_fk option").remove();
             $("#id_costo_alojamiento").val("");
 
@@ -178,10 +179,18 @@
 			console.log(fecha_salida);
 		});
 		
+		$("#id_fecha_salida").click(function () {
+			$("#id_fecha_salida").attr('type', 'text');
+		});
+		
+		$("#id_fecha_entrada").click(function () {
+			$("#id_fecha_entrada").attr('type', 'text');
+		});
+		
 		function filterHabs(){            
             var url = $("#reservaForm").attr("data-hab-disp-url");			
-			var entrada = fecha_entrada.getFullYear() + "-" + (fecha_entrada.getMonth() + 1) + "-" + fecha_entrada.getDate();
-			var salida = fecha_salida.getFullYear() + "-" + (fecha_salida.getMonth() + 1) + "-" + fecha_salida.getDate();
+			var entrada = fecha_entrada.getFullYear() + "-" + (fecha_entrada.getMonth() + 1) + "-" + (fecha_entrada.getDate() + 1);
+			var salida = fecha_salida.getFullYear() + "-" + (fecha_salida.getMonth() + 1) + "-" + (fecha_salida.getDate() + 1);
 
 
 			$.ajax({

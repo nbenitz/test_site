@@ -94,7 +94,11 @@
 	var fecha_entrada;
 	var fecha_salida;
 	
-	$(document).ready(function(){
+    $(document).ready(function () {
+		//$.datepicker.formatDate = function (format, value) {
+		//	return moment(value).format(format);
+		//};
+
 		
 		//$("#id_fecha_entrada").attr('readonly', 'true');
 		//var fecha_entrada = $("#id_fecha_entrada").val();
@@ -118,13 +122,14 @@
 		var dateToday = new Date(); 
 		jQuery.browser = {};
 		$(function() {
-			$( "#id_fecha_entrada" ).datepicker({
-				changeMonth: true,
-				changeYear: true,
-				minDate: dateToday,
-				dateFormat: "D, d M, yy",
-				monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-				dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+            $("#id_fecha_entrada").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: dateToday,
+                dateFormat: "DD, d MM, yy",
+                //monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septimbre', 'Octubre', 'Noviembre', 'Diciembre'],
+				//monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+				//dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 
 			});
 			
@@ -133,8 +138,8 @@
 				changeYear: true,
 				minDate: dateToday,
 				dateFormat: "D, d M, yy",
-				monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-				dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+				//monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+				//dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 			});				
 				
 		});
@@ -156,13 +161,13 @@
 			$("#id_id_habitacion_fk option").remove();
             $("#id_costo_alojamiento").val("");
 
-			fecha_entrada = new Date($("#id_fecha_entrada").val());
-			//var fecha_salida_min = fecha_entrada.setDate(fecha_entrada.getDate() + (+1));
-			
-			var fecha_salida_min = moment(fecha_entrada, "D, d M, yy").add(1, 'days');
-			
-			$( "#id_fecha_salida" ).datepicker("option", "minDate", fecha_salida_min);
-			console.log(fecha_salida_min);
+            fecha_entrada = new Date($("#id_fecha_entrada").val());			
+
+            var fecha_salida_min = new Date(fecha_entrada);
+			fecha_salida_min.setDate(fecha_salida_min.getDate() + 1);	
+            $("#id_fecha_salida").datepicker("option", "minDate", fecha_salida_min);
+
+            console.log(fecha_entrada);
 		});
 		
 		$("#id_fecha_salida").change(function () {
@@ -174,14 +179,16 @@
 		});
 		
 		function filterHabs(){            
-			var url = $("#reservaForm").attr("data-hab-disp-url");
-			
+            var url = $("#reservaForm").attr("data-hab-disp-url");			
+			var entrada = fecha_entrada.getFullYear() + "-" + (fecha_entrada.getMonth() + 1) + "-" + fecha_entrada.getDate();
+			var salida = fecha_salida.getFullYear() + "-" + (fecha_salida.getMonth() + 1) + "-" + fecha_salida.getDate();
+
 
 			$.ajax({
 				url: url,
 				data: {
-					'entrada': fecha_entrada,
-					'salida': fecha_salida
+					'entrada': entrada,
+					'salida': salida
 				},
 				success: function (data) {
 					//$("#id_city").html(data);
@@ -219,10 +226,12 @@
         //$("#id_id_habitacion_fk").val('Habitación ' + nro);
 		$("#id_id_habitacion_fk").append('<option value=' + id + ' selected>Habitación ' + nro + ' </option>');
 
-		var fecha_salida = moment($("#id_fecha_salida").val());
-        var fecha_entrada = moment($("#id_fecha_entrada").val());
-        var dias = fecha_salida.diff(fecha_entrada, 'days');
-        $("#id_costo_alojamiento").val(precio * dias);
+		//var fecha_salida = moment($("#id_fecha_salida").val());
+        //var fecha_entrada = moment($("#id_fecha_entrada").val());
+        //var dias = fecha_salida.diff(fecha_entrada, 'days');
+
+		var dias = (fecha_salida - fecha_entrada) / (1000 * 60 * 60 * 24);
+        $("#id_costo_alojamiento").val(precio * Math.round(dias));
 		console.log(dias, "días de difirencia");
 	}
 			

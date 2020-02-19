@@ -128,9 +128,40 @@ class ReservaAnular(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 class ReservaAmpliar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Reserva 
     form = Reserva 
-    fields = ['fecha_entrada', 'fecha_salida', 'id_habitacion_fk', 'costo_alojamiento',]
-    success_message = 'Reserva Ampliada Correctamente !' 
+    fields = ['fecha_entrada', 'fecha_salida', 'costo_alojamiento',]
+    success_message = 'Reserva Ampliada Correctamente !'
+    #extra_context={'fecha_salida_max': 'Fecha_salida_max'}
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+               
+        id_habitacion = Reserva.objects.filter(id_reserva=self.kwargs['pk']).values_list('id_habitacion_fk', flat=True)[0]
+        fecha_salida = Reserva.objects.filter(id_reserva=self.kwargs['pk']).values_list('fecha_salida', flat=True)[0]
+        
+        fecha_salida_max = Reserva.objects.exclude(
+            id_reserva=self.kwargs['pk']
+            ).filter(
+                id_habitacion_fk=id_habitacion,
+                fecha_entrada__gte=fecha_salida
+                ).order_by('fecha_entrada'
+                           ).values_list('fecha_entrada', flat=True)[0]
+        
+        
+        
+        #reserva = Reserva.objects.get(id_reserva=self.kwargs['pk'])
+        #habitacion = Habitacion.objects.get(id_habitacion_fk=self.kwargs['pk'])
+        
+        print(fecha_salida_max)
+        context["fecha_salida_max"] = str(fecha_salida_max)
+        return context
+    
+    
+    #def form_valid(self, form):
+    #    habitacion = form.instance.id_habitacion_fk
+    #    self.extra_context = {'fecha_salida_max': habitacion} 
+    #    print("form_valid ejecutado")
+    #    return super().form_valid(form)
+
  
     def get_success_url(self):
         return reverse('leerReserva', args=['ampliar',])

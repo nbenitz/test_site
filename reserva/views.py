@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 from django.urls import reverse
 from persona.models import Empleado, Cliente
 import json
+import datetime
 
 from reserva.forms import ReservaForm
 from django.http import HttpResponse
@@ -51,16 +52,22 @@ def load_habitacion_disponible(request):
     
     habitaciones = Habitacion.objects.all()
     
-    hab_reservada = Reserva.objects.filter(
-        fecha_entrada__gte=entrada, 
-        fecha_entrada__lt=salida
-        )|Reserva.objects.filter(
-            fecha_salida__gt=entrada, 
-            fecha_salida__lte=salida
-            )|Reserva.objects.filter(
-                fecha_entrada__lte=entrada, 
-                fecha_salida__gt=salida
-                ).order_by('id_habitacion_fk')
+    hab_reservada = Reserva.objects.exclude(
+        estado="Anulado"
+        ).filter(
+            fecha_entrada__gte=entrada, 
+            fecha_entrada__lt=salida
+            )|Reserva.objects.exclude(
+                estado="Anulado"
+                ).filter(
+                    fecha_salida__gt=entrada, 
+                    fecha_salida__lte=salida
+                    )|Reserva.objects.exclude(
+                        estado="Anulado"
+                        ).filter(
+                            fecha_entrada__lte=entrada, 
+                            fecha_salida__gt=salida
+                            ).order_by('id_habitacion_fk')
                 
     lista_hab_reservada = list(hab_reservada.values('id_habitacion_fk'))
     lista_habitaciones = list(habitaciones.values())
@@ -85,29 +92,34 @@ def load_habitacion_disponible(request):
                                          })
 
                 
-    JSONer = {}                
+    JSONer = {}
     JSONer['habitaciones'] = lista_hab_disponible
-                        
+
     return HttpResponse(json.dumps(JSONer))
 
-class ReservaListado(LoginRequiredMixin, ListView): 
+class ReservaListado(LoginRequiredMixin, ListView):
     model = Reserva
     #extra_context={'titulo': 'Anular Reserva'}
     
-    def get_queryset(self):
+    def get_queryset(self, **kwargs):
+        operacion = self.kwargs['operacion']
         qs = self.model.objects.exclude(estado="Anulado")
-        return qs    
+        if operacion == "ampliar":
+            qs = qs.filter(fecha_salida__gte=datetime.date.today())
+        elif operacion == "anular":
+            qs = qs.filter(fecha_entrada__gte=datetime.date.today())
+        return qs
     
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) 
+        context = super().get_context_data(**kwargs)
         context["operacion"] = self.kwargs['operacion']
         return context
     
-class ReservaDetalle(LoginRequiredMixin, DetailView): 
+class ReservaDetalle(LoginRequiredMixin, DetailView):
     model = Reserva
     
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) 
+        context = super().get_context_data(**kwargs)
         context["operacion"] = self.kwargs['operacion']
         return context
     
@@ -138,31 +150,24 @@ class ReservaAmpliar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         id_habitacion = Reserva.objects.filter(id_reserva=self.kwargs['pk']).values_list('id_habitacion_fk', flat=True)[0]
         fecha_salida = Reserva.objects.filter(id_reserva=self.kwargs['pk']).values_list('fecha_salida', flat=True)[0]
         
-        fecha_salida_max = Reserva.objects.exclude(
+        fecha_salida_max = ""
+        qs = Reserva.objects.exclude(
             id_reserva=self.kwargs['pk']
             ).filter(
                 id_habitacion_fk=id_habitacion,
                 fecha_entrada__gte=fecha_salida
                 ).order_by('fecha_entrada'
-                           ).values_list('fecha_entrada', flat=True)[0]
+                           ).values_list('fecha_entrada', flat=True)
+        if qs.exists():
+            fecha_salida_max = qs[0]
+            print(fecha_salida_max)
+        else:
+            print("No hay resultados")
         
-        
-        
-        #reserva = Reserva.objects.get(id_reserva=self.kwargs['pk'])
-        #habitacion = Habitacion.objects.get(id_habitacion_fk=self.kwargs['pk'])
-        
-        print(fecha_salida_max)
+        print(qs)
         context["fecha_salida_max"] = str(fecha_salida_max)
         return context
-    
-    
-    #def form_valid(self, form):
-    #    habitacion = form.instance.id_habitacion_fk
-    #    self.extra_context = {'fecha_salida_max': habitacion} 
-    #    print("form_valid ejecutado")
-    #    return super().form_valid(form)
 
- 
     def get_success_url(self):
         return reverse('leerReserva', args=['ampliar',])
     

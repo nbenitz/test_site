@@ -38,22 +38,22 @@
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
+							<th>Fecha Entrada</th>
+							<th>Fecha Salida</th>
 							<th>Habitaci&oacute;n</th>
 							<th>Cliente</th>
 							<th>Fecha Reserva</th>
-							<th>Fecha Entrada</th>
-							<th>Fecha Salida</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
 
 					<tfoot>
 						<tr>
+							<th>Fecha Entrada</th>
+							<th>Fecha Salida</th>
 							<th>Habitaci&oacute;n</th>
 							<th>Cliente</th>
 							<th>Fecha Reserva</th>
-							<th>Fecha Entrada</th>
-							<th>Fecha Salida</th>
 							<th>Acciones</th>
 						</tr>
 					</tfoot>
@@ -61,18 +61,18 @@
 					<tbody>
 						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
 						{% for reserva in object_list %}
-							<tr>
-								<td>{{ reserva.id_habitacion_fk }}</td>
-								<td>{{ reserva.id_cliente_fk }}</td>
-								<td>{{ reserva.fecha_reserva|date:'d/m/y H:i' }}</td>
-								<td>{{ reserva.fecha_entrada|date:'d/m/y' }}</td>
-								<td>{{ reserva.fecha_salida|date:'d/m/y' }}</td>
-								<td>
-									<a href="{% url "detallesReserva" reserva.id_reserva operacion %}" title="Ver" class="btn btn-success btn-block">
-										<i class="far fa-eye"> Seleccionar</i>
-									</a>
-								</td>
-							</tr>
+						<tr>
+							<td>{{ reserva.fecha_entrada|date:'d/m/y' }}</td>
+							<td>{{ reserva.fecha_salida|date:'d/m/y' }}</td>
+							<td>{{ reserva.id_habitacion_fk }}</td>
+							<td>{{ reserva.id_cliente_fk }}</td>
+							<td>{{ reserva.fecha_reserva|date:'d/m/y H:i' }}</td>
+							<td>
+								<a href="{% url 'detallesReserva' reserva.id_reserva operacion %}" title="Ver" class="btn btn-success btn-block">
+									<i class=""> Seleccionar</i>
+								</a>
+							</td>
+						</tr>
 						{% endfor %}
 					</tbody>
 				</table>

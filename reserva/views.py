@@ -21,7 +21,7 @@ class ReservaCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = ReservaForm 
     success_message = 'Reserva Creada Correctamente !' 
     
-    # Sending user object to the form, to verify which fields to display/remove (depending on group)
+    # Sending user object to the form, to verify which fields to display/remove
     def get_form_kwargs(self):
         kwargs = super(ReservaCrear, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})

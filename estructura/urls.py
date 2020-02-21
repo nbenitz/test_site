@@ -7,6 +7,7 @@ from estructura.views import ProductoDetalle, ProductoListado, ProductoCrear, Pr
 from estructura.views import CategoriaHabListado, CategoriaHabDetalle, CategoriaHabCrear, CategoriaHabActualizar, CategoriaHabEliminar 
 from estructura.views import CategoriaProdListado, CategoriaProdDetalle, CategoriaProdCrear, CategoriaProdActualizar, CategoriaProdEliminar
 from estructura.views import ServicioListado, ServicioDetalle, ServicioCrear, ServicioActualizar, ServicioEliminar
+from estructura.views import DispositivoListado, DispositivoDetalle, DispositivoCrear, DispositivoActualizar, DispositivoEliminar, Tablero
 
 urlpatterns = [
     path('habitacion/', HabitacionListado.as_view(template_name="habitacion/index.html"), name='leerHabitacion'),
@@ -38,11 +39,19 @@ urlpatterns = [
     path('categoriaprod/crear', CategoriaProdCrear.as_view(template_name="categoriaprod/crear.html"), name='CrearCategoriaProd'),
     path('categoriaprod/editar/<str:pk>', CategoriaProdActualizar.as_view(template_name="categoriaprod/actualizar.html"), name='actualizarCategoriaProd'),
     path('categoriaprod/eliminar/<str:pk>', CategoriaProdEliminar.as_view(), name='eliminarCategoriaProd'),
-    #url de categoria producto
+    #url de servicio
     path('servicio/', ServicioListado.as_view(template_name="servicio/index.html"), name='leerServicio'),
     path('servicio/detalle/<str:pk>', ServicioDetalle.as_view(template_name="servicio/detalles.html"), name='detallesServicio'),
     path('servicio/crear', ServicioCrear.as_view(template_name="servicio/crear.html"), name='CrearServicio'),
     path('servicio/editar/<str:pk>', ServicioActualizar.as_view(template_name="servicio/actualizar.html"), name='actualizarServicio'),
     path('servicio/eliminar/<str:pk>', ServicioEliminar.as_view(), name='eliminarServicio'),
+    #url de dispositivo
+    path('dispositivo/', DispositivoListado.as_view(template_name="dispositivo/index.html"), name='leerDispositivo'),
+    path('dispositivo/detalle/<str:pk>', DispositivoDetalle.as_view(template_name="dispositivo/detalles.html"), name='detallesDispositivo'),
+    path('dispositivo/crear', DispositivoCrear.as_view(template_name="dispositivo/crear.html"), name='CrearDispositivo'),
+    path('dispositivo/editar/<str:pk>', DispositivoActualizar.as_view(template_name="dispositivo/actualizar.html"), name='actualizarDispositivo'),
+    path('dispositivo/eliminar/<str:pk>', DispositivoEliminar.as_view(), name='eliminarDispositivo'),
+    path('dispositivo/tablero', Tablero.as_view(template_name="dispositivo/monitor.html"), name='tablero'),
+
 ]
 

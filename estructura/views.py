@@ -2,12 +2,14 @@
 
 from django.views.generic import ListView, DetailView 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Habitacion, CategoriaHab, Proveedor, CategoriaProd, Servicio
+from .models import Habitacion, CategoriaHab, Proveedor, CategoriaProd, Servicio, Dispositivo
 from django.urls import reverse
 from django.contrib import messages 
 from django.contrib.messages.views import SuccessMessageMixin 
 from estructura.models import Producto
 from django.contrib.auth.mixins import LoginRequiredMixin
+from persona.models import Cliente
+from reserva.models import Reserva
 
 # Create your views here.
 #=================================== Habitacion ===========================================
@@ -265,3 +267,57 @@ class ServicioEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         success_message = 'Servicio Eliminado Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       
         return reverse('leerServicio')  # Redireccionamos a la vista principal 'leer'
+
+class DispositivoListado(LoginRequiredMixin, ListView): 
+    model = Dispositivo
+
+class DispositivoCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
+    model = Dispositivo 
+    form = Dispositivo
+    fields = ['id_habitacion_fk', 'tipo', 'descripcion']
+    success_message = 'Dispositivo Creado Correctamente !'
+ 
+    def get_success_url(self):        
+        return reverse('leerDispositivo')
+
+    
+class DispositivoDetalle(LoginRequiredMixin, DetailView): 
+    model = Dispositivo
+
+ 
+class DispositivoActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
+    model = Dispositivo
+    form = Dispositivo
+    fields = ['id_habitacion_fk', 'tipo', 'descripcion']
+    success_message = 'Dispositivo Actualizado Correctamente !'
+
+    def get_success_url(self):
+        return reverse('leerDispositivo')
+
+
+class DispositivoEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView): 
+    model = Dispositivo 
+    form = Dispositivo
+    fields = "__all__"
+
+    def get_success_url(self): 
+        success_message = 'Dispositivo Eliminado Correctamente !'
+        messages.success (self.request, (success_message))       
+        return reverse('leerDispositivo')
+
+
+class Tablero(ListView): 
+    model = Dispositivo
+
+    def get_queryset(self, **kwargs):
+        if self.request.user.is_client:
+            cliente = Cliente.objects.get(user_id=self.request.user.id)
+            id_hab = Reserva.objects.filter(
+                id_cliente_fk=cliente.id,
+                estado="ocupando"
+                ).values_list('id_habitacion_fk', flat=True)[0]
+        #else:            
+            #empleado = Empleado.objects.get(user_id=self.request.user.id)
+            #form.instance.id_empleado_fk = empleado     
+        qs = self.model.objects.filter(id_habitacion_fk=id_hab)
+        return qs

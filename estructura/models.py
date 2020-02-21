@@ -1,4 +1,4 @@
-# This is an auto-generated Django model module.
+﻿# This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
@@ -36,7 +36,7 @@ class Habitacion(models.Model):
     precio1 = models.PositiveIntegerField(verbose_name="Precio")
     precio2 = models.PositiveIntegerField(blank=True, null=True)
     precio3 = models.PositiveIntegerField(blank=True, null=True)
-    numero = models.IntegerField(unique=True, verbose_name="Número")
+    numero = models.IntegerField(unique=True, verbose_name="NÃºmero")
     id_categoria_fk = models.ForeignKey(CategoriaHab,
                                         models.DO_NOTHING,
                                         db_column='id_categoria_fk',
@@ -118,6 +118,23 @@ class Servicio(models.Model):
 
     class Meta:
         db_table = 'servicio'
+        
+    def __str__(self):      #Python 3
+        return self.descripcion
+    
+    
+class Dispositivo(models.Model):
+    id_dispositivo = models.AutoField(primary_key=True)
+    id_habitacion_fk = models.ForeignKey(Habitacion, 
+                                        models.CASCADE, 
+                                        db_column='id_habitacion_fk',
+                                        verbose_name="Habitación")
+    tipo = models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'dispositivo'
         
     def __str__(self):      #Python 3
         return self.descripcion

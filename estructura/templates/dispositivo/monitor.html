@@ -1,0 +1,158 @@
+﻿{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block head_title %}Tablero{% endblock %}
+
+
+{% block in_head %}
+	<script src="{% static '/mqtt/custom-mqtt.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}	
+	
+	<div id="messages" class="alert alert-primary" role="alert"></div>
+
+	<!-- Page Heading -->
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">Gestión de Dispositivos</h1>
+
+	</div>
+
+	<!-- Content Row -->
+	<div class="row"> 		
+		{% for dispositivo in object_list %}
+		
+		
+		{% if dispositivo.tipo|stringformat:"s" == "Luz" %}
+		<!-- Card Luz -->
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow">				
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">						
+						<div class="col-8">	
+							<div id="act-txt-{{dispositivo.id_dispositivo}}" class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+								{{ dispositivo.descripcion }}</div>
+							<div id="actuador-{{dispositivo.id_dispositivo}}" class="text-sm text-gray-700">
+								Off</div>
+						</div>
+						<div class="col-4">
+							<button id="act-btn-{{dispositivo.id_dispositivo}}" class="btn btn-danger btn-circle btn-lg" onclick="return enviar_msj('{{dispositivo.id_dispositivo}}');">
+								<i class="fas fa-fan"></i>
+							</button>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% elif dispositivo.tipo|stringformat:"s" == "Perciana" %}
+		<!-- Card Perciana -->
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow">				
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">						
+						<div class="col-8">	
+							<div id="act-txt-{{dispositivo.id_dispositivo}}" class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+								{{ dispositivo.descripcion }}</div>							
+							<select id="actuador-{{dispositivo.id_dispositivo}}" class="col-9 custom-select custom-select-sm">
+								<option value="0">Cerrar</option>
+								<option value="100">Abrir</option>
+								<option value="25">25%</option>
+								<option value="50">50%</option>
+								<option value="75">75%</option>									
+							</select>
+						</div>
+						<div class="col-4">
+							<button id="act-btn-{{dispositivo.id_dispositivo}}" class="btn btn-danger btn-circle btn-lg" onclick="return enviar_msj('{{dispositivo.id_dispositivo}}');">
+								<i class="fas fa-fan"></i>
+							</button>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% elif dispositivo.tipo|stringformat:"s" == "A. Acondicionado" %}
+		<!-- Card Perciana -->
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow">				
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">						
+						<div class="col-8">	
+							<div id="act-txt-{{dispositivo.id_dispositivo}}" class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+								{{ dispositivo.descripcion }}</div>	
+							<div class="row">						
+								<select name="actuador-{{dispositivo.id_dispositivo}}" class="col-5 custom-select custom-select-sm">
+									<option value="0">Off</option>
+									<option value="17">17°C</option>
+									<option value="18">18°C</option>
+									<option value="19">19°C</option>
+									<option value="20">20°C</option>
+									<option value="21">21°C</option>
+									<option value="22">22°C</option>
+									<option value="23">23°C</option>
+									<option value="24">24°C</option>
+									<option value="25">25°C</option>
+									<option value="26">26°C</option>
+									<option value="27">27°C</option>									
+								</select>&nbsp;
+								<select name="actuador-{{dispositivo.id_dispositivo}}" class="col-5 custom-select custom-select-sm">
+									<option value="0">Off</option>
+									<option value="hi">alto</option>
+									<option value="me">medio</option>
+									<option value="lo">bajo</option>									
+								</select>
+							</div>
+						</div>
+						<div class="col-4">
+							<button id="act-btn-{{dispositivo.id_dispositivo}}" class="btn btn-danger btn-circle btn-lg" onclick="return enviar_msj('{{dispositivo.id_dispositivo}}');">
+								<i class="fas fa-fan"></i>
+							</button>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% elif dispositivo.id_tipo_sensor_fk|stringformat:"s" == "Sensor de Temperatura" %}
+		<!-- Card Temperatura -->
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card border-left-danger shadow h-100 py-2">				
+				<div class="card-body">					
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div class="text-xs font-weight-bold text-danger text-uppercase mb-1">{{ sensor.descripcion }}</div>
+							
+								<div class="row no-gutters align-items-center">
+									<div id="sensor-{{sensor.id_sensor}}" class="h5 mb-0 font-weight-bold text-gray-800">
+										---</div>
+									<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+										&deg;C</div>											
+								</div>
+							
+							<!--<div id="sensor-{{sensor.id_sensor}}" class="h5 mb-0 font-weight-bold text-gray-800">
+								25&deg;C</div>-->
+						</div>
+						<div class="col-auto dropdown no-arrow">
+							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-temperature-low fa-2x text-gray-500"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" href="#">Chart</a>
+								<a class="dropdown-item" href="/dispositivo/sensor/editar/{{sensor.id_sensor}}">Editar</a>
+								<a class="dropdown-item" href="#">Ajustes</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		
+		{% endfor %}	
+	</div>
+	
+		<script type="text/javascript">		
+
+			MQTTconnect();		
+		</script>
+	
+{% endblock %}

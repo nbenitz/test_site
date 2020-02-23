@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     # apps terceros
     'crispy_forms',
     'bootstrap4',
-    # 'widget_tweaks',
+    'django_tables2',
     # mis apps
     'persona',
     'estructura',
@@ -175,3 +175,5 @@ LOGIN_REDIRECT_URL = '/'
 
 # Activamos 'CookieStorage' que nos permite enviar los mensajes de respuesta al Crear, Eliminar y Actualizar un registro
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+CURRENCY = 'Gs'

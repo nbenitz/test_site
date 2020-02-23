@@ -1,6 +1,7 @@
 Django==2.2.4
 django-bootstrap4==1.0.1
 django-crispy-forms==1.7.2
-mysqlclient==1.4.4
-paho-mqtt==1.4.0
+mysqlclient
+paho-mqtt
 reportlab==3.5.34
+django-tables2

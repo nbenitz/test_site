@@ -9,6 +9,12 @@
 				Ampliar Reserva
 			{% elif operacion == "anular" %}
 				Anular Reserva
+			{% elif operacion == "consumo" %}
+				Agregar Consumo a la Reserva
+			{% elif operacion == "pago" %}
+				Pago de Reserva
+			{% else %}
+				Reservas
 			{% endif %}
 			</h1>
 		</div>
@@ -68,7 +74,15 @@
 							<td>{{ reserva.id_cliente_fk }}</td>
 							<td>{{ reserva.fecha_reserva|date:'d/m/y H:i' }}</td>
 							<td>
-								<a href="{% url 'detallesReserva' reserva.id_reserva operacion %}" title="Ver" class="btn btn-success btn-block">
+								<a 
+									{% if operacion == "consumo" %}
+										href="{% url 'consumo' reserva.id_reserva %}"
+									{% elif operacion == "pago" %}
+										href="#"
+									{% else %}
+										href="{% url 'detallesReserva' reserva.id_reserva operacion %}"
+									{% endif %}
+									class="btn btn-success btn-block">
 									<i class=""> Seleccionar</i>
 								</a>
 							</td>

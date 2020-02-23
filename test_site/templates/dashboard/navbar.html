@@ -29,11 +29,11 @@
 						Reservas</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
 						<a class="dropdown-item" href="{% url 'crearReserva' %}">Reservar Habitaci&oacute;n</a>
-						<a class="dropdown-item" href="{% url 'leerReserva' "ampliar" %}">Ampliar Reserva</a>
-						<a class="dropdown-item" href="{% url 'leerReserva' "anular" %}">Anular Reserva</a>
+						<a class="dropdown-item" href="{% url 'leerReserva' 'ampliar' %}">Ampliar Reserva</a>
+						<a class="dropdown-item" href="{% url 'leerReserva' 'anular' %}">Anular Reserva</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Consumos</a>
-						<a class="dropdown-item" href="#">Pagos</a>
+						<a class="dropdown-item" href="{% url 'leerReserva' 'consumo' %}">Consumos</a>
+						<a class="dropdown-item" href="{% url 'leerReserva' 'pago' %}">Pagos</a>
 					</div>
 				</li>
 				

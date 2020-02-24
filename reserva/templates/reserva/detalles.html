@@ -24,7 +24,7 @@
 					<p><strong>Recepcionista: </strong>{{object.id_empleado_fk}}</p>
 					
 					<div class='row justify-content-center'>					
-						<a href="{% url "leerReserva" operacion %}" type="submit" class="btn btn-primary">
+						<a href="{% url 'leerReserva' operacion %}" type="submit" class="btn btn-primary">
 							<i class="fas fa-caret-left"></i> Volver</a>&nbsp;&nbsp;
 						
 						{% if operacion == "ampliar" %}

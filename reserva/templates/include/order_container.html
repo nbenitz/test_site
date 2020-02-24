@@ -8,14 +8,16 @@
     <div class="text-left">
 		<hr>
 		<p>Total Consumo : {{ instance.tag_total_consumo }}</p>
-		<p>Costo Alojamiento : {{ instance.tag_costo_alojamiento }}</p>
+		<p>
+			Costo Alojamiento : {{ instance.tag_costo_alojamiento }} - 
+			({{ instance.tag_dias_reserva }} noches a 150.000 Gs por noche)
+		</p>
         <hr>
         <h3><b>Total :</b> {{ instance.tag_total }}</h3>
     </div>
 	<div class="clearfix"></div><hr>
 	<div class="text-left">
-		<a href="{#% url 'done_order' instance.id %#}" class="btn btn-success" type="submit"> Aceptar </a>
-		<a onclick="return confirm('Are you sure?')" href="{#% url 'delete_order' instance.id %#}" class="btn btn-danger">Eliminar</a>
+		<a href="{% url 'leerReserva' 'consumo' %}" class="btn btn-success" type="submit"> Aceptar </a>
 	</div>
 </div>
 

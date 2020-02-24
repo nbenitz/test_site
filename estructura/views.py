@@ -306,18 +306,21 @@ class DispositivoEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return reverse('leerDispositivo')
 
 
-class Tablero(ListView): 
+class Tablero(LoginRequiredMixin, ListView): 
     model = Dispositivo
 
     def get_queryset(self, **kwargs):
+        qs = self.model.objects.none()
         if self.request.user.is_client:
             cliente = Cliente.objects.get(user_id=self.request.user.id)
-            id_hab = Reserva.objects.filter(
-                id_cliente_fk=cliente.id,
-                estado="ocupando"
-                ).values_list('id_habitacion_fk', flat=True)[0]
-        #else:            
-            #empleado = Empleado.objects.get(user_id=self.request.user.id)
-            #form.instance.id_empleado_fk = empleado     
-        qs = self.model.objects.filter(id_habitacion_fk=id_hab)
+            reserva_cliente_ocupado = Reserva.objects.filter(
+                    id_cliente_fk=cliente.id,
+                    estado="ocupando"
+                    )
+            print(reserva_cliente_ocupado)
+            if reserva_cliente_ocupado.exists():
+                id_hab = reserva_cliente_ocupado.values_list('id_habitacion_fk', flat=True)[0]
+                qs = self.model.objects.filter(id_habitacion_fk=id_hab)
+                print(qs)
         return qs
+

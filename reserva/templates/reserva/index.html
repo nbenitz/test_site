@@ -22,7 +22,13 @@
 			<a href="crear" class="btn btn-primary">
 				<i class="fas fa-plus"></i> Nueva Reserva</a>
 		</div>-->
-	</div>	
+	</div>
+	
+	{% if not request.user.is_client %}
+						
+	{% else %}
+						
+	{% endif %}
 	
 
 	{% if messages %}

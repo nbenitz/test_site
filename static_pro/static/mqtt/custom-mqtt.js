@@ -15,13 +15,16 @@ var reconnectTimeOut = 2000;
 //var host = 'test.mosquitto.org';
 //var port   = 8080;
 
-var host = 'localhost';
-var port = 9001
+var host = 'broker.mqtt-dashboard.com';
+var port   = 8000;
 
-var sensor_topic = 'yonestor87@gmail.com/hotel/sensor/#';
-var feedback_topic = 'yonestor87@gmail.com/hotel/feedback/#';
-var lwt_topic = 'yonestor87@gmail.com/hotel/lwt/#';
-var pub_topic = 'yonestor87@gmail.com/hotel/control/';
+//var host = 'localhost';
+//var port = 9001
+
+var sensor_topic = 'yonestor87/hotel/sensor/#';
+var feedback_topic = 'yonestor87/hotel/feedback/#';
+var lwt_topic = 'yonestor87/hotel/lwt/#';
+var pub_topic = 'yonestor87/hotel/control/';
 
 function onConnectionLost() {
 	console.log("Conexion perdida");
@@ -49,14 +52,14 @@ function onMessageArrived(msg) {
 	console.log(out_msg);
 	
 	var topic_parts = msg.destinationName.split('/');
-	if (topic_parts.length < 3) {
+	if (topic_parts.length < 4) {
 		return;
 	}
 	
-	var sub_topic = topic_parts[1];
+	var sub_topic = topic_parts[2];
 	
 	if (sub_topic == 'sensor') {
-		var id_sensor = topic_parts[2];
+		var id_sensor = topic_parts[3];
 		if ($("#sensor-" + id_sensor )) {
 			$("#sensor-" + id_sensor).text(msg.payloadString);
 			if ($("#progress-" + id_sensor)) {
@@ -70,7 +73,7 @@ function onMessageArrived(msg) {
 		}
 	}
 	if (sub_topic == 'feedback') {
-		var id_actuador = topic_parts[2];
+		var id_actuador = topic_parts[3];
 		if ( $("#actuador-" + id_actuador )) {
 			if (msg.payloadString == '1'){
 				$("#actuador-" + id_actuador).text("On");

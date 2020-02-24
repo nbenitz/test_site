@@ -8,6 +8,7 @@ from django.dispatch.dispatcher import receiver
 from django.db.models.signals import post_delete
 from django.db.models import Sum, F, DecimalField
 from django.contrib.humanize.templatetags.humanize import intcomma
+from datetime import date
 
 CURRENCY = settings.CURRENCY
 
@@ -29,11 +30,13 @@ class Reserva(models.Model):
                                        db_column='id_empleado_fk',
                                        verbose_name="Empleado",
                                        blank=True, 
-                                       null=True)
+                                       null=True,
+                                       related_name='reservas')
     id_cliente_fk = models.ForeignKey(Cliente, 
                                       models.DO_NOTHING, 
                                       db_column='id_cliente_fk',
-                                      verbose_name="Cliente")
+                                      verbose_name="Cliente",
+                                      related_name='reservas')
     fecha_reserva = models.DateTimeField(auto_now_add=True)
     fecha_entrada = models.DateField()
     fecha_salida = models.DateField()
@@ -63,6 +66,25 @@ class Reserva(models.Model):
     def tag_total(self):
         total = self.costo_alojamiento + self.total_consumo()
         return f'{intcomma(total)} {CURRENCY}'
+    
+    def tag_dias_reserva(self):
+        entrada = self.fecha_entrada
+        salida = self.fecha_salida
+        dias = salida - entrada
+        return dias
+    
+    def ocupadas(self):
+        ocupadas = self.objects.filter(estado="ocupado")
+        return ocupadas
+    
+    def no_anuladas(self):
+        no_anuladas = self.objects.exclude(estado="anulado")
+        return no_anuladas
+    
+    def futuras(self):
+        futuras = self.objects.filter(fecha_entrada__gte=date.today()).no_anuladas()
+        return futuras
+    
 
 class DetalleVentaProd(models.Model):
     id_detalle_venta = models.AutoField(primary_key=True)

@@ -1,0 +1,39 @@
+{% extends "dashboard/base.html" %}
+{% load crispy_forms_tags %}
+
+	{% block content %}
+	<!-- Page Heading -->	
+	
+	<div class='row justify-content-center'>
+		<div class='col-sm-6 col-sm-offset-3'>
+			<div class="card shadow mb-4">
+			
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">Generar Reporte de Reservas</h6>
+				</div>
+				
+				<div class="card-body">
+					<div class="col">	
+						<hr>						
+							<h5>Filtrar por rango de fechas:</h5>		
+							<input type="text" name="fecha_entrada" class="mb-4 dateinput form-control hasDatepicker" required="" id="id_fecha_inicial" placeholder="Fecha Inicial">
+							<input type="text" name="fecha_entrada" class="mb-4 dateinput form-control hasDatepicker" required="" id="id_fecha_final" placeholder="Fecha Final">
+					
+						<select name="dataTable_length" aria-controls="dataTable" class="mb-4 custom-select form-control">
+							<option value="10">Todos</option>
+							<option value="25">Pagados</option>
+							<option value="50">Pendientes de Pago</option>
+							<option value="100">Ocupadas</option>
+							<option value="100">Anuladas</option>
+						</select>
+						<button type="submit" class="btn btn-success">
+							Genarar
+						</button>
+					 
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endblock %}

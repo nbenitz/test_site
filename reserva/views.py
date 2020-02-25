@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from reserva.models import Reserva, DetalleVentaProd
+from reserva.models import Reserva, DetalleVentaProd, Pago
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView, UpdateView
@@ -108,10 +108,14 @@ class ReservaListado(LoginRequiredMixin, ListView):
     def get_queryset(self, **kwargs):
         operacion = self.kwargs['operacion']
         qs = self.model.objects.exclude(estado="Anulado")
+        #qs = Reserva.no_anuladas(Reserva.objects.all())        
         if operacion == "ampliar":
             qs = qs.filter(fecha_salida__gte=datetime.date.today())
         elif operacion == "anular":
             qs = qs.filter(fecha_entrada__gte=datetime.date.today())
+        elif operacion == "pago":
+            qs = qs.exclude(estado="Pagado")
+        
         return qs
     
     def get_context_data(self, **kwargs):
@@ -266,5 +270,32 @@ def ajax_search_products(request, pk):
                                             'instance': instance
                                         })
     return JsonResponse(data)
+
+class DetallePago(LoginRequiredMixin, DetailView):
+    model = Reserva
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reserva = self.model.objects.get(id_reserva=self.kwargs['pk'])
+        detalle_venta_prod = reserva.detalle_venta_prod.all()
+        context.update(locals())
+        return context
+    
+    
+class Pagar(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
+    model = Pago 
+    form = Pago 
+    fields = []
+    success_message = 'Pago Registrado Correctamente !'
+    
+    def form_valid(self, form):
+        reserva = Reserva.objects.get(id_reserva=self.kwargs['pk'])
+        total_pago = Reserva.total(reserva)
+        form.instance.id_reserva = reserva
+        form.instance.total_pago = total_pago
+        return super().form_valid(form)
+ 
+    def get_success_url(self):
+        return reverse('leerReserva', args=['pago',])
     
     

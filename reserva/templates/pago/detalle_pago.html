@@ -1,0 +1,107 @@
+﻿{% extends "dashboard/base.html" %}
+{% load static %}
+	{% block content %}
+	<!-- Page Heading -->
+<!--	<h1 class="h3 mb-2 text-gray-800">Reservas</h1>
+-->	
+
+
+	<div class='row justify-content-center '>
+		<div class='col-md-10 col-sm-offset-3 mb-4'>				
+			<div class="card shadow mb-0">
+			
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary text-align-center">Pago - Alojamiento y Consumo</h6>
+				</div>
+				
+				
+				
+				<div class="card-body">	
+					<div class='row'>
+						<div class='col-lg-5'>							
+							<div>
+								<hr>
+								<p><strong>Cliente: </strong>{{object.id_cliente_fk}}</p>
+								<p><strong>Habitaci&oacute;n </strong>{{object.id_habitacion_fk}}</p>
+								<p><strong>Fecha de Entrada: </strong>{{object.fecha_entrada}}</p>
+								<p><strong>Fecha de Salida: </strong>{{object.fecha_salida}}</p><hr>
+								<p><strong>Costo de alojamiento : </strong>{{object.tag_costo_alojamiento}}</p>
+								<p><strong>Consumo : </strong>{{object.tag_total_consumo}}</p><hr>
+								<p><strong>Monto Abonado : </strong>{{object.tag_costo_alojamiento}}</p>
+								<p><strong>Saldo Pendiente : </strong>{{object.tag_total_consumo}}</p><hr>
+								<p><h3><strong>Total a Pagar : </strong> {{ object.tag_total }}</h3></p><hr>
+							</div>
+							
+							
+							<div class='row justify-content-center mb-3'>
+							
+								<form method="POST" action="{% url 'pago' object.id_reserva %}">
+									{% csrf_token %}
+									<button class="btn btn-success" onclick="return pagar();"> Pagar </button>
+								</form>	&nbsp;
+												
+								<a href="{% url 'leerReserva' 'pago' %}" type="submit" class="btn btn-primary">Volver</a>
+
+							</div>
+						</div>
+						
+						<div class='col-lg-7'>				
+							<div class="card mb-0">			
+								<div class="header py-3">
+									<h5 class="m-0 font-weight-bold text-align-center">Consumo</h5>
+								</div>				
+								<div class="card-body">	
+								
+								
+								<div class="table-responsive">
+
+									<table class="table " width="100%" cellspacing="0">
+										<thead>
+											<tr>
+												<th>Producto</th>
+												<th>Cantidad</th>
+												<th>Precio</th>
+												<th>Subtotal</th>
+											</tr>
+										</thead>				
+										<tbody>
+											<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
+											{% for consumo in detalle_venta_prod %}
+											<tr>
+												<td>{{ consumo.id_producto_fk }}</td>
+												<td>{{ consumo.tag_cantidad }}</td>
+												<td>{{ consumo.tag_precio }}</td>
+												<td>{{ consumo.tag_sub_total }}</td>
+											</tr>
+											{% endfor %}
+											<tr><td></td>
+												<td></td>
+												<td><strong>Total Consumo:</strong></td>
+												<td>{{ object.tag_total_consumo }}</td>
+											</tr>
+										</tbody>
+									</table>			
+								
+								</div>				
+							</div>
+						</div>
+						
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		function pagar() {
+			var x = confirm("Pagar Reserva?");
+			if (x)
+				return true;
+			else
+				return false;
+		}
+	</script>
+	
+	
+
+	{% endblock %}

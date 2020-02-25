@@ -19,6 +19,11 @@ def present_or_future_date(value):
         raise forms.ValidationError("No se puede seleccionar una fecha pasada")
     return value
 
+class ReservaManager(models.Manager):
+
+    def is_active(self):
+        return self.filter(is_active=True)
+
 class Reserva(models.Model):
     id_reserva = models.AutoField(primary_key=True)
     id_habitacion_fk = models.ForeignKey(Habitacion, 
@@ -42,6 +47,9 @@ class Reserva(models.Model):
     fecha_salida = models.DateField()
     costo_alojamiento = models.IntegerField()
     estado = models.CharField(max_length=10)
+    
+    objects = models.Manager()
+    browser = ReservaManager()
 
     class Meta:
         db_table = 'reserva'
@@ -63,9 +71,12 @@ class Reserva(models.Model):
     def tag_total_consumo(self):
         return f'{intcomma(self.total_consumo())} {CURRENCY}'
     
-    def tag_total(self):
+    def total(self):
         total = self.costo_alojamiento + self.total_consumo()
-        return f'{intcomma(total)} {CURRENCY}'
+        return total
+    
+    def tag_total(self):
+        return f'{intcomma(self.total())} {CURRENCY}'
     
     def tag_dias_reserva(self):
         entrada = self.fecha_entrada
@@ -74,11 +85,12 @@ class Reserva(models.Model):
         return dias
     
     def ocupadas(self):
-        ocupadas = self.objects.filter(estado="ocupado")
+        ocupadas = self.objects.filter(estado="Ocupado")
         return ocupadas
     
-    def no_anuladas(self):
-        no_anuladas = self.objects.exclude(estado="anulado")
+    @staticmethod
+    def no_anuladas(qs):
+        no_anuladas = qs.exclude(estado="Anulado")
         return no_anuladas
     
     def futuras(self):
@@ -149,7 +161,6 @@ class Pago(models.Model):
                                    db_column='id_reserva',
                                    verbose_name="Nro. Reserva")
     total_pago = models.PositiveIntegerField()
-    fecha_pago = models.DateTimeField()
-
+    fecha_pago = models.DateTimeField(auto_now_add=True)
     class Meta:
         db_table = 'pago'

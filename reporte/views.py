@@ -18,6 +18,9 @@ from reportlab.lib.units import cm
 
 # Create your views here.
 
+def inicio(request):
+    return render(request, "reserva/reporte_reserva.html", {})
+
 def report_reserva(request):
     #Create the HttpResponse headers with PDF
     response = HttpResponse(content_type='application/pdf')

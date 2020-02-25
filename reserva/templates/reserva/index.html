@@ -47,7 +47,7 @@
 		<div class="card-body">
 			<div class="table-responsive">
 
-				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				<table class="table " id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
 							<th>Fecha Entrada</th>
@@ -84,7 +84,7 @@
 									{% if operacion == "consumo" %}
 										href="{% url 'consumo' reserva.id_reserva %}"
 									{% elif operacion == "pago" %}
-										href="#"
+										href="{% url 'detallePago' reserva.id_reserva %}"
 									{% else %}
 										href="{% url 'detallesReserva' reserva.id_reserva operacion %}"
 									{% endif %}

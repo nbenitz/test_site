@@ -14,11 +14,11 @@
 
             <div class="row">
 
-                <div class="col-md-5">
-                    <div class="card shadow mb-4">
-                        <div class="header">
-                            <h5 class="card-title m-3">Productos</h5>
-                            <input data-href='{% url "ajax-search" instance.id_reserva %}' type="text" class="form-control search_button" placeholder="Search">
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow ">
+                        <div class="header m-3">
+                            <h5 class="card-title">Productos</h5>
+                            <input data-href='{% url "ajax-search" instance.id_reserva %}' type="text" class="form-control search_button mb-0" placeholder="Buscar">
                         </div>
                         <div class="card-body" id="product_container">
                             {% include 'include/product_container.html' %}
@@ -26,8 +26,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-7">
-                    <div class="card shadow mb-4">
+                <div class="col-md-7 mb-4">
+                    <div class="card shadow">
                         <div id='order_item_container' class="card-body">
                             {% include 'include/order_container.html' %}
                         </div>

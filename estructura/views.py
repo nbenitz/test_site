@@ -315,7 +315,7 @@ class Tablero(LoginRequiredMixin, ListView):
             cliente = Cliente.objects.get(user_id=self.request.user.id)
             reserva_cliente_ocupado = Reserva.objects.filter(
                     id_cliente_fk=cliente.id,
-                    estado="ocupando"
+                    estado="Ocupado"
                     )
             print(reserva_cliente_ocupado)
             if reserva_cliente_ocupado.exists():

@@ -2,7 +2,7 @@
 from django.urls import path
 
 from .views import ReservaListado, ReservaDetalle, ReservaCrear, load_habitacion_disponible, ReservaAnular, ReservaAmpliar, \
-                    DetalleVenta, ajax_search_products, ajax_add_product, ajax_modify_detalle_venta_prod, DetallePago, Pagar
+                    DetalleVenta, ajax_search_products, ajax_add_product, ajax_modify_detalle_venta_prod, DetallePago
 
 urlpatterns = [
     path('reserva/lista/<str:operacion>', ReservaListado.as_view(template_name = "reserva/index.html"), name='leerReserva'),
@@ -13,7 +13,6 @@ urlpatterns = [
     path('reserva/ampliar/<str:pk>', ReservaAmpliar.as_view(template_name = "reserva/ampliar.html"), name='ampliarReserva'),
     path('reserva/consumo/<str:pk>', DetalleVenta.as_view(template_name = "consumo/detalle_venta.html"), name='consumo'),
     path('reserva/detallepago/<str:pk>', DetallePago.as_view(template_name = "pago/detalle_pago.html"), name='detallePago'),
-    path('reserva/pago/<str:pk>', Pagar.as_view(), name='pago'),
 
     #path('reserva/ajax/load-precio/', load_precio, name='ajax_load_precio'),
 

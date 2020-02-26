@@ -9,7 +9,7 @@ from persona.models import Empleado, Cliente
 import json
 import datetime
 
-from reserva.forms import ReservaForm
+from reserva.forms import ReservaForm, PagoForm
 from django.http import HttpResponse, JsonResponse
 from estructura.models import Habitacion, CategoriaHab, Producto
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,7 +42,7 @@ class ReservaCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_valid(form)
  
     def get_success_url(self):
-        return reverse('leerReserva', args=['creado',])
+        return reverse('leerReserva', args=['crear',])
 
     
 def load_precio(request):
@@ -108,13 +108,14 @@ class ReservaListado(LoginRequiredMixin, ListView):
     def get_queryset(self, **kwargs):
         operacion = self.kwargs['operacion']
         qs = self.model.objects.exclude(estado="Anulado")
-        #qs = Reserva.no_anuladas(Reserva.objects.all())        
-        if operacion == "ampliar":
-            qs = qs.filter(fecha_salida__gte=datetime.date.today())
-        elif operacion == "anular":
+        #qs = Reserva.no_anuladas(Reserva.objects.all())
+        if self.request.user.is_client:
+            cliente = Cliente.objects.get(user_id=self.request.user.id)
+            qs = qs.filter(id_cliente_fk=cliente)
+        if operacion == "anular":
             qs = qs.filter(fecha_entrada__gte=datetime.date.today())
-        elif operacion == "pago":
-            qs = qs.exclude(estado="Pagado")
+        elif operacion == "pago" or operacion == "consumo" or operacion == "ampliar" or operacion == "crear":
+            qs = qs.filter(fecha_salida__gte=datetime.date.today())    
         
         return qs
     
@@ -271,6 +272,7 @@ def ajax_search_products(request, pk):
                                         })
     return JsonResponse(data)
 
+"""
 class DetallePago(LoginRequiredMixin, DetailView):
     model = Reserva
     
@@ -280,21 +282,31 @@ class DetallePago(LoginRequiredMixin, DetailView):
         detalle_venta_prod = reserva.detalle_venta_prod.all()
         context.update(locals())
         return context
-    
-    
-class Pagar(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
-    model = Pago 
-    form = Pago 
-    fields = []
+"""
+
+class DetallePago(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    form_class = PagoForm
     success_message = 'Pago Registrado Correctamente !'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reserva = Reserva.objects.get(id_reserva=self.kwargs['pk'])
+        detalle_venta_prod = reserva.detalle_venta_prod.all()
+        context.update(locals())
+        return context
+    
+    # Sending reserva object to the form
+    def get_form_kwargs(self):
+        kwargs = super(DetallePago, self).get_form_kwargs()
+        reserva = Reserva.objects.get(id_reserva=self.kwargs['pk'])
+        kwargs.update({'reserva': reserva})
+        return kwargs
     
     def form_valid(self, form):
         reserva = Reserva.objects.get(id_reserva=self.kwargs['pk'])
-        total_pago = Reserva.total(reserva)
         form.instance.id_reserva = reserva
-        form.instance.total_pago = total_pago
         return super().form_valid(form)
- 
+    
     def get_success_url(self):
         return reverse('leerReserva', args=['pago',])
     

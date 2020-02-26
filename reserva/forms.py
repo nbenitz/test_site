@@ -1,5 +1,5 @@
 ﻿from django import forms
-from .models import Reserva
+from .models import Reserva, Pago
 from django.forms.models import ModelForm
 import datetime
 from django.forms.widgets import Select, TextInput
@@ -13,24 +13,22 @@ class ReservaForm(ModelForm):
     class Meta:
         model = Reserva
         fields = ['id_cliente_fk', 'fecha_entrada', 'fecha_salida', 'id_habitacion_fk', 'costo_alojamiento']
-        
+        """
         widgets = {
-            #'id_cliente_fk': Select(attrs={'placeholder': 'Seleccionar Cliente'}),
-            #'fecha_entrada': DateInput(),
-            #'fecha_salida': DateInput(),
-            #'id_habitacion_fk': TextInput(attrs={'placeholder': 'Seleccionar Habitación',
-            #                                     'readonly': 'true',
-            #                                     'style': 'background-color: white',
-            #                                     }),
-            #'id_habitacion_fk': Select(attrs={'placeholder' : "Seleccionar habitacion"}),
-            #'costo_alojamiento': TextInput(attrs={'readonly' : 'true'}),
-        }
+            'id_cliente_fk': Select(attrs={'placeholder': 'Seleccionar Cliente'}),
+            'fecha_entrada': DateInput(),
+            'fecha_salida': DateInput(),
+            'id_habitacion_fk': TextInput(attrs={'placeholder': 'Seleccionar Habitación',
+                                                 'readonly': 'true',
+                                                 'style': 'background-color: white',
+                                                 }),
+            'id_habitacion_fk': Select(attrs={'placeholder' : "Seleccionar habitacion"}),
+            'costo_alojamiento': TextInput(attrs={'readonly' : 'true'}),
+        }"""
         
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')  # To get request.user. Do not use kwargs.pop('user', None) due to potential security hole
-
         super(ReservaForm, self).__init__(*args, **kwargs)
-        
         if self.user.is_client:
             del self.fields['id_cliente_fk']
                 
@@ -50,6 +48,24 @@ class ReservaForm(ModelForm):
             if fecha_salida <= fecha_entrada:
                 raise forms.ValidationError("La fecha de salida debe ser posterior a la fecha de entrada")
             return fecha_salida
-    
+
+
+class PagoForm(ModelForm):
+
+    class Meta:
+        model = Pago
+        fields = ['total_pago']
+        
+    def __init__(self, *args, **kwargs):
+        self.reserva = kwargs.pop('reserva') # se agrega 'reserva' como arg y se le asigna a la variable creada self.reserva
+        super(PagoForm, self).__init__(*args, **kwargs)
+        
+    def clean_total_pago(self):
+        reserva = self.reserva
+        saldo_pendiente = Reserva.saldo_pendiente(reserva)
+        total_pago = self.cleaned_data['total_pago']
+        if total_pago > saldo_pendiente:
+            raise forms.ValidationError("El monto a pagar no puede ser mayor al saldo pendiente")
+        return total_pago 
 
 

@@ -1,5 +1,6 @@
 ﻿{% extends "dashboard/base.html" %}
-{% load static %}
+{% load crispy_forms_tags %}
+
 	{% block content %}
 	<!-- Page Heading -->
 <!--	<h1 class="h3 mb-2 text-gray-800">Reservas</h1>
@@ -21,27 +22,41 @@
 						<div class='col-lg-5'>							
 							<div>
 								<hr>
-								<p><strong>Cliente: </strong>{{object.id_cliente_fk}}</p>
-								<p><strong>Habitaci&oacute;n </strong>{{object.id_habitacion_fk}}</p>
-								<p><strong>Fecha de Entrada: </strong>{{object.fecha_entrada}}</p>
-								<p><strong>Fecha de Salida: </strong>{{object.fecha_salida}}</p><hr>
-								<p><strong>Costo de alojamiento : </strong>{{object.tag_costo_alojamiento}}</p>
-								<p><strong>Consumo : </strong>{{object.tag_total_consumo}}</p><hr>
-								<p><strong>Monto Abonado : </strong>{{object.tag_costo_alojamiento}}</p>
-								<p><strong>Saldo Pendiente : </strong>{{object.tag_total_consumo}}</p><hr>
-								<p><h3><strong>Total a Pagar : </strong> {{ object.tag_total }}</h3></p><hr>
-							</div>
-							
-							
-							<div class='row justify-content-center mb-3'>
-							
-								<form method="POST" action="{% url 'pago' object.id_reserva %}">
-									{% csrf_token %}
-									<button class="btn btn-success" onclick="return pagar();"> Pagar </button>
-								</form>	&nbsp;
-												
-								<a href="{% url 'leerReserva' 'pago' %}" type="submit" class="btn btn-primary">Volver</a>
+								<p><strong>Cliente: </strong>{{reserva.id_cliente_fk}}</p>
+								<p><strong>Habitaci&oacute;n </strong>{{reserva.id_habitacion_fk}}</p>
+								<p><strong>Fecha de Entrada: </strong>{{reserva.fecha_entrada}}</p>
+								<p><strong>Fecha de Salida: </strong>{{reserva.fecha_salida}}</p><hr>
+								<p><strong>Costo de alojamiento : </strong>{{reserva.tag_costo_alojamiento}}</p>
+								<p><strong>Consumo : </strong>{{reserva.tag_total_consumo}}</p><hr>
+								<p><strong>Monto Abonado : </strong>{{reserva.tag_total_pagos}}</p>
+								<p><strong>Saldo Pendiente : </strong>{{reserva.tag_saldo_pendiente}}</p><hr>
 
+								{% if not request.user.is_client %}
+								<form method="post" enctype="multipart/form-data">
+									{% csrf_token %}								  
+									{{ form|crispy }} 
+								  	
+									<div class='row justify-content-center mb-3'>
+										<button type="submit" class="btn btn-success">
+											<i class="fas fa-save"></i>
+											Pagar
+										</button>&nbsp;&nbsp;
+										<a href="{% url 'leerReserva' 'pago' %}" type="submit" class="btn btn-primary">
+											<i class="fas fa-caret-left"></i>
+											Cancelar
+										</a>
+								 	</div>
+								</form>
+								{% else %}
+								<div class='row justify-content-center mb-3'>
+									<a href="{% url 'leerReserva' 'pago' %}" type="submit" class="btn btn-primary">
+										<i class="fas fa-caret-left"></i>
+										Volver
+									</a>
+								</div>
+								{% endif %}
+
+								<hr>
 							</div>
 						</div>
 						
@@ -77,7 +92,7 @@
 											<tr><td></td>
 												<td></td>
 												<td><strong>Total Consumo:</strong></td>
-												<td>{{ object.tag_total_consumo }}</td>
+												<td>{{ reserva.tag_total_consumo }}</td>
 											</tr>
 										</tbody>
 									</table>			

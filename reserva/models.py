@@ -65,11 +65,18 @@ class Reserva(models.Model):
         total_consumo = detalle_venta_prod.aggregate(
             sub_total=Sum(F('precio')*F('cantidad'), output_field=DecimalField())
             )['sub_total'] if detalle_venta_prod.exists() else 0
-        print(total_consumo)
         return total_consumo
     
     def tag_total_consumo(self):
         return f'{intcomma(self.total_consumo())} {CURRENCY}'
+    
+    def total_pagos(self):
+        pagos = self.pagos.all()
+        total_pago = pagos.aggregate(Sum('total_pago'))['total_pago__sum'] if pagos.exists() else 0
+        return total_pago
+    
+    def tag_total_pagos(self):
+        return f'{intcomma(self.total_pagos())} {CURRENCY}'  
     
     def total(self):
         total = self.costo_alojamiento + self.total_consumo()
@@ -83,6 +90,13 @@ class Reserva(models.Model):
         salida = self.fecha_salida
         dias = salida - entrada
         return dias
+    
+    def saldo_pendiente(self):
+        saldo_pendiente = self.total() - self.total_pagos()
+        return saldo_pendiente
+    
+    def tag_saldo_pendiente(self):
+        return f'{intcomma(self.saldo_pendiente())} {CURRENCY}'
     
     def ocupadas(self):
         ocupadas = self.objects.filter(estado="Ocupado")
@@ -159,7 +173,8 @@ class Pago(models.Model):
     id_reserva = models.ForeignKey('Reserva', 
                                    models.DO_NOTHING, 
                                    db_column='id_reserva',
-                                   verbose_name="Nro. Reserva")
+                                   verbose_name="Nro. Reserva",
+                                   related_name='pagos')
     total_pago = models.PositiveIntegerField()
     fecha_pago = models.DateTimeField(auto_now_add=True)
     class Meta:

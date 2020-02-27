@@ -14,6 +14,8 @@ from reserva.models import Reserva
 import datetime
 from reportlab.platypus.para import Paragraph
 from reportlab.lib.units import cm
+
+from django.core import management
 #from django.http import request
 
 # Create your views here.
@@ -99,3 +101,19 @@ def report_reserva(request):
     response.write(pdf)
 
     return response
+
+def ver_opcion_mantenimiento(request):
+    return render(request, "mantenimiento/backup_restore.html")
+
+def backup(request):
+    management.call_command('dumpdata', 'persona', output='persona/fixtures/db.json', format='json')
+    management.call_command('dumpdata', 'estructura', output='estructura/fixtures/db.json', format='json')
+    management.call_command('dumpdata', 'reserva', output='reserva/fixtures/db.json', format='json')
+    return render(request, "mantenimiento/backup.html")
+
+def restore(request):
+    management.call_command('loaddata', 'db.json', format='json', app_label='persona')
+    management.call_command('loaddata', 'db.json', format='json', app_label='estructura')
+    management.call_command('loaddata', 'db.json', format='json', app_label='reserva')
+    return render(request, "mantenimiento/restore.html")
+

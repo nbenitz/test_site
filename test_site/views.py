@@ -3,7 +3,8 @@ from django.core.mail import send_mail
 
 from .forms import ContactForm
 from django.shortcuts import render
-from django.core.management.commands.dumpdata import Command
+from django.core import management
+from django.core.management.commands import loaddata
 
 
 # Create your views here.
@@ -14,8 +15,10 @@ def inicio(request):
 
 
 def about(request):
-    return render(request, "about.html", {})
-
+    #management.call_command('dumpdata', 'estructura', output='estructura/fixtures/db.json', format='json')
+    management.call_command('loaddata', 'db.json', format='json', app_label='estructura')
+    return render(request, "about.html")
+    loaddata
 
 def contact(request):
     titulo = "Contacto"

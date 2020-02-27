@@ -1,0 +1,33 @@
+﻿{% extends "dashboard/base.html" %}
+	{% block content %}
+
+	<div class='row justify-content-center '>
+		<div class='col-auto col-sm-offset-3'>				
+			<div class="card shadow mb-4">
+			
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary text-align-center">Opciones de Copia de Seguriad y Recuperación</h6>
+				</div>
+				
+				<div class="card-body">	
+			
+					
+					<div class='row justify-content-center'>					
+						<a href="{% url 'inicio' %}" type="submit" class="btn btn-primary">
+							Volver</a>&nbsp;&nbsp;
+						
+						<a href="{% url 'backup' %}" class="btn btn-success">
+							Copia de Seguridad</a>&nbsp;&nbsp;
+							
+						<a href="{% url 'restore' %}" class="btn btn-primary">
+							Recuperación</a>
+							
+					</div>
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>	
+
+	{% endblock %}

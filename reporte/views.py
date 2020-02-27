@@ -20,7 +20,7 @@ from django.core import management
 
 # Create your views here.
 
-def inicio(request):
+def generar_reporte(request):
     return render(request, "reserva/reporte_reserva.html", {})
 
 def report_reserva(request):

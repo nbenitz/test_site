@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap4',
     'django_tables2',
-    'dbbackup',
     # mis apps
     'persona',
     'estructura',
@@ -108,7 +107,7 @@ DATABASES = {
         
         
         'USER': 'root',
-        'PASSWORD': '1223',
+        'PASSWORD': 'electronica123',
         'HOST': '127.0.0.1',
         
         # 'NAME': 'lucatronic$gestion',

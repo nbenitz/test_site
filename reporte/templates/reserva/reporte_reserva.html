@@ -16,9 +16,8 @@
 					<div class="col">	
 						<hr>						
 							<h5>Filtrar por rango de fechas:</h5>		
-							<input type="text" name="fecha_entrada" class="mb-4 dateinput form-control hasDatepicker" required="" id="id_fecha_inicial" placeholder="Fecha Inicial">
-							<input type="text" name="fecha_entrada" class="mb-4 dateinput form-control hasDatepicker" required="" id="id_fecha_final" placeholder="Fecha Final">
-					
+							<input type="text" id="id_fecha_inicial" class="mb-4 dateinput form-control" required="" id="id_fecha_inicial" placeholder="Fecha Inicial">
+							<input type="text" id="id_fecha_final" class="mb-4 dateinput form-control" required="" id="id_fecha_final" placeholder="Fecha Final">
 						<select name="dataTable_length" aria-controls="dataTable" class="mb-4 custom-select form-control">
 							<option value="10">Todos</option>
 							<option value="25">Pagados</option>
@@ -26,9 +25,12 @@
 							<option value="100">Ocupadas</option>
 							<option value="100">Anuladas</option>
 						</select>
-						<button type="submit" class="btn btn-success">
+						<!--<button type="submit" class="btn btn-success">
 							Genarar
-						</button>
+						</button>-->
+						<a href="{% url 'reporteReserva' %}" type="submit" class="btn btn-success">
+							Generar
+						</a>
 					 
 					</div>
 					
@@ -36,4 +38,66 @@
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+		var fecha_inicial;
+		var fecha_final;
+		
+	    $(document).ready(function () {
+				
+			console.log("Ok");
+			var dateToday = new Date(); 
+			jQuery.browser = {};
+			$(function() {
+	            $("#id_fecha_inicial").datepicker({
+	                changeMonth: true,
+	                changeYear: true,
+	                dateFormat: "yy-mm-dd"
+				});
+				
+				$( "#id_fecha_final" ).datepicker({
+					changeMonth: true,
+					changeYear: true,
+					minDate: dateToday,
+					dateFormat: "yy-mm-dd"
+				});				
+					
+			});
+		
+			$("#id_fecha_inicial").change(function () {
+	            fecha_inicial = new Date($("#id_fecha_inicial").val());			
+	
+	            var fecha_inicial_min = new Date(fecha_inicial);
+				fecha_inicial_min.setDate(fecha_inicial_min.getDate() + 2);	
+	            $("#id_fecha_final").datepicker("option", "minDate", fecha_inicial_min);
+	            console.log(fecha_inicial);
+				$("#id_fecha_inicial").attr('type', 'date');
+			});
+			
+			$("#id_fecha_final").change(function () {
+				$("#id_fecha_finl").attr('type', 'date');
+	
+				fecha_final = new Date($("#id_fecha_final").val());
+				console.log(fecha_inicial);
+			});
+			
+			$("#id_fecha_inicial").click(function () {
+				$("#id_fecha_inicial").attr('type', 'text');
+			});
+			
+			$("#id_fecha_inicial").click(function () {
+				$("#id_fecha_inicial").attr('type', 'text');
+			});
+			
+			$("#id_fecha_final").blur(function () {
+				$("#id_fecha_final").attr('type', 'date');
+			});
+			
+			$("#id_fecha_final").blur(function () {
+				$("#id_fecha_final").attr('type', 'date');
+			});
+			
+		});	
+				
+	</script>
 	{% endblock %}

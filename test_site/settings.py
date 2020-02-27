@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap4',
     'django_tables2',
+    'dbbackup',
     # mis apps
     'persona',
     'estructura',
@@ -105,7 +106,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         
-        'NAME': 'gestion',
+        
         'USER': 'root',
         'PASSWORD': '1223',
         'HOST': '127.0.0.1',
@@ -116,8 +117,13 @@ DATABASES = {
         # 'HOST': 'lucatronic.mysql.pythonanywhere-services.com',
         
         'PORT': '3306',
+        'NAME': 'gestion',
     }
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': 'var'}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

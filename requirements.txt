@@ -5,3 +5,4 @@ mysqlclient
 paho-mqtt
 reportlab==3.5.34
 django-tables2
+django-dbbackup

@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 
 from .forms import ContactForm
 from django.shortcuts import render
+from django.core.management.commands.dumpdata import Command
 
 
 # Create your views here.

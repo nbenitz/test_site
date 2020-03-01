@@ -1,3 +1,16 @@
+from io import BytesIO
+#import xlwt
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import paragraph, Table, TableStyle, Image
+from reportlab.lib.enums import TA_CENTER
+from reportlab.lib import colors, styles
+from reserva.models import Reserva
+import datetime
+from reportlab.platypus.para import Paragraph
+from reportlab.lib.units import cm
+
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from reserva.models import Reserva, DetalleVentaProd, Pago
 from django.views.generic.list import ListView
@@ -8,6 +21,7 @@ from django.urls import reverse
 from persona.models import Empleado, Cliente
 import json
 import datetime
+from django.db.models import Max
 
 from reserva.forms import ReservaForm, PagoForm
 from django.http import HttpResponse, JsonResponse
@@ -16,7 +30,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from reserva.tables import ProductTable, DetVentaProdTable
 from django_tables2.config import RequestConfig
 from django.template.loader import render_to_string
-
 
 
 # Create your views here.
@@ -308,6 +321,112 @@ class DetallePago(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse('leerReserva', args=['pago',])
+        reserva = Reserva.objects.get(id_reserva=self.kwargs['pk'])
+        saldo_pendiente = Reserva.saldo_pendiente(reserva)
+        #total = Reserva.total(reserva)
+        id_pago = reserva.pagos.aggregate(Max('id_pago'))['id_pago__max']
+        pago = Pago.objects.filter(id_pago=id_pago).values_list('total_pago', flat=True)[0]
+        #saldo_anterior = saldo_actual - pago
+        #total_pagado = saldo_anterior + pago
+        
+        vuelto = 0
+        if saldo_pendiente < 0:
+            vuelto = saldo_pendiente * -1
+            debito = pago - vuelto
+            Pago.objects.filter(id_pago=id_pago).update(total_pago=debito)
+        
+        print(vuelto)
+        return reverse('factura', args=[self.kwargs['pk'], pago, vuelto, ])
+    
+
+def factura(request, pk, pago, vuelto):
+    #Create the HttpResponse headers with PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="reporte-reserva.pdf"'
+    #Create the pdf object, using the BytesIO object as its "file."
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+    
+    # Tabla Reservas
+    reserva = Reserva.objects.get(id_reserva=pk)
+    detalle_venta_prod = reserva.detalle_venta_prod.all()
+
+    # Header
+    c.setLineWidth(.3)
+    c.setFont('Helvetica', 22)
+    c.drawString(30,750,'Hotel Amanecer')
+    
+    c.setFont('Helvetica', 12)
+    c.drawString(30,730, f'{"Factura - "} {reserva.id_reserva}')
+    c.drawString(30,710, f'{"Costo de Alojamiento: "} {reserva.tag_costo_alojamiento()}')
+    c.drawString(300,710, f'{"Consumo: "} {reserva.tag_total_consumo()}')
+    c.drawString(30,690, f'{"Total: "} {reserva.tag_total()}')
+    c.drawString(30,670, f'{"Total Abonado: "} {reserva.tag_total_pagos()}')
+    c.drawString(300,670, f'{"Saldo Pendiente: "} {reserva.tag_saldo_pendiente()}')
+    #c.drawString(30,675, f'{"Monto Pagado: "} {"..."}')
+    #c.drawString(300,675, f'{"Vuelto: "} {"..."}')
     
     
+    c.setFont('Helvetica-Bold', 12)
+    c.drawString(480,750, str(datetime.date.today()))
+    # start X, height end y, heigth
+    c.line(460, 747, 560, 747)
+    
+    # Table header
+    styles = getSampleStyleSheet()
+    styleBH = styles["Normal"]
+    styleBH.alignment = TA_CENTER
+    styleBH.fontSize = 18
+    
+    producto = Paragraph('''Producto''', styleBH)
+    cantidad = Paragraph('''Cantidad''', styleBH)
+    precio = Paragraph('''Precio''', styleBH)
+    subtotal = Paragraph('''Subtotal''', styleBH)
+    
+    data = []
+    data.append([producto, cantidad, precio, subtotal])
+    
+    # Table body
+    styleN = styles["Normal"]
+    styleN.alignment = TA_CENTER
+    styleN.fontSize = 7
+    
+    high = 630
+    for consumo in detalle_venta_prod:
+        this_consumo = [consumo.id_producto_fk,
+                        consumo.tag_cantidad(),
+                        consumo.tag_precio(),
+                        consumo.tag_sub_total()
+                        ]
+        data.append(this_consumo)
+        high = high - 18
+        
+    # Table size
+    width, height = A4
+    table = Table(data, colWidths=[4.75 * cm, 4.75 * cm, 4.75 * cm, 4.75 * cm, 4.75 * cm])
+    table.setStyle(TableStyle([
+        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+        ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+        ]))
+    # Pdf size
+    table.wrapOn(c, width, height)
+    table.drawOn(c, 30, high)
+    
+    high = high - 35
+    
+    c.drawString(30,high, f'{"Monto Pagado: "} {pago}')
+    if int(vuelto) > 0:
+        c.drawString(300,high, f'{"Vuelto: "} {vuelto}')  
+    
+    
+    
+    # End writing
+
+    c.showPage()
+    c.save()
+    # get the value of BytesIO buffer and write response
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+
+    return response

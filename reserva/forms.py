@@ -59,13 +59,14 @@ class PagoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.reserva = kwargs.pop('reserva') # se agrega 'reserva' como arg y se le asigna a la variable creada self.reserva
         super(PagoForm, self).__init__(*args, **kwargs)
-        
+    """   
     def clean_total_pago(self):
         reserva = self.reserva
         saldo_pendiente = Reserva.saldo_pendiente(reserva)
         total_pago = self.cleaned_data['total_pago']
         if total_pago > saldo_pendiente:
-            raise forms.ValidationError("El monto a pagar no puede ser mayor al saldo pendiente")
-        return total_pago 
+            total_pago = saldo_pendiente
+            #raise forms.ValidationError("El monto a pagar no puede ser mayor al saldo pendiente")
+        return total_pago """
 
 

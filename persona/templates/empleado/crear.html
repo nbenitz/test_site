@@ -1,20 +1,7 @@
-{% extends "dashboard/base.html" %}
+{% extends "crud/card.html" %}
 {% load crispy_forms_tags %}
 
-	{% block content %}
-	<!-- Page Heading -->
-	<h1 class="h3 mb-2 text-gray-800">Empleados</h1>
-	
-	
-	<div class='row'>
-		<div class='col-sm-8 col-sm-offset-3'>
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">Datos del Empleado</h6>
-				</div>
-				
-				<div class="card-body">
+{% block card %}
 		
 					<form method="post" enctype="multipart/form-data">
 						{% csrf_token %}
@@ -26,15 +13,11 @@
 							Aceptar
 						</button>
 						
-						<a href="/empleado/" type="submit" class="btn btn-primary">
+						<a href="{{request.META.HTTP_REFERER}}" type="submit" class="btn btn-primary">
 							<i class="fas fa-caret-left"></i>
 							Cancelar
 						</a>
 					 
 					</form>
-			
-				</div>
-			</div>
-		</div>
-	</div>
-	{% endblock %}
+
+{% endblock %}

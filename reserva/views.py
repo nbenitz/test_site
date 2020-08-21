@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+﻿from django.shortcuts import render, get_object_or_404, redirect, reverse
 from reserva.models import Reserva, DetalleVentaProd, Pago
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -131,8 +131,7 @@ class ReservaDetalle(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["operacion"] = self.kwargs['operacion']
         return context
-    
-    
+       
 class ReservaAnular(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Reserva 
     form = Reserva 

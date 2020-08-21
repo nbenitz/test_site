@@ -1,4 +1,4 @@
-# persona/urls.py
+﻿# persona/urls.py
 from django.urls import path
 
 from .views import ReservaListado, ReservaDetalle, ReservaCrear, load_habitacion_disponible, ReservaAnular, ReservaAmpliar, \

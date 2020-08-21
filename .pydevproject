@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse-pydev version="1.0"?><pydev_project>
                         
+<<<<<<< HEAD
     
     
     
     
     <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
+=======
+    
+    
+    
+    
+    <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">python36</pydev_property>
+>>>>>>> covid and other
                         
     
     
@@ -51,7 +59,11 @@
         
     
     <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
+<<<<<<< HEAD
         <path>C:\Users\User\proyecto\env\Lib</path>
+=======
+        <path>C:\Users\Usuario\AppData\Local\Programs\Python\Python36\Lib\site-packages</path>
+>>>>>>> covid and other
     </pydev_pathproperty>
     
 </pydev_project>

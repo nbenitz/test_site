@@ -30,13 +30,13 @@ def clean_data():
     
     # save
     print("Save confirmed cases")
-    confirmed_df.to_csv('datasets/covid19/time_series_covid19_confirmed_global.csv')
+    confirmed_df.to_csv('datasets/covid19/time_series_covid19_confirmed_global.csv', index=False)
     print("Save recovered cases")
-    recovered_df.to_csv('datasets/covid19/time_series_covid19_recovered_global.csv')
+    recovered_df.to_csv('datasets/covid19/time_series_covid19_recovered_global.csv', index=False)
     print("Save death cases")
-    death_df.to_csv('datasets/covid19/time_series_covid19_deaths_global.csv')
+    death_df.to_csv('datasets/covid19/time_series_covid19_deaths_global.csv', index=False)
     print("Save country cases")
-    country_df.to_csv('datasets/covid19/cases_country.csv')
+    country_df.to_csv('datasets/covid19/cases_country.csv', index=False)
 
     # total number of confirmed, death and recovered cases
     confirmed_total = int(country_df['confirmed'].sum())
@@ -46,6 +46,7 @@ def clean_data():
     
     # create active actives dataframe
     active_df = pd.DataFrame(columns=confirmed_df.columns)
+    count = len(confirmed_df.index)
     for i, row in confirmed_df.iterrows():
         country = row['country']
         state = row['state']
@@ -65,11 +66,11 @@ def clean_data():
             active_df = active_df.append(confirmed_df.loc[i])            
             active_df.iloc[-1:, 4:] = active_df.iloc[-1:, 4:].sub(recovered_list, axis='columns')
             active_df.iloc[-1:, 4:] = active_df.iloc[-1:, 4:].sub(deaths_list, axis='columns')
-            print(i, "creating active dataframe")
+            print(i, " de ", count, ".. creating active dataframe")
 
     # save actives dataframe as csv file
     print("Save active cases")
-    active_df.to_csv('datasets/covid19/time_series_covid19_actives_global.csv')
+    active_df.to_csv('datasets/covid19/time_series_covid19_actives_global.csv', index=False)
     
     
     

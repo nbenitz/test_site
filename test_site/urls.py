@@ -25,7 +25,7 @@ from test_site.views import atributos_meta
 urlpatterns = [
     path('admin/', admin.site.urls),    
     
-    path('', plott, name='inicio'),
+    path('', inicio, name='inicio'),
     path('contact/', contact, name='contact'),
     path('about/', about, name='about'),
     path('accounts/', include('django.contrib.auth.urls')),

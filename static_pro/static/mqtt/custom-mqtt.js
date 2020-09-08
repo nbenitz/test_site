@@ -1,12 +1,3 @@
-
-//var topic = 'clients/arduino/192.168.43.146/#';
-
-//var ledtopic = 'clients/arduino/led'	// Web PUBlishes to ledtopic + "/cmd"
-
-var tempGauge;
-
-var arduinoTemp = new Array();
-
 var connected_flag = 0;
 
 var mqtt;
@@ -21,10 +12,10 @@ var port   = 8000;
 //var host = 'localhost';
 //var port = 9001
 
-var sensor_topic = 'yonestor87/hotel/sensor/#';
-var feedback_topic = 'yonestor87/hotel/feedback/#';
-var lwt_topic = 'yonestor87/hotel/lwt/#';
-var pub_topic = 'yonestor87/hotel/control/';
+var sensor_topic = 'yonestor87/sensor/#';
+var feedback_topic = 'yonestor87/feedback/#';
+var lwt_topic = 'yonestor87/lwt/#';
+var pub_topic = 'yonestor87/control/';
 
 function onConnectionLost() {
 	console.log("Conexion perdida");
@@ -52,14 +43,14 @@ function onMessageArrived(msg) {
 	console.log(out_msg);
 	
 	var topic_parts = msg.destinationName.split('/');
-	if (topic_parts.length < 4) {
+	if (topic_parts.length < 3) {
 		return;
 	}
 	
-	var sub_topic = topic_parts[2];
+	var sub_topic = topic_parts[1];
 	
 	if (sub_topic == 'sensor') {
-		var id_sensor = topic_parts[3];
+		var id_sensor = topic_parts[2];
 		if ($("#sensor-" + id_sensor )) {
 			$("#sensor-" + id_sensor).text(msg.payloadString);
 			if ($("#progress-" + id_sensor)) {
@@ -73,7 +64,7 @@ function onMessageArrived(msg) {
 		}
 	}
 	if (sub_topic == 'feedback') {
-		var id_actuador = topic_parts[3];
+		var id_actuador = topic_parts[2];
 		if ( $("#actuador-" + id_actuador )) {
 			if (msg.payloadString == '1'){
 				$("#actuador-" + id_actuador).text("On");

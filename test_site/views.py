@@ -23,7 +23,7 @@ from test_site.covid19_data_clean import clean_data
     
 def plott(request):
     
-    clean_data()
+    # clean_data()
     
     # read_csv
     confirmed_df = pd.read_csv('datasets/covid19/time_series_covid19_confirmed_global.csv')
@@ -41,17 +41,18 @@ def plott(request):
     # displaying the total stats
 
     total_stats = "<div style = 'background-color: #504e4e; padding: 30px '>" + \
-    "<span style='color: #fff; font-size:30px;'> Confirmed: "  + str(confirmed_total) +"</span>" + \
-    "<span style='color: red; font-size:30px;margin-left:20px;'> Deaths: " + str(deaths_total) + "</span>"+ \
-    "<span style='color: lightgreen; font-size:30px; margin-left:20px;'> Recovered: " + str(recovered_total) + "</span>"+ \
+    "<span style='color: #fff; font-size:30px;'> Confirmados: "  + str(confirmed_total) +"</span>" + \
+    "<span style='color: #fff; font-size:30px;'> Confirmados: "  + str(confirmed_total) +"</span>" + \
+    "<span style='color: red; font-size:30px;margin-left:20px;'> Muertes: " + str(deaths_total) + "</span>"+ \
+    "<span style='color: lightgreen; font-size:30px; margin-left:20px;'> Recuperados: " + str(recovered_total) + "</span>"+ \
     "</div>"
     
     sorted_country_df = country_df.sort_values('confirmed', ascending= False)
     
-    context = {#"total_stats": total_stats,
-               #"plot_worst_hit_countries":plot_worst_hit_countries(sorted_country_df, 10),
+    context = {"total_stats": total_stats,
+               "plot_worst_hit_countries":plot_worst_hit_countries(sorted_country_df, 10),
                "plot_cases_of_a_country":plot_cases_of_a_country('Paraguay', confirmed_df, actives_df, recovered_df, death_df),
-               #"worst_hit_countries_Confirmed":worst_hit_countries_Confirmed(sorted_country_df)
+               "worst_hit_countries_Confirmed":worst_hit_countries_Confirmed(sorted_country_df)
                }
     return render(request, "plots/index.html", context)
 

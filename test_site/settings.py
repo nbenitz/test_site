@@ -39,7 +39,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yonestor87@gmail.com'
-EMAIL_HOST_PASSWORD = 'electronica1'
+EMAIL_HOST_PASSWORD = 'electronicaaf0'
 
 """
 Para usar gmail hay que desbloquear el captcha
@@ -107,7 +107,7 @@ DATABASES = {
         
         
         'USER': 'root',
-        'PASSWORD': 'electronica123',
+        'PASSWORD': '1223',
         'HOST': '127.0.0.1',
         
         # 'NAME': 'lucatronic$gestion',
@@ -153,7 +153,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Asuncion'
 
 USE_I18N = True
 

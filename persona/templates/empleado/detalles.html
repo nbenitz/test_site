@@ -1,16 +1,8 @@
-{% extends "dashboard/base.html" %}
+{% extends "crud/card.html" %}
 {% load static %}
-	{% block content %}
+
+{% block card %}
 	
-		<div class='row justify-content-center '>
-		<div class='col-auto col-sm-offset-3'>				
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary text-align-center">Detalles de la Cuenta</h6>
-				</div>
-				
-				<div class="card-body">	
 					<p><strong>C.I. Nro.: </strong>{{object.empleado.ci}}</p>
 					<p><strong>Nombre: </strong>{{object.first_name}} {{object.last_name}}</p>
 					<p><strong>Tel&eacute;fono: </strong>{{object.telefono}}</p>
@@ -33,12 +25,6 @@
 					<div class='row justify-content-center'>
 						<p><a href="{% url 'password_change' %}">Cambiar Contraseña</a></p>
 					</div>
-					
-				</div>
-				
-			</div>
-		</div>
-	</div>
 	
 
 	{% endblock %}

@@ -1,16 +1,3 @@
-from io import BytesIO
-#import xlwt
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import paragraph, Table, TableStyle, Image
-from reportlab.lib.enums import TA_CENTER
-from reportlab.lib import colors, styles
-from reserva.models import Reserva
-import datetime
-from reportlab.platypus.para import Paragraph
-from reportlab.lib.units import cm
-
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from reserva.models import Reserva, DetalleVentaProd, Pago
 from django.views.generic.list import ListView
@@ -144,8 +131,7 @@ class ReservaDetalle(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["operacion"] = self.kwargs['operacion']
         return context
-    
-    
+       
 class ReservaAnular(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Reserva 
     form = Reserva 

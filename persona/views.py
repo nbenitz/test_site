@@ -20,19 +20,17 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
-#=================================== CLIENTE ===========================================
-class ClienteListado(LoginRequiredMixin, ListView): 
-    model = get_user_model()  # Llamamos a la clase 'Cliente' que se encuentra en nuestro archivo 'models.py'
-    
+class ObjetoListado(LoginRequiredMixin, ListView):         
     def get_queryset(self):
-        qs = self.model.objects.filter(is_client=1)
+        qs = self.model.objects.filter(is_client=self.kwargs['is_client'])
         return qs
     
-    
-class ClienteDetalle(LoginRequiredMixin, DetailView): 
-    model = get_user_model()
-    
+
+class ObjetoDetalle(LoginRequiredMixin, DetailView): 
+    """model = get_user_model()"""
+
+
+#=================================== CLIENTE ===========================================   
     
 def create_client(request):
     
@@ -90,19 +88,7 @@ def edit_client(request, pk):
     
     
     
-#=================================== EMPLEADO ===========================================
-
-class EmpleadoListado(LoginRequiredMixin, ListView): 
-    model = get_user_model() 
-    
-    def get_queryset(self):
-        qs = self.model.objects.filter(is_client=0)
-        return qs
-    
-    
-class EmpleadoDetalle(LoginRequiredMixin, DetailView): 
-    model = get_user_model()
-    
+#=================================== EMPLEADO ===========================================  
     
 def create_empleado(request):
     
@@ -151,7 +137,7 @@ def edit_empleado(request, pk):
         user_form = UserForm(prefix='UF', instance=user)
         empleado_form = EmpleadoForm(prefix='PF', instance=user.empleado)
         
-    return render(request, 'empleado/actualizar.html',{
+    return render(request, 'empleado/crear.html',{
         'user_form': user_form,
         'empleado_form': empleado_form,
         })
@@ -228,3 +214,5 @@ def activation_sent_view(request):
 
 def activation_complete_view(request):
     return render(request, 'registration/activation_complete.html')
+
+

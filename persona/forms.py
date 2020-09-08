@@ -12,8 +12,7 @@ class UserForm(ModelForm):
         fields = ('username', 'email', 'first_name', 'last_name', 'telefono', 'direccion')
         
 
-class ClienteForm(ModelForm):
-    
+class ClienteForm(ModelForm):    
     class Meta:
         model = Cliente
         fields = ('ci',)

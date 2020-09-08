@@ -10,9 +10,9 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>{% block head_title %}{% endblock %} | Hotel</title>
+	<title>{% block head_title %}{% endblock %}</title>
 		
-	{% include "head_css.html" %}
+	{% include "includes/head_css.html" %}
 	
 	{% block in_head %}{% endblock %}
 
@@ -23,7 +23,7 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
-		{#% include "dashboard/sidebar.html" %#}
+		{#% include "includes/sidebar.html" %#}
 	
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -31,7 +31,7 @@
 			<!-- Main Content -->
 			<div id="content">
 	
-			{% include "dashboard/navbar.html" %}
+			{% include "includes/navbar.html" %}
 				
 				{% block jumbotron %}
 				{% endblock %}
@@ -70,7 +70,7 @@
 	</a>
 
 
-	{% include "js.html" %}
+	{% include "includes/js.html" %}
 </body>
 
 </html>

@@ -5,11 +5,13 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 
 class CategoriaHab(models.Model):
     id_categoria = models.AutoField(primary_key=True)
-    descripcion = models.CharField(max_length=50)
-    is_active = models.BooleanField(default=True)
+    descripcion = models.CharField(max_length=50, verbose_name="Descripción")
+    is_active = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'categoria_hab'
+        ordering = ["descripcion"]
+        verbose_name_plural = "Categorías de Habitación"
 
     def __str__(self):  # Python 3
         return self.descripcion

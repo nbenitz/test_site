@@ -1,16 +1,7 @@
-{% extends "dashboard/base.html" %}
+{% extends "crud/card.html" %}
 
-	{% block content %}
-	
-	<div class='row justify-content-center '>
-		<div class='col-auto col-sm-offset-3'>				
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary text-align-center">Detalles de la Cuenta</h6>
-				</div>
-				
-				<div class="card-body">	
+	{% block card %}
+
 					<p><strong>C.I. Nro.: </strong>{{object.cliente.ci}}</p>
 					<p><strong>Nombre: </strong>{{object.first_name}} {{object.last_name}}</p>
 					<p><strong>Tel&eacute;fono: </strong>{{object.telefono}}</p>
@@ -20,19 +11,12 @@
 					<p><strong>&Uacute;ltimo Ingreso: </strong>{{object.last_login}}</p>
 					<p><strong>Fecha de Registro: </strong>{{object.date_joined}}</p>
 					
-					<div class='row justify-content-center'>
-
-						{% if request.user.is_client %}
-						<a href="/" type="submit" class="btn btn-primary">
+					<div class='row justify-content-center'>			
+						
+						<a href="{{request.META.HTTP_REFERER}}" class="btn btn-primary">
 							<i class="fas fa-caret-left"></i>
 							Volver
 						</a>&nbsp;
-						{% else %}
-						<a href="../" type="submit" class="btn btn-primary">
-							<i class="fas fa-caret-left"></i>
-							Volver
-						</a>&nbsp;
-						{% endif %}
 
 						<a href="{% url 'actualizarCliente' object.id %}" title="Editar" class="btn btn-success">
 							<i class="far fa-edit"></i>
@@ -42,12 +26,5 @@
 					<div class='row justify-content-center'>
 						<p><a href="{% url 'password_change' %}">Cambiar Contraseña</a></p>
 					</div>
-					
-				</div>
-				
-			</div>
-		</div>
-	</div>
-		
 
 	{% endblock %}

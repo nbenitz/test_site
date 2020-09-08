@@ -12,12 +12,14 @@ from persona.models import Cliente
 from reserva.models import Reserva
 
 # Create your views here.
-#=================================== Habitacion ===========================================
-class HabitacionListado(LoginRequiredMixin, ListView): 
-    model = Habitacion  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-    # paginate_by = 10
 
+class ObjetoListado(LoginRequiredMixin, ListView): 
+    """Lista los objetos model pasado desde urls.py"""
     
+class ObjetoDetalle(LoginRequiredMixin, DetailView): 
+    """Muestra los detalles del objeto model pasado desde urls.py"""
+
+#=================================== Habitacion ===========================================    
 class HabitacionCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     model = Habitacion  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
     form = Habitacion  # Definimos nuestro formulario con el nombre de la clase o modelo 'Habitacion'
@@ -27,10 +29,6 @@ class HabitacionCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerHabitacion')  # Redireccionamos a la vista principal 'leer'
-
-
-class HabitacionDetalle(LoginRequiredMixin, DetailView): 
-    model = Habitacion  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
 
  
 class HabitacionActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
@@ -54,10 +52,6 @@ class HabitacionEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         success_message = 'Proveedor Eliminado Correctamente !'  # Mostramos este Mensaje luego de Editar un Habitacion 
         messages.success (self.request, (success_message))       
         return reverse('leerProveedor')  # Redireccionamos a la vista principal 'leer'
-    
-class ProveedorListado(LoginRequiredMixin, ListView): 
-    model = Proveedor  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-    # paginate_by = 10
 
     
 class ProveedorCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
@@ -69,10 +63,6 @@ class ProveedorCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerProveedor')  # Redireccionamos a la vista principal 'leer'
-
-    
-class ProveedorDetalle(LoginRequiredMixin, DetailView): 
-    model = Proveedor  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
 
  
 class ProveedorActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
@@ -97,11 +87,6 @@ class ProveedorEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         messages.success (self.request, (success_message))       
         return reverse('leerProveedor')  # Redireccionamos a la vista principal 'leer'
 
-
-class ProductoListado(LoginRequiredMixin, ListView): 
-    model = Producto  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-    # paginate_by = 10
-
     
 class ProductoCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     model = Producto  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
@@ -112,11 +97,7 @@ class ProductoCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerProducto')  # Redireccionamos a la vista principal 'leer'
-
     
-class ProductoDetalle(LoginRequiredMixin, DetailView): 
-    model = Producto  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-
  
 class ProductoActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Producto  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py' 
@@ -141,11 +122,6 @@ class ProductoEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return reverse('leerProducto')  # Redireccionamos a la vista principal 'leer'
 
 
-class CategoriaHabListado(LoginRequiredMixin, ListView): 
-    model = CategoriaHab  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-    # paginate_by = 10
-
-    
 class CategoriaHabCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     model = CategoriaHab  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
     form = CategoriaHab  # Definimos nuestro formulario con el nombre de la clase o modelo 'Habitacion'
@@ -155,11 +131,7 @@ class CategoriaHabCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerCategoriaHab')  # Redireccionamos a la vista principal 'leer'
-
     
-class CategoriaHabDetalle(LoginRequiredMixin, DetailView): 
-    model = CategoriaHab  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-
  
 class CategoriaHabActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = CategoriaHab  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py' 
@@ -183,10 +155,6 @@ class CategoriaHabEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         messages.success (self.request, (success_message))       
         return reverse('leerCategoriaHab')  # Redireccionamos a la vista principal 'leer'
 
-class CategoriaProdListado(LoginRequiredMixin, ListView): 
-    model = CategoriaProd  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-    # paginate_by = 10
-
     
 class CategoriaProdCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     model = CategoriaProd  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
@@ -197,11 +165,7 @@ class CategoriaProdCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerCategoriaProd')  # Redireccionamos a la vista principal 'leer'
-
     
-class CategoriaProdDetalle(LoginRequiredMixin, DetailView): 
-    model = CategoriaProd  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-
  
 class CategoriaProdActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = CategoriaProd  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py' 
@@ -226,11 +190,6 @@ class CategoriaProdEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView)
         return reverse('leerCategoriaProd')  # Redireccionamos a la vista principal 'leer'
 
 
-class ServicioListado(LoginRequiredMixin, ListView): 
-    model = Servicio  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
-    # paginate_by = 10
-
-    
 class ServicioCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     model = Servicio  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
     form = Servicio  # Definimos nuestro formulario con el nombre de la clase o modelo 'Habitacion'
@@ -240,10 +199,6 @@ class ServicioCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # Redireccionamos a la pagina principal luego de crear un registro o postre
     def get_success_url(self):        
         return reverse('leerServicio')  # Redireccionamos a la vista principal 'leer'
-
-    
-class ServicioDetalle(LoginRequiredMixin, DetailView): 
-    model = Servicio  # Llamamos a la clase 'Habitacion' que se encuentra en nuestro archivo 'models.py'
 
  
 class ServicioActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
@@ -268,8 +223,6 @@ class ServicioEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         messages.success (self.request, (success_message))       
         return reverse('leerServicio')  # Redireccionamos a la vista principal 'leer'
 
-class DispositivoListado(LoginRequiredMixin, ListView): 
-    model = Dispositivo
 
 class DispositivoCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView): 
     model = Dispositivo 
@@ -279,10 +232,6 @@ class DispositivoCrear(LoginRequiredMixin, SuccessMessageMixin, CreateView):
  
     def get_success_url(self):        
         return reverse('leerDispositivo')
-
-    
-class DispositivoDetalle(LoginRequiredMixin, DetailView): 
-    model = Dispositivo
 
  
 class DispositivoActualizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 

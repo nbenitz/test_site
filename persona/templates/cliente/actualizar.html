@@ -1,18 +1,7 @@
-{% extends "dashboard/base.html" %}
+{% extends "crud/card.html" %}
 {% load crispy_forms_tags %}
 
-	{% block content %}
-	<!-- Page Heading -->
-	
-	<div class='row justify-content-center'>
-		<div class='col-sm-6 col-sm-offset-3'>
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h5 class="m-0 font-weight-bold text-primary text-align-center">Editar Cuenta</h5>
-				</div>
-				
-				<div class="card-body">
+{% block card %}
 		
 					<form method="post" enctype="multipart/form-data">
 						{% csrf_token %}
@@ -24,22 +13,11 @@
 							Aceptar
 						</button>
 						
-						{% if request.user.is_client %}
-						<a href="{% url 'detallesCliente' request.user.id %}" type="submit" class="btn btn-primary">
+						<div class="btn btn-primary" onClick="javascript:history.go(-1);">
 							<i class="fas fa-caret-left"></i>
 							Cancelar
-						</a>
-						{% else %}
-						<a href="/cliente/" type="submit" class="btn btn-primary">
-							<i class="fas fa-caret-left"></i>
-							Cancelar
-						</a>
-						{% endif %}
+						</div>
 					 
 					</form>
-			
-				</div>
-			</div>
-		</div>
-	</div>
-	{% endblock %}
+					
+{% endblock %}

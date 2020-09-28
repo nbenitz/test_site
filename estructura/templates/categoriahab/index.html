@@ -1,32 +1,36 @@
-﻿{% extends "crud/list.html" %}
+{% extends "crud/list.html" %}
 
 {% block table %}
-	<thead>
-		<tr>
-			<th>Descripcion</th>
-			<th>Acciones</th>
-		</tr>
-	</thead>
+					<thead>
+						<tr>
+							<th>Descripcion</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
 
-	<tbody>
-		{% for Object in object_list %}
-			<tr>
-				<td>{{ Object.descripcion }}</td>
-				
-				<td>
-					<form method="POST" action="eliminar/{{Object.id_categoria}}">
-						{% csrf_token %}
-						<div class="btn-group">
-							<a href="detalle/{{Object.id_categoria}}" title="Ver" class="btn btn-success">
-								<i class="far fa-eye"></i></a>
-							<a href="editar/{{Object.id_categoria}}" title="Editar" class="btn btn-primary">
-								<i class="far fa-edit"></i></a>
-							<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
-								<i class="far fa-trash-alt"></i></button>
-						</div>
-					</form>
-				</td>
-			</tr>
-		{% endfor %}
-	</tbody>
+					<tbody>
+						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
+						{% for Object in object_list %}
+							<tr>
+								<td>{{ Object.descripcion }}</td>
+								
+								<td>
+									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
+									<form method="POST" action="eliminar/{{Object.id_categoria}}">
+										{% csrf_token %}
+										<!--<div class="btn-group">-->
+											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
+											<a href="detalle/{{Object.id_categoria}}" title="Ver" class="btn btn-success">
+												<i class="far fa-eye"></i></i></a>
+											<a href="editar/{{Object.id_categoria}}" title="Editar" class="btn btn-primary">
+												<i class="far fa-edit"></i></i></a>
+											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
+												<i class="far fa-trash-alt"></i></button>
+										<!--</div>-->
+									</form>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+
 {% endblock %}

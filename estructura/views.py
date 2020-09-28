@@ -10,6 +10,7 @@ from estructura.models import Producto
 from django.contrib.auth.mixins import LoginRequiredMixin
 from persona.models import Cliente
 from reserva.models import Reserva
+import datetime
 
 # Create your views here.
 
@@ -262,9 +263,12 @@ class Tablero(LoginRequiredMixin, ListView):
         qs = self.model.objects.none()
         if self.request.user.is_client:
             cliente = Cliente.objects.get(user_id=self.request.user.id)
-            reserva_cliente_ocupado = Reserva.objects.filter(
+            reserva_cliente_ocupado = Reserva.objects.exclude(
+                estado='Anulado'
+                ).filter(
                     id_cliente_fk=cliente.id,
-                    estado="Ocupado"
+                    fecha_entrada__gte=datetime.date.today(),
+                    fecha_salida__gte=datetime.date.today()
                     )
             print(reserva_cliente_ocupado)
             if reserva_cliente_ocupado.exists():

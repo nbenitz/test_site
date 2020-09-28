@@ -1,4 +1,4 @@
-.text-align-center {
+/* .text-align-center {
 	text-align: center;
 }
 
@@ -25,7 +25,17 @@
 }
 
 
-
 .sidebar .nav-item .collapse .collapse-inner .collapse-item:hover, .sidebar .nav-item .collapsing .collapse-inner .collapse-item:hover {
     background-color: #666e75 !important;
+} */
+
+.container-fluid {
+    min-height: calc(100vh - 76px) !important;
+}
+
+.navbar-divider {
+    width: 0;
+    border-right: 1px solid #e3e6f0;
+    height: calc(4.375rem - 2.5rem);
+    margin: auto 1rem;
 }

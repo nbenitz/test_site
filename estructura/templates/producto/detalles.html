@@ -1,38 +1,24 @@
-{% extends "dashboard/base.html" %}
-{% load static %}
-	{% block content %}
+{% extends "crud/card.html" %}
 
+{% block card %}
+<p><strong>ID: </strong>{{object.id_producto}}</p>
+<p><strong>Codigo de Barras: </strong>{{object.barcode}}</p>
+<p><strong>Proveedor: </strong>{{object.id_proveedor_fk}}</p>
+<p><strong>Descripción: </strong>{{object.descripcion}}</p>
+<p><strong>Categoría: </strong>{{object.id_categoria_fk}}</p>
+<p><strong>Precio: </strong>{{object.precio1}}</p>
+<p><strong>Stock: </strong>{{object.stock}}</p>
+<p><strong>Presentación: </strong>{{object.presentacion}}</p>
+<p><strong>Foto: </strong><br /><img src="{{object.foto.url}}" class="img-fluid"> </p>
+<p><strong>IVA: </strong>{{object.iva}}</p>
 
-	<div class='row justify-content-center '>
-		<div class='col-6 col-sm-offset-3'>				
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary text-align-center">Detalles del Producto</h6>
-				</div>
-				
-				<div class="card-body">				
-				
-					<p><strong>ID: </strong>{{object.id_producto}}</p>
-					<p><strong>Codigo de Barras: </strong>{{object.barcode}}</p>
-					<p><strong>Proveedor: </strong>{{object.id_proveedor_fk}}</p>
-					<p><strong>Descripci&oacute;n: </strong>{{object.descripcion}}</p>
-					<p><strong>Categor&iacute;a: </strong>{{object.id_categoria_fk}}</p>
-					<p><strong>Precio: </strong>{{object.precio1}}</p>
-					<p><strong>Stock: </strong>{{object.stock}}</p>
-					<p><strong>Presentaci&oacute;n: </strong>{{object.presentacion}}</p>
-					<p><strong>Foto: </strong><br/><img src="{{object.foto.url}}" class="img-fluid"> </p>
-					<p><strong>IVA: </strong>{{object.iva}}</p>
-				
-										
-					<a href="../" type="submit" class="btn btn-primary">
-						<i class="fas fa-caret-left"></i> Volver</a>
-					
-				</div>
-				
-			</div>
-		</div>
-	</div>
+<div class='row justify-content-center'>
 
+	<a href="{{request.META.HTTP_REFERER}}" class="btn btn-primary">
+		<i class="fas fa-caret-left"></i>
+		Volver
+	</a>&nbsp;
 
-	{% endblock %}
+</div>
+
+{% endblock %}

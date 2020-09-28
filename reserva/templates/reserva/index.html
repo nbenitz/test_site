@@ -2,16 +2,14 @@
 
 {% block content %}
 	<!-- Page Heading -->
-	<div class='row'>
+	<div class='row m-2'>
 		<div class='col-sm-6 col-sm-offset-3'>
-			<h1 class="h3 mb-2 text-gray-800">
+			<h1 class="h3 text-gray-800">
 			
 			{% if operacion == "ampliar" %}
 				Ampliar Reserva
 			{% elif operacion == "anular" %}
 				Anular Reserva
-			{% elif operacion == "anular" %}
-				Reservas
 			{% endif %}
 			
 			{% if request.user.is_client %}
@@ -20,14 +18,18 @@
 					Ver Consumos
 				{% elif operacion == "pago" %}
 					Ver Detalles de Pago
+				{% elif operacion == "crear" %}
+					Mis Reservas
 				{% endif %}
 						
 			{% else %}
-			`
+
 				{% if operacion == "consumo" %}
 					Agregar Consumo a la Reserva
 				{% elif operacion == "pago" %}
 					Pago de Reserva
+				{% elif operacion == "crear" %}
+					Reservas
 				{% endif %}
 			
 			{% endif %}

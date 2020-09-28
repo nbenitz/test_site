@@ -1,3 +1,14 @@
+from io import BytesIO
+#import xlwt
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import paragraph, Table, TableStyle, Image
+from reportlab.lib.enums import TA_CENTER
+from reportlab.lib import colors, styles
+from reportlab.platypus.para import Paragraph
+from reportlab.lib.units import cm
+
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from reserva.models import Reserva, DetalleVentaProd, Pago
 from django.views.generic.list import ListView
@@ -126,6 +137,7 @@ class ReservaListado(LoginRequiredMixin, ListView):
     
 class ReservaDetalle(LoginRequiredMixin, DetailView):
     model = Reserva
+    extra_context = {'titulo':'Detalles de la Reserva'}
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

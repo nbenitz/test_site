@@ -1,34 +1,21 @@
-{% extends "dashboard/base.html" %}
-{% load static %}
-	{% block content %}
-	
-	
-	<div class='row justify-content-center '>
-		<div class='col-6 col-sm-offset-3'>				
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary text-align-center">Detalles de la Habitaci&oacute;n</h6>
-				</div>
-				
-				<div class="card-body">	
-				
-					<p><strong>ID:&nbsp;</strong>{{object.id_habitacion}}</p>
-					<p><strong>Precio:&nbsp;</strong>{{object.precio1}}</p>
-					<p><strong>N&uacute;mero:&nbsp;</strong>{{object.numero}}</p>
-					<p><strong>Categor&iacute;a:&nbsp;</strong>{{object.id_categoria_fk}}</p>
-					<p><strong>Caracter&iacute;sticas:&nbsp;</strong>{{object.caracteristicas}}</p>
-					<p><strong>Foto:&nbsp;</strong><img src="{{object.foto.url}}" class="img-fluid"> </p>
-					<p><strong>Estado:&nbsp;</strong>{{object.estado}}</p>
-										
-					<a href="../" type="submit" class="btn btn-primary">
-						<i class="fas fa-caret-left"></i> Volver</a>
-					
-				</div>
-				
-			</div>
-		</div>
-	</div>
-	
+{% extends "crud/card.html" %}
 
-	{% endblock %}
+{% block card %}
+<p><strong>ID: </strong>{{object.id_habitacion}}</p>
+<p><strong>Precio: </strong>{{object.precio1}}</p>
+<p><strong>Número: </strong>{{object.numero}}</p>
+<p><strong>Categoría: </strong>{{object.id_categoria_fk}}</p>
+<p><strong>Características: </strong>{{object.caracteristicas}}</p>
+<p><strong>Foto: </strong><img src="{{object.foto.url}}" class="img-fluid"> </p>
+<p><strong>Estado: </strong>{{object.estado}}</p>
+
+<div class='row justify-content-center'>
+
+	<a href="{{request.META.HTTP_REFERER}}" class="btn btn-primary">
+		<i class="fas fa-caret-left"></i>
+		Volver
+	</a>&nbsp;
+
+</div>
+
+{% endblock %}

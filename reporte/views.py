@@ -23,7 +23,7 @@ from django.core import management
 def generar_reporte(request):
     return render(request, "reserva/reporte_reserva.html", {})
 
-def report_reserva(request):
+def report_reserva(request, fecha1, fecha2, estado):
     #Create the HttpResponse headers with PDF
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="reporte-reserva.pdf"'
@@ -45,7 +45,11 @@ def report_reserva(request):
     c.line(460, 747, 560, 747)
     
     # Tabla Reservas
-    reservas = list(Reserva.objects.all())
+    reservas = list(Reserva.objects.exclude(
+        estado="Anulado"
+        ).filter(
+            fecha_entrada__gte=fecha1,
+            fecha_entrada__lt=fecha2))
     
     # Table header
     styles = getSampleStyleSheet()
@@ -69,7 +73,7 @@ def report_reserva(request):
     
     high = 650
     for reserva in reservas:
-        this_reserva = [reserva.id_empleado_fk,
+        this_reserva = [reserva.id_cliente_fk,
                         reserva.id_habitacion_fk,
                         reserva.fecha_entrada,
                         reserva.fecha_salida,

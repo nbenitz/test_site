@@ -5,7 +5,7 @@
 
 
 {% block in_head %}
-	<script src="{% static '/mqtt/custom-mqtt.js' %}"></script>
+	<script src="{% static '/mqtt/custom-mqtt-myiot.js' %}"></script>
 {% endblock %}
 
 
@@ -27,7 +27,7 @@
 		{% if dispositivo.tipo|stringformat:"s" == "Luz" %}
 		<!-- Card Luz -->
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow">				
+			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow act">				
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">						
 						<div class="col-8">	
@@ -48,7 +48,7 @@
 		{% elif dispositivo.tipo|stringformat:"s" == "Perciana" %}
 		<!-- Card Perciana -->
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow">				
+			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow act">				
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">						
 						<div class="col-8">	
@@ -74,7 +74,7 @@
 		{% elif dispositivo.tipo|stringformat:"s" == "A. Acondicionado" %}
 		<!-- Card Perciana -->
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow">				
+			<div id="act-crd-{{dispositivo.id_dispositivo}}" class="card border-left-danger shadow act">				
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">						
 						<div class="col-8">	
@@ -122,7 +122,7 @@
 							<div class="text-xs font-weight-bold text-danger text-uppercase mb-1">{{ sensor.descripcion }}</div>
 							
 								<div class="row no-gutters align-items-center">
-									<div id="sensor-{{sensor.id_sensor}}" class="h5 mb-0 font-weight-bold text-gray-800">
+									<div id="sensor-{{sensor.id_sensor}}" class="h5 mb-0 font-weight-bold text-gray-800 sensor">
 										---</div>
 									<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
 										&deg;C</div>											

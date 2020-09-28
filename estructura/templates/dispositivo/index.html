@@ -1,38 +1,38 @@
-﻿{% extends "crud/list.html" %}
+{% extends "crud/list.html" %}
 
 {% block table %}
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Habitación</th>
-							<th>Tipo Dispositivo</th>
-							<th>Descripción</th>
-							<th>Acciones</th>
-						</tr>
-					</thead>
+<thead>
+	<tr>
+		<th>ID</th>
+		<th>Habitación</th>
+		<th>Tipo Dispositivo</th>
+		<th>Descripción</th>
+		<th>Acciones</th>
+	</tr>
+</thead>
 
-					<tbody>
-						{% for dispositivo in object_list %}
-							<tr>
-								<td>{{ dispositivo.id_dispositivo }}</td>
-								<td>{{ dispositivo.id_habitacion_fk }}</td>
-								<td>{{ dispositivo.tipo }}</td>
-								<td>{{ dispositivo.descripcion }}</td>
-								<td>
-									<form method="POST" action="eliminar/{{dispositivo.id_dispositivo}}">
-										{% csrf_token %}
-										<div class="btn-group">
-											<a href="detalle/{{dispositivo.id_dispositivo}}" title="Ver" class="btn btn-success">
-												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{dispositivo.id_dispositivo}}" title="Editar" class="btn btn-primary">
-												<i class="far fa-edit"></i></i></a>
-											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
-												<i class="far fa-trash-alt"></i></button>
-										</div>
-									</form>
-								</td>
-							</tr>
-						{% endfor %}
-					</tbody>
+<tbody>
+	{% for Object in object_list %}
+	<tr>
+		<td>{{ Object.id_dispositivo }}</td>
+		<td>{{ Object.id_habitacion_fk }}</td>
+		<td>{{ Object.tipo }}</td>
+		<td>{{ Object.descripcion }}</td>
+		<td>
+			<form method="POST" action="eliminar/{{Object.id_dispositivo}}">
+				{% csrf_token %}
+				<div class="btn-group">
+					<a href="detalle/{{Object.id_dispositivo}}" title="Ver" class="btn btn-success">
+						<i class="far fa-eye"></i></a>
+					<a href="editar/{{Object.id_dispositivo}}" title="Editar" class="btn btn-primary">
+						<i class="far fa-edit"></i></a>
+					<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
+						<i class="far fa-trash-alt"></i></button>
+				</div>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+</tbody>
 
 {% endblock %}

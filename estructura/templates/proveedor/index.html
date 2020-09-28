@@ -1,43 +1,41 @@
 {% extends "crud/list.html" %}
 
 {% block table %}
+<thead>
+	<tr>
+		<th>ID</th>
+		<th>RUC</th>
+		<th>Nombre</th>
+		<th>Telefono</th>
+		<th>Direccion</th>
+		<th>Acciones</th>
+	</tr>
+</thead>
 
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>RUC</th>
-							<th>Nombre</th>
-							<th>Telefono</th>
-							<th>Direccion</th>
-							<th>Acciones</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						{% for proveedor in object_list %}
-							<tr>
-								<td>{{ proveedor.id_proveedor }}</td>
-								<td>{{ proveedor.ruc }}</td>
-								<td>{{ proveedor.nombre }}</td>
-								<td>{{ proveedor.telefono }}</td>
-								<td>{{ proveedor.direccion }}</td>
-								<td>
-									<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
-									<form method="POST" action="eliminar/{{proveedor.id_proveedor}}">
-										{% csrf_token %}
-										<div class="btn-group">
-											<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
-											<a href="detalle/{{proveedor.id_proveedor}}" title="Ver" class="btn btn-success">
-												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{proveedor.id_proveedor}}" title="Editar" class="btn btn-primary">
-												<i class="far fa-edit"></i></i></a>
-											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
-												<i class="far fa-trash-alt"></i></button>
-										</div>
-									</form>
-								</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-
+<tbody>
+	{% for proveedor in object_list %}
+	<tr>
+		<td>{{ proveedor.id_proveedor }}</td>
+		<td>{{ proveedor.ruc }}</td>
+		<td>{{ proveedor.nombre }}</td>
+		<td>{{ proveedor.telefono }}</td>
+		<td>{{ proveedor.direccion }}</td>
+		<td>
+			<!-- Usaremos un formulario que realizara la tarea de eliminar un registro o postre desde la misma tabla HTML -->
+			<form method="POST" action="eliminar/{{proveedor.id_proveedor}}">
+				{% csrf_token %}
+				<div class="btn-group">
+					<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
+					<a href="detalle/{{proveedor.id_proveedor}}" title="Ver" class="btn btn-success">
+						<i class="far fa-eye"></i></i></a>
+					<a href="editar/{{proveedor.id_proveedor}}" title="Editar" class="btn btn-primary">
+						<i class="far fa-edit"></i></i></a>
+					<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
+						<i class="far fa-trash-alt"></i></button>
+				</div>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+</tbody>
 {% endblock %}

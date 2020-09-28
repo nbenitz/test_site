@@ -1,30 +1,18 @@
-﻿{% extends "dashboard/base.html" %}
-{% load static %}
-	{% block content %}
-	
-	<div class='row justify-content-center '>
-		<div class='col-4 col-sm-offset-3'>				
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary text-align-center">Detalles del Dispositivo</h6>
-				</div>
-				
-				<div class="card-body">	
-				
-					<p><strong>ID:  </strong>{{object.id_dispositivo}}</p>
-					<p><strong>Habitación:  </strong>{{object.id_habitacion_fk}}</p>
-					<p><strong>Tipo:  </strong>{{object.tipo}}</p>
-					<p><strong>Descripción:  </strong>{{object.descripcion}}</p>
-										
-					<a href="../" type="submit" class="btn btn-primary">
-						<i class="fas fa-caret-left"></i> Volver</a>
-					
-				</div>
-				
-			</div>
-		</div>
-	</div>	
+﻿{% extends "crud/card.html" %}
 
+{% block card %}
+<p><strong>ID: </strong>{{object.id_dispositivo}}</p>
+<p><strong>Habitación: </strong>{{object.id_habitacion_fk}}</p>
+<p><strong>Tipo: </strong>{{object.tipo}}</p>
+<p><strong>Descripción: </strong>{{object.descripcion}}</p>
 
-	{% endblock %}
+<div class='row justify-content-center'>
+
+	<a href="{{request.META.HTTP_REFERER}}" class="btn btn-primary">
+		<i class="fas fa-caret-left"></i>
+		Volver
+	</a>&nbsp;
+
+</div>
+
+{% endblock %}

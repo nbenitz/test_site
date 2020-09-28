@@ -1,44 +1,42 @@
 {% extends "crud/list.html" %}
 
 {% block table %}
-					<thead>
-						<tr>
-							
-							<th>Codigo</th>
-							<th>proveedor</th>
-							<th>Descripci&oacute;n</th>
-							<th>Categor&iacute;a</th>
-							<th>Precio</th>
-							<th>Stock</th>
-							<th>Acciones</th>
-						</tr>
-					</thead>
+<thead>
+	<tr>
+		<th>Codigo</th>
+		<th>proveedor</th>
+		<th>Descripción</th>
+		<th>Categoría</th>
+		<th>Precio</th>
+		<th>Stock</th>
+		<th>Acciones</th>
+	</tr>
+</thead>
 
-					<tbody>
-						{% for producto in object_list %}
-							<tr>
-								
-								<td>{{ producto.barcode }}</td>
-								<td>{{ producto.id_proveedor_fk}}</td>
-								<td>{{ producto.descripcion}}</td>
-								<td>{{ producto.id_categoria_fk}}</td>
-								<td>{{ producto.precio1 }}</td>
-								<td>{{ producto.stock }}</td>
-								<td>
-									<form method="POST" action="eliminar/{{producto.id_producto}}">
-										{% csrf_token %}
-										<div class="btn-group">
-											<a href="detalle/{{producto.id_producto}}" title="Ver" class="btn btn-success">
-												<i class="far fa-eye"></i></i></a>
-											<a href="editar/{{producto.id_producto}}" title="Editar" class="btn btn-primary">
-												<i class="far fa-edit"></i></i></a>
-											<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
-												<i class="far fa-trash-alt"></i></button>
-										</div>
-									</form>
-								</td>
-							</tr>
-						{% endfor %}
-					</tbody>
+<tbody>
+	{% for producto in object_list %}
+	<tr>
+		<td>{{ producto.barcode }}</td>
+		<td>{{ producto.id_proveedor_fk }}</td>
+		<td>{{ producto.descripcion }}</td>
+		<td>{{ producto.id_categoria_fk }}</td>
+		<td>{{ producto.precio1 }}</td>
+		<td>{{ producto.stock }}</td>
+		<td>
+			<form method="POST" action="eliminar/{{producto.id_producto}}">
+				{% csrf_token %}
+				<div class="btn-group">
+					<a href="detalle/{{producto.id_producto}}" title="Ver" class="btn btn-success">
+						<i class="far fa-eye"></i></i></a>
+					<a href="editar/{{producto.id_producto}}" title="Editar" class="btn btn-primary">
+						<i class="far fa-edit"></i></i></a>
+					<button class="btn btn-danger" onclick="return eliminar();" title="Eliminar">
+						<i class="far fa-trash-alt"></i></button>
+				</div>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+</tbody>
 
 {% endblock %}

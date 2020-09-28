@@ -4,45 +4,43 @@
 
 {% block head_title %}Bienvenidos{% endblock %}
 
-	<style>
-		{% block style %}
-			.jumbotron {
-				background-color: #37346b !important;
-				color: #eee !important;
-			}
-			
-			.fa-5x {
-				font-size: 6em !important;
-			}
-		{% endblock %}
-	</style>
+{% block in_head %}
+<style>
+	.jumbotron {
+		background-color: #37346b !important;
+		color: #eee !important;
+	}
 
-{% block jumbotron %}
-
-		<!-- Main component for a primary marketing message or call to action -->
-		<div class="jumbotron">
-			<div class="container">
-				<div class='row'>
-					<div class='col-sm-6'>      		
-		        		<h1>Proyecto II</h1>
-		        		<p>Desarrollo de un Sistema Web para la Gestión de un Hotel en la Ciudad de Coronel Oviedo en el año 2019.</p>
-		        		<p>
-						</p>    		
-					</div>
-					<div class='col-sm-6' height:315px;>
-
-					</div>
-				</div>
-			</div>
-		</div>
-
+	.fa-5x {
+		font-size: 6em !important;
+	}
+</style>
 {% endblock %}
 
-<h1>{{ titulo }}</h1>
-<hr/>
-<br/>
+{% block content %}
 
-{% block content %}	
+<!-- Main component for a primary marketing message or call to action -->
+<div class="jumbotron">
+	<div class="container">
+		<div class='row'>
+			<div class='col-sm-6'>
+				<h1>Hotel Amanecer</h1>
+				<p>Desarrollo de un Sistema Web para la Gestión de un Hotel en la Ciudad de Coronel Oviedo en el año
+					2020.</p>
+				<p>
+				</p>
+			</div>
+			<div class='col-sm-6' height:315px;>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<h1>{{ titulo }}</h1>
+<hr />
+<br />
+
 <!--	<div class="row">
 	
 		<div class="col-sm-3 col-xs-12 pull-right">

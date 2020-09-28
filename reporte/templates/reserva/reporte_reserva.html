@@ -1,103 +1,116 @@
-{% extends "dashboard/base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-	{% block content %}
-	<!-- Page Heading -->	
-	
-	<div class='row justify-content-center'>
-		<div class='col-sm-6 col-sm-offset-3'>
-			<div class="card shadow mb-4">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">Generar Reporte de Reservas</h6>
-				</div>
-				
-				<div class="card-body">
-					<div class="col">	
-						<hr>						
-							<h5>Filtrar por rango de fechas:</h5>		
-							<input type="text" id="id_fecha_inicial" class="mb-4 dateinput form-control" required="" id="id_fecha_inicial" placeholder="Fecha Inicial">
-							<input type="text" id="id_fecha_final" class="mb-4 dateinput form-control" required="" id="id_fecha_final" placeholder="Fecha Final">
-						<select name="dataTable_length" aria-controls="dataTable" class="mb-4 custom-select form-control">
-							<option value="10">Todos</option>
-							<option value="25">Pagados</option>
-							<option value="50">Pendientes de Pago</option>
-							<option value="100">Ocupadas</option>
-							<option value="100">Anuladas</option>
-						</select>
-						<!--<button type="submit" class="btn btn-success">
+{% block content %}
+<!-- Page Heading -->
+
+<div class='row justify-content-center'>
+	<div class='col-sm-6 col-sm-offset-3'>
+		<div class="card shadow mb-4">
+
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">Generar Reporte de Reservas</h6>
+			</div>
+
+			<div class="card-body">
+				<div class="col">
+					<hr>
+					<h5>Filtrar por rango de fechas:</h5>
+					<input type="text" id="id_fecha_inicial" class="mb-4 dateinput form-control" required=""
+						id="id_fecha_inicial" placeholder="Fecha Inicial">
+					<input type="text" id="id_fecha_final" class="mb-4 dateinput form-control" required=""
+						id="id_fecha_final" placeholder="Fecha Final">
+					<select name="dataTable_length" aria-controls="dataTable" class="mb-4 custom-select form-control">
+						<option value="Todos">Todos</option>
+						<option value="Pagados">Pagados</option>
+						<option value="Pendientes">Pendientes de Pago</option>
+						<option value="Ocupadas">Ocupadas</option>
+						<option value="Anuladas">Anuladas</option>
+					</select>
+					<!--<button type="submit" class="btn btn-success">
 							Genarar
 						</button>-->
-						<a href="{% url 'reporteReserva' %}" type="submit" class="btn btn-success">
-							Generar
-						</a>
-					 
-					</div>
-					
+					<button id="btn-gen" gen-url="{% url 'reporteReserva' %}"
+						onclick="return generar();" type="submit" class="btn btn-success">
+						Generar
+					</button>
+
 				</div>
+
 			</div>
 		</div>
 	</div>
-	
-	<script type="text/javascript">
-		var fecha_inicial;
-		var fecha_final;
+</div>
+
+<script type="text/javascript">
+	var fecha_inicial = new Date(1970,0,1);
+	var fecha_final = new Date(3000,0,1);
+
+	$(document).ready(function () {
+
+		console.log("Ok");
+		jQuery.browser = {};
+		$(function () {
+			$("#id_fecha_inicial").datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: "yy-mm-dd"
+			});
+
+			$("#id_fecha_final").datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: "yy-mm-dd"
+			});
+
+		});
+
+		$("#id_fecha_inicial").change(function () {
+			fecha_inicial = new Date($("#id_fecha_inicial").val());
+			fecha_inicial.setDate(fecha_inicial.getDate() + 1);
+
+			var fecha_inicial_min = new Date(fecha_inicial);
+			fecha_inicial_min.setDate(fecha_inicial_min.getDate() + 1);
+
+			$("#id_fecha_final").datepicker("option", "minDate", fecha_inicial_min);
+			console.log(fecha_inicial);
+			$("#id_fecha_inicial").attr('type', 'date');
+		});
+
+		$("#id_fecha_final").change(function () {
+			$("#id_fecha_final").attr('type', 'date');
+
+			fecha_final = new Date($("#id_fecha_final").val());
+			fecha_final.setDate(fecha_final.getDate() + 1);
+			console.log(fecha_final);
+		});
+
+		$("#id_fecha_inicial").click(function () {
+			$("#id_fecha_inicial").attr('type', 'text');
+		});
+
+		$("#id_fecha_inicial").click(function () {
+			$("#id_fecha_inicial").attr('type', 'text');
+		});
+
+		$("#id_fecha_final").blur(function () {
+			$("#id_fecha_final").attr('type', 'date');
+		});
+
+		$("#id_fecha_final").blur(function () {
+			$("#id_fecha_final").attr('type', 'date');
+		});
+
+	});
+
+	function generar(url) {
+		var url = $("#btn-gen").attr("gen-url");
 		
-	    $(document).ready(function () {
-				
-			console.log("Ok");
-			var dateToday = new Date(); 
-			jQuery.browser = {};
-			$(function() {
-	            $("#id_fecha_inicial").datepicker({
-	                changeMonth: true,
-	                changeYear: true,
-	                dateFormat: "yy-mm-dd"
-				});
-				
-				$( "#id_fecha_final" ).datepicker({
-					changeMonth: true,
-					changeYear: true,
-					minDate: dateToday,
-					dateFormat: "yy-mm-dd"
-				});				
-					
-			});
-		
-			$("#id_fecha_inicial").change(function () {
-	            fecha_inicial = new Date($("#id_fecha_inicial").val());			
-	
-	            var fecha_inicial_min = new Date(fecha_inicial);
-				fecha_inicial_min.setDate(fecha_inicial_min.getDate() + 2);	
-	            $("#id_fecha_final").datepicker("option", "minDate", fecha_inicial_min);
-	            console.log(fecha_inicial);
-				$("#id_fecha_inicial").attr('type', 'date');
-			});
-			
-			$("#id_fecha_final").change(function () {
-				$("#id_fecha_finl").attr('type', 'date');
-	
-				fecha_final = new Date($("#id_fecha_final").val());
-				console.log(fecha_inicial);
-			});
-			
-			$("#id_fecha_inicial").click(function () {
-				$("#id_fecha_inicial").attr('type', 'text');
-			});
-			
-			$("#id_fecha_inicial").click(function () {
-				$("#id_fecha_inicial").attr('type', 'text');
-			});
-			
-			$("#id_fecha_final").blur(function () {
-				$("#id_fecha_final").attr('type', 'date');
-			});
-			
-			$("#id_fecha_final").blur(function () {
-				$("#id_fecha_final").attr('type', 'date');
-			});
-			
-		});	
-				
-	</script>
-	{% endblock %}
+		var inicial = fecha_inicial.getFullYear() + "-" + (fecha_inicial.getMonth() + 1) + "-" + (fecha_inicial.getDate());
+		var final = fecha_final.getFullYear() + "-" + (fecha_final.getMonth() + 1) + "-" + (fecha_final.getDate());
+		window.location.href = url + inicial + "/" + final + "/";
+
+	}
+
+</script>
+{% endblock %}

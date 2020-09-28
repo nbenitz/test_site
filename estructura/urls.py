@@ -15,6 +15,7 @@ urlpatterns = [
     
     path('habitacion/detalle/<str:pk>', ObjetoDetalle.as_view(model = models.Habitacion,
                                                               template_name="habitacion/detalles.html",
+                                                              extra_context={'titulo':'Detalles de la Habitación'},
                                                               ), name='detallesHabitacion'),
     
     path('habitacion/crear', HabitacionCrear.as_view(template_name="crud/crear_editar.html",
@@ -32,7 +33,8 @@ urlpatterns = [
                                                             'plural':'Proveedores'}), name='leerProveedor'),
     
     path('proveedor/detalle/<str:pk>', ObjetoDetalle.as_view(model = models.Proveedor, 
-                                                             template_name="proveedor/detalles.html"
+                                                             template_name="proveedor/detalles.html",
+                                                             extra_context={'titulo':'Detalles del Proveedor'},
                                                              ), name='detallesProveedor'),
     
     path('proveedor/crear', ProveedorCrear.as_view(template_name="crud/crear_editar.html",
@@ -51,6 +53,7 @@ urlpatterns = [
     
     path('producto/detalle/<str:pk>', ObjetoDetalle.as_view(model = models.Producto,
                                                             template_name="producto/detalles.html",
+                                                            extra_context={'titulo':'Detalles del Producto'},
                                                             ), name='detallesProducto'),
     
     path('producto/crear', ProductoCrear.as_view(template_name="crud/crear_editar.html",
@@ -62,13 +65,15 @@ urlpatterns = [
     path('producto/eliminar/<str:pk>', ProductoEliminar.as_view(), name='eliminarProducto'),
     
     #url de categoria habitacion
-    path('categoriahab/', ObjetoListado.as_view(model = models.CategoriaHab, 
-                                                template_name="categoriahab/index.html", 
-                                                extra_context={'titulo':'Categoría de Habitación',
-                                                               'plural':'Categorías de Habitaciones'}), name='leerCategoriaHab'),
-    
+    path('categoriahab/', ObjetoListado.as_view(model = models.CategoriaHab,
+                                                 template_name="categoriahab/index.html",
+                                                 extra_context={'titulo':'Categoría de Habitación',
+                                                                'plural':'Categorías de Habitaciones'}), name='leerCategoriaHab'),
+
+
     path('categoriahab/detalle/<str:pk>', ObjetoDetalle.as_view(model = models.CategoriaHab,
                                                                 template_name="categoriahab/detalles.html",
+                                                                extra_context={'titulo':'Detalles de la Categoría de Habitación'},
                                                                 ), name='detallesCategoriaHab'),
     
     path('categoriahab/crear', CategoriaHabCrear.as_view(template_name="crud/crear_editar.html",
@@ -87,6 +92,7 @@ urlpatterns = [
     
     path('categoriaprod/detalle/<str:pk>', ObjetoDetalle.as_view(model = models.CategoriaProd, 
                                                                  template_name="categoriaprod/detalles.html",
+                                                                 extra_context={'titulo':'Detalles de la Categoría del Producto'},
                                                                  ), name='detallesCategoriaProd'),
     
     path('categoriaprod/crear', CategoriaProdCrear.as_view(template_name="crud/crear_editar.html",
@@ -105,6 +111,7 @@ urlpatterns = [
     
     path('servicio/detalle/<str:pk>', ObjetoDetalle.as_view(model = models.Servicio,
                                                             template_name="servicio/detalles.html",
+                                                            extra_context={'titulo':'Detalles del Servicio'},
                                                             ), name='detallesServicio'),
     
     path('servicio/crear', ServicioCrear.as_view(template_name="crud/crear_editar.html",
@@ -123,6 +130,7 @@ urlpatterns = [
     
     path('dispositivo/detalle/<str:pk>', ObjetoDetalle.as_view(model = models.Dispositivo,
                                                                template_name="dispositivo/detalles.html",
+                                                               extra_context={'titulo':'Detalles del Dispositivo'}
                                                                ), name='detallesDispositivo'),
     
     path('dispositivo/crear', DispositivoCrear.as_view(template_name="crud/crear_editar.html",
@@ -132,6 +140,7 @@ urlpatterns = [
                                                                       extra_context={'titulo':'Editar Dispositivo'}), name='actualizarDispositivo'),
     
     path('dispositivo/eliminar/<str:pk>', DispositivoEliminar.as_view(), name='eliminarDispositivo'),
+    
     path('dispositivo/tablero', Tablero.as_view(template_name="dispositivo/monitor.html"), name='tablero'),
 
 ]

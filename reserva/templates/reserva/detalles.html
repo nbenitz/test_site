@@ -2,42 +2,42 @@
 {% load static %}
 
 {% block card %}
-				
-					<p><strong>Cliente: </strong>{{object.id_cliente_fk}}</p>
-					<p><strong>Habitaci&oacute;n </strong>{{object.id_habitacion_fk}}</p>
-					<p><strong>Fecha de Reserva: </strong>{{object.fecha_reserva}}</p>
-					<p><strong>Fecha de Entrada: </strong>{{object.fecha_entrada}}</p>
-					<p><strong>Fecha de Salida: </strong>{{object.fecha_salida}}</p>
-					<p><strong>Costo de Alojamiento: </strong>{{object.costo_alojamiento}}</p>
-					<p><strong>Estado: </strong>{{object.estado}}</p>
-					<p><strong>Recepcionista: </strong>{{object.id_empleado_fk}}</p>
-					
-					<div class='row justify-content-center'>					
-						<a href="{% url 'leerReserva' operacion %}" type="submit" class="btn btn-primary">
-							<i class="fas fa-caret-left"></i> Volver</a>&nbsp;&nbsp;
-						
-						{% if operacion == "ampliar" %}
-							<a href="{% url 'ampliarReserva' object.id_reserva %}" class="btn btn-success">
-								<i class="far fa-edit"></i> Ampliar</a>&nbsp;&nbsp;
-						{% elif operacion == "anular" %}
-							<form method="POST" action="{% url 'anularReserva' object.id_reserva %}">
-								{% csrf_token %}
-								<button class="btn btn-danger" onclick="return anular();">
-									<i class="far fa-trash-alt"></i> Anular</button>
-							</form>
-						{% endif %}	
 
-					</div>
-	
-	<script type="text/javascript">
-		function anular() {
-			var x = confirm("Anular Reserva?");
-			if (x)
-				return true;
-			else
-				return false;
-		}
-	</script>
-	
+<p><strong>Cliente: </strong>{{object.id_cliente_fk}}</p>
+<p><strong>Habitación </strong>{{object.id_habitacion_fk}}</p>
+<p><strong>Fecha de Reserva: </strong>{{object.fecha_reserva}}</p>
+<p><strong>Fecha de Entrada: </strong>{{object.fecha_entrada}}</p>
+<p><strong>Fecha de Salida: </strong>{{object.fecha_salida}}</p>
+<p><strong>Costo de Alojamiento: </strong>{{object.costo_alojamiento}}</p>
+<p><strong>Estado: </strong>{{object.estado}}</p>
+<p><strong>Recepcionista: </strong>{{object.id_empleado_fk}}</p>
+
+<div class='row justify-content-center'>
+	<a href="{% url 'leerReserva' operacion %}" type="submit" class="btn btn-primary">
+		<i class="fas fa-caret-left"></i> Volver</a>&nbsp;&nbsp;
+
+	{% if operacion == "ampliar" %}
+	<a href="{% url 'ampliarReserva' object.id_reserva %}" class="btn btn-success">
+		<i class="far fa-edit"></i> Ampliar</a>&nbsp;&nbsp;
+	{% elif operacion == "anular" %}
+	<form method="POST" action="{% url 'anularReserva' object.id_reserva %}">
+		{% csrf_token %}
+		<button class="btn btn-danger" onclick="return anular();">
+			<i class="far fa-trash-alt"></i> Anular</button>
+	</form>
+	{% endif %}
+
+</div>
+
+<script type="text/javascript">
+	function anular() {
+		var x = confirm("Anular Reserva?");
+		if (x)
+			return true;
+		else
+			return false;
+	}
+</script>
+
 
 {% endblock %}

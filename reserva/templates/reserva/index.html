@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<!-- Page Heading -->
-	<div class='row m-2'>
-		<div class='col-sm-6 col-sm-offset-3'>
-			<h1 class="h3 text-gray-800">
-			
+
+
+{% if messages %}
+<ul class="messages list-group mb-3">
+	{% for message in messages %}
+	<li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary" {% endif %}>
+		{{ message }}</li>
+		{% endfor %}
+</ul>
+{% endif %}
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+	<div class="card-header py-3">
+		<div class='col-md-6 col-md-offset-3 p-0'>
+			<h4 class="h4 mb-0 text-gray-800">
+
 			{% if operacion == "ampliar" %}
 				Ampliar Reserva
 			{% elif operacion == "anular" %}
@@ -33,82 +45,64 @@
 				{% endif %}
 			
 			{% endif %}
-			
-			</h1>
-		</div>
-		<!--<div align="right" class='col-sm-6 btn_crear mb-3'>
-			<a href="crear" class="btn btn-primary">
-				<i class="fas fa-plus"></i> Nueva Reserva</a>
-		</div>-->
-	</div>
 
-	{% if messages %}
-		<ul class="messages list-group mb-3">
-			{% for message in messages %}
-				<li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
-			{% endfor %}
-		</ul>
-	{% endif %}
-
-	<!-- DataTales Example -->
-	<div class="card shadow mb-4">
-		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">Seleccionar Reserva</h6>
-		</div>
-		<div class="card-body">
-			<div class="table-responsive">
-
-				<table class="table " id="dataTable" width="100%" cellspacing="0">
-					<thead>
-						<tr>
-							<th>Fecha Entrada</th>
-							<th>Fecha Salida</th>
-							<th>Habitaci&oacute;n</th>
-							<th>Cliente</th>
-							<th>Fecha Reserva</th>
-							<th>Acciones</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
-						{% for reserva in object_list %}
-						<tr>
-							<td>{{ reserva.fecha_entrada|date:'d/m/y' }}</td>
-							<td>{{ reserva.fecha_salida|date:'d/m/y' }}</td>
-							<td>{{ reserva.id_habitacion_fk }}</td>
-							<td>{{ reserva.id_cliente_fk }}</td>
-							<td>{{ reserva.fecha_reserva|date:'d/m/y H:i' }}</td>
-							<td>
-								<a 
-									{% if operacion == "consumo" %}
-										href="{% url 'consumo' reserva.id_reserva %}"
-									{% elif operacion == "pago" %}
-										href="{% url 'detallePago' reserva.id_reserva %}"
-									{% else %}
-										href="{% url 'detallesReserva' reserva.id_reserva operacion %}"
-									{% endif %}
-									class="btn btn-success btn-block">
-									<i class=""> Seleccionar</i>
-								</a>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-
-			</div>
+			</h4>
 		</div>
 	</div>
+	<div class="card-header py-3">
+		<h6 class="m-0 text-primary">Seleccionar Reserva</h6>
+	</div>
+	<div class="card-body">
+		<div class="table-responsive">
 
-	<script type="text/javascript">
-		function eliminar() {
-			var x = confirm("Eliminar Cliente?");
-			if (x)
-				return true;
-			else
-				return false;
-		}
-	</script>
+			<table class="table " id="dataTable" width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th>Fecha Entrada</th>
+						<th>Fecha Salida</th>
+						<th>Habitaci&oacute;n</th>
+						<th>Cliente</th>
+						<!-- <th>Fecha Reserva</th> -->
+						<th>Estado</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
+					{% for reserva in object_list %}
+					<tr>
+						<td>{{ reserva.fecha_entrada|date:'d/m/y' }}</td>
+						<td>{{ reserva.fecha_salida|date:'d/m/y' }}</td>
+						<td>{{ reserva.id_habitacion_fk }}</td>
+						<td>{{ reserva.id_cliente_fk }}</td>
+						<!-- <td>{{ reserva.fecha_reserva|date:'d/m/y H:i' }}</td> -->
+						<td>{{ reserva.estado }}</td>
+						<td>
+							<a {% if operacion == "consumo" %} href="{% url 'consumo' reserva.id_reserva %}"
+								{% elif operacion == "pago" %} href="{% url 'detallePago' reserva.id_reserva %}"
+								{% else %} href="{% url 'detallesReserva' reserva.id_reserva operacion %}" {% endif %}
+								class="btn btn-success btn-block">
+								<i class=""> Seleccionar</i>
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function eliminar() {
+		var x = confirm("Eliminar Cliente?");
+		if (x)
+			return true;
+		else
+			return false;
+	}
+</script>
 
 {% endblock %}

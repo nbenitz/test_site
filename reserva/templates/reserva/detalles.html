@@ -13,17 +13,43 @@
 <p><strong>Recepcionista: </strong>{{object.id_empleado_fk}}</p>
 
 <div class='row justify-content-center'>
+	{% if operacion == "finalizar" %}
+	{% if object.saldo_pendiente > 0 %}
+	<p><strong class="text-danger">Aún posee un saldo pendiente de {{object.tag_saldo_pendiente}}</strong></p>
+	{% endif %}
+	{% endif %}
+</div>
+
+<div class='row justify-content-center'>
+
 	<a href="{% url 'leerReserva' operacion %}" type="submit" class="btn btn-primary">
 		<i class="fas fa-caret-left"></i> Volver</a>&nbsp;&nbsp;
 
 	{% if operacion == "ampliar" %}
 	<a href="{% url 'ampliarReserva' object.id_reserva %}" class="btn btn-success">
-		<i class="far fa-edit"></i> Ampliar</a>&nbsp;&nbsp;
+		<i class="far fa-edit"></i> Ampliar</a>
+	{% elif operacion == "finalizar"%}
+		{% if object.saldo_pendiente == 0 %}
+		<form method="POST" action="{% url 'finalizarReserva' object.id_reserva %}">
+			{% csrf_token %}
+			<button class="btn btn-success" onclick="return finalizar();">
+				Finalizar</button>
+		</form>
+		{% else %}
+		<a href="{% url 'detallePago' object.id_reserva %}" class="btn btn-success">
+			Pagar</a>
+		{% endif %}
 	{% elif operacion == "anular" %}
 	<form method="POST" action="{% url 'anularReserva' object.id_reserva %}">
 		{% csrf_token %}
 		<button class="btn btn-danger" onclick="return anular();">
 			<i class="far fa-trash-alt"></i> Anular</button>
+	</form>
+	{% elif operacion == "confirmar" %}
+	<form method="POST" action="{% url 'confirmarReserva' object.id_reserva %}">
+		{% csrf_token %}
+		<button class="btn btn-success" onclick="return confirmar();">
+			Confirmar</button>
 	</form>
 	{% endif %}
 
@@ -32,6 +58,20 @@
 <script type="text/javascript">
 	function anular() {
 		var x = confirm("Anular Reserva?");
+		if (x)
+			return true;
+		else
+			return false;
+	}
+	function confirmar() {
+		var x = confirm("Confirmar Reserva?");
+		if (x)
+			return true;
+		else
+			return false;
+	}
+	function finalizar() {
+		var x = confirm("Finalizar Reserva?");
 		if (x)
 			return true;
 		else

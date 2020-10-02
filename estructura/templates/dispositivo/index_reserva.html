@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+	<div class="card-header py-3">
+		<div class='col-md-6 col-md-offset-3 p-0'>
+			<h4 class="h4 mb-0 text-gray-800">
+				Habitaciones Reservadas
+			</h4>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="table-responsive">
+
+			<table class="table" id="dataTablee" width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th>Habitación</th>
+						<th>Fecha Entrada</th>
+						<th>Fecha Salida</th>
+						<th>Fecha Reserva</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
+					{% for reserva in object_list %}
+					<tr>
+						<td>{{ reserva.id_habitacion_fk }}</td>
+						<td>{{ reserva.fecha_entrada|date:'d/m/y' }}</td>
+						<td>{{ reserva.fecha_salida|date:'d/m/y' }}</td>
+						<td>{{ reserva.fecha_reserva|date:'d/m/y H:i' }}</td>
+						<td>
+							<a href="{% url 'tablero' reserva.id_habitacion_fk.id_habitacion %}"
+								class="btn btn-success btn-block">
+								Seleccionar
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function eliminar() {
+		var x = confirm("Eliminar Cliente?");
+		if (x)
+			return true;
+		else
+			return false;
+	}
+</script>
+
+{% endblock %}

@@ -29,8 +29,9 @@ SECRET_KEY = '$@m5a#h1oh-=fn4k#!!7tln^u^=km-puzov=f1fpuf(f2x^20p'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'lucatronic.pythonanywhere.com',
-    '127.0.0.1',
+    '*',
+    # 'lucatronic.pythonanywhere.com',
+    # '127.0.0.1',
 ]
 
 

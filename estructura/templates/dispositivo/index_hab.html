@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block head_title %}Habitaciones{% endblock %}
+
+
+{% block in_head %}
+
+{% endblock %}
+
+
+{% block content %}
+
+{% if messages %}
+<ul class="messages list-group mb-3">
+	{% for message in messages %}
+	<li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary" {% endif %}>
+		{{ message }}</li>
+		{% endfor %}
+</ul>
+{% endif %}
+
+<!-- Page Heading -->
+<div class='row mx-2 mt-3'>
+	<div class='col-sm-6 col-sm-offset-3'>
+		<h1 class="h3 mb-2 text-gray-800">Habitaciones</h1>
+	</div>
+	<div align="right" class='col-sm-6 btn_crear mb-3'>
+		<a href="crear" class="btn btn-primary">
+			<i class="fas fa-plus"></i> Nueva Habitación</a>
+	</div>
+</div>
+
+<!-- Content Row -->
+
+<!--<header class="border-bottom mb-4 pb-3">
+		<div class="form-inline">
+			<span class="mr-md-auto">32 Items found </span>
+			<select class="mr-2 form-control">
+				<option>Latest items</option>
+				<option>Trending</option>
+				<option>Most Popular</option>
+				<option>Cheapest</option>
+			</select>
+			<div class="btn-group">
+				<a href="#" class="btn btn-outline-secondary active" data-toggle="tooltip" title="List view"> 
+					<i class="fa fa-bars"></i></a>
+				<a href="#" class="btn  btn-outline-secondary" data-toggle="tooltip" title="Grid view"> 
+					<i class="fa fa-th"></i></a>
+			</div>
+		</div>
+	</header>-->
+
+<!-- sect-heading -->
+
+
+{% for habitacion in object_list %}
+<div class="row">
+	<!-- Card Temperatura -->
+	<div class="col-sm-12">
+		<div class="card h-100 py-1">
+			<div class="card-body">
+				<div class="row align-items-center">
+
+					<aside class="col-md-3">
+						<a href="#" class="img-wrap"><img src="{{habitacion.foto.url}}" class="img-fluid"></a>
+					</aside>
+
+
+					<div class="col-md-6">
+						<div class="info-main">
+							<div class="h5 title"><strong>Habitación {{ habitacion.numero }}</strong></div>
+							<br>
+							<p><strong>Categoría: </strong>{{habitacion.id_categoria_fk}}</p>
+							<p><strong>Características: </strong>{{habitacion.caracteristicas}}</p>
+						</div> <!-- info-main.// -->
+					</div> <!-- col.// -->
+
+
+					<aside class="col-sm-3">
+						<div class="info-aside">
+							<div class="price-wrap">
+								<span class="h5"> Gs. {{ habitacion.precio1 }}</span>
+							</div> <!-- info-price-detail // -->
+							<br>
+							<form method="POST" action="eliminar/{{habitacion.id_habitacion}}">
+								{% csrf_token %}
+								<!--<div class="btn-group">-->
+								<!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
+								<a href="detalle/{{habitacion.id_habitacion}}" title="Ver"
+									class="btn btn-success btn-block">
+									<i class="far fa-eye"></i>&nbsp;Detalles</a>
+								<a href="editar/{{habitacion.id_habitacion}}" title="Editar"
+									class="btn btn-primary btn-block">
+									<i class="far fa-edit"></i>&nbsp;Editar</a>
+								<button class="btn btn-danger btn-block" onclick="return eliminar();" title="Eliminar">
+									<i class="far fa-trash-alt"></i>&nbsp;Eliminar</button>
+								<!--</div>-->
+							</form>
+						</div> <!-- info-aside.// -->
+					</aside> <!-- col.// -->
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+
+<script type="text/javascript">
+	function eliminar() {
+		var x = confirm("Eliminar Habitaci&oacute;n?");
+		if (x)
+			return true;
+		else
+			return false;
+	}
+</script>
+
+
+
+{% endblock %}

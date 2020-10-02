@@ -1,7 +1,8 @@
 ﻿# persona/urls.py
 from django.urls import path
 
-from .views import ReservaListado, ReservaDetalle, ReservaCrear, load_habitacion_disponible, ReservaAnular, ReservaAmpliar, \
+from .views import ReservaListado, ReservaDetalle, ReservaCrear, load_habitacion_disponible, \
+                    ReservaAnular, ReservaAmpliar, ReservaConfirmar, ReservaFinalizar, \
                     DetalleVenta, ajax_search_products, ajax_add_product, ajax_modify_detalle_venta_prod, DetallePago, factura
 
 urlpatterns = [
@@ -9,6 +10,8 @@ urlpatterns = [
     path('reserva/detalle/<str:pk>/<str:operacion>', ReservaDetalle.as_view(template_name = "reserva/detalles.html"), name='detallesReserva'),
     path('reserva/crear', ReservaCrear.as_view(template_name = "reserva/crear.html"), name='crearReserva'),
 
+    path('reserva/confirmar/<str:pk>', ReservaConfirmar.as_view(), name='confirmarReserva'),
+    path('reserva/finalizar/<str:pk>', ReservaFinalizar.as_view(), name='finalizarReserva'),
     path('reserva/anular/<str:pk>', ReservaAnular.as_view(), name='anularReserva'),
     path('reserva/ampliar/<str:pk>', ReservaAmpliar.as_view(template_name = "reserva/ampliar.html"), name='ampliarReserva'),
     path('reserva/consumo/<str:pk>', DetalleVenta.as_view(template_name = "consumo/detalle_venta.html"), name='consumo'),

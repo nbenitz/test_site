@@ -256,24 +256,38 @@ class DispositivoEliminar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return reverse('leerDispositivo')
 
 
-class Tablero(LoginRequiredMixin, ListView): 
-    model = Dispositivo
+class ListadoHabReserv(LoginRequiredMixin, ListView): 
+    model = Reserva
 
     def get_queryset(self, **kwargs):
         qs = self.model.objects.none()
         if self.request.user.is_client:
             cliente = Cliente.objects.get(user_id=self.request.user.id)
-            reserva_cliente_ocupado = Reserva.objects.exclude(
+            reserva_cliente_ocupado = self.model.objects.exclude(
                 estado='Anulado'
                 ).filter(
                     id_cliente_fk=cliente.id,
-                    fecha_entrada__gte=datetime.date.today(),
-                    fecha_salida__gte=datetime.date.today()
+                    fecha_entrada__lte=datetime.date.today(),
+                    fecha_salida__gt=datetime.date.today()
                     )
-            print(reserva_cliente_ocupado)
-            if reserva_cliente_ocupado.exists():
-                id_hab = reserva_cliente_ocupado.values_list('id_habitacion_fk', flat=True)[0]
-                qs = self.model.objects.filter(id_habitacion_fk=id_hab)
-                print(qs)
+
+            qs = reserva_cliente_ocupado
+
         return qs
+
+
+class Tablero(LoginRequiredMixin, ListView): 
+    model = Dispositivo
+
+    def get_queryset(self, **kwargs):
+        id_hab = self.kwargs['id_hab']
+        qs = self.model.objects.filter(id_habitacion_fk=id_hab)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id_hab = self.kwargs['id_hab']
+        nro_hab = Habitacion.objects.get(id_habitacion=id_hab).numero
+        context["nro_hab"] = nro_hab
+        return context
 

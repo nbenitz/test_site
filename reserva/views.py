@@ -125,6 +125,10 @@ class ReservaListado(LoginRequiredMixin, ListView):
             qs = qs.filter(id_cliente_fk=cliente)
         if operacion == "anular":
             qs = qs.filter(fecha_entrada__gte=datetime.date.today())
+        if operacion == "confirmar":
+            qs = qs.filter(fecha_entrada=datetime.date.today())
+        if operacion == "finalizar":
+            qs = qs.filter(fecha_salida__lte=datetime.date.today(), estado="Confirmado")
         elif operacion == "pago" or operacion == "consumo" or operacion == "ampliar" or operacion == "crear":
             qs = qs.filter(fecha_salida__gte=datetime.date.today())    
         
@@ -143,6 +147,33 @@ class ReservaDetalle(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["operacion"] = self.kwargs['operacion']
         return context
+
+class ReservaConfirmar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
+    model = Reserva 
+    form = Reserva 
+    fields = []
+    success_message = 'Reserva Confirmada Correctamente !'
+    
+    def form_valid(self, form):
+        form.instance.estado = "Confirmado"
+        return super().form_valid(form)
+ 
+    def get_success_url(self):
+        return reverse('leerReserva', args=['confirmar',])
+
+
+class ReservaFinalizar(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
+    model = Reserva 
+    form = Reserva 
+    fields = []
+    success_message = 'Reserva Finalizada Correctamente !'
+    
+    def form_valid(self, form):
+        form.instance.estado = "Finalizado"
+        return super().form_valid(form)
+ 
+    def get_success_url(self):
+        return reverse('leerReserva', args=['finalizar',])
        
 class ReservaAnular(LoginRequiredMixin, SuccessMessageMixin, UpdateView): 
     model = Reserva 
@@ -197,7 +228,7 @@ class DetalleVenta(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         instance = Reserva.objects.get(id_reserva=self.kwargs['pk'])
-        qs_p = Producto.objects.filter(is_active=True)[:12]
+        qs_p = Producto.objects.filter(is_active=True)[:6]
         products = ProductTable(qs_p)
         detalle_venta_prod = DetVentaProdTable(instance.detalle_venta_prod.all())
         RequestConfig(self.request).configure(products)
@@ -271,7 +302,7 @@ def ajax_search_products(request, pk):
         )|Producto.broswer.is_active().filter(
             descripcion__icontains=q
             ) if q else Producto.broswer.is_active()
-    products = products[:12]
+    products = products[6]
     products = ProductTable(products)
     RequestConfig(request).configure(products)
     data = dict()
@@ -428,3 +459,20 @@ def factura(request, pk, pago, vuelto):
     response.write(pdf)
 
     return response
+
+class HabDispListado(LoginRequiredMixin, ListView):
+    model = Reserva
+    #extra_context={'titulo': 'Anular Reserva'}
+    
+    def get_queryset(self, **kwargs):
+        qs = self.model.objects.exclude(estado="Anulado")
+        
+        if self.request.user.is_client:
+            cliente = Cliente.objects.get(user_id=self.request.user.id)
+            qs = qs.filter(id_cliente_fk=cliente)
+        if operacion == "anular":
+            qs = qs.filter(fecha_entrada__gte=datetime.date.today())
+        elif operacion == "pago" or operacion == "consumo" or operacion == "ampliar" or operacion == "crear":
+            qs = qs.filter(fecha_salida__gte=datetime.date.today())    
+        
+        return qs

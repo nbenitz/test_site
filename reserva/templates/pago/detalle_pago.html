@@ -1,73 +1,75 @@
 ﻿{% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-	{% block content %}
-	<!-- Page Heading -->
+{% block content %}
+<!-- Page Heading -->
 <!--	<h1 class="h3 mb-2 text-gray-800">Reservas</h1>
--->	
+-->
 
 
-	<div class='row justify-content-center '>
-		<div class='col-md-10 col-sm-offset-3 mb-4'>				
-			<div class="card shadow mb-0">
-			
-				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary text-align-center">Pago - Alojamiento y Consumo</h6>
-				</div>
-				
-				
-				
-				<div class="card-body">	
-					<div class='row'>
-						<div class='col-lg-5'>							
-							<div>
-								<hr>
-								<p><strong>Cliente: </strong>{{reserva.id_cliente_fk}}</p>
-								<p><strong>Habitaci&oacute;n </strong>{{reserva.id_habitacion_fk}}</p>
-								<p><strong>Fecha de Entrada: </strong>{{reserva.fecha_entrada}}</p>
-								<p><strong>Fecha de Salida: </strong>{{reserva.fecha_salida}}</p><hr>
-								<p><strong>Costo de alojamiento : </strong>{{reserva.tag_costo_alojamiento}}</p>
-								<p><strong>Consumo : </strong>{{reserva.tag_total_consumo}}</p><hr>
-								<p><strong>Monto Abonado : </strong>{{reserva.tag_total_pagos}}</p>
-								<p><strong>Saldo Pendiente : </strong>{{reserva.tag_saldo_pendiente}}</p><hr>
+<div class='row justify-content-center align-items-center' style="min-height: calc(100vh - 76px);">
+	<div class='col-md-10 col-sm-offset-3'>
+		<div class="card shadow mb-0">
 
-								{% if not request.user.is_client %}
-								<form method="post" enctype="multipart/form-data">
-									{% csrf_token %}								  
-									{{ form|crispy }} 
-								  	
-									<div class='row justify-content-center mb-3'>
-										<button type="submit" class="btn btn-success">
-											<i class="fas fa-save"></i>
-											Pagar
-										</button>&nbsp;&nbsp;
-										<a href="{% url 'leerReserva' 'pago' %}" type="submit" class="btn btn-primary">
-											<i class="fas fa-caret-left"></i>
-											Cancelar
-										</a>
-								 	</div>
-								</form>
-								{% else %}
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary text-align-center">Pago - Alojamiento y Consumo</h6>
+			</div>
+
+
+
+			<div class="card-body">
+				<div class='row'>
+					<div class='col-lg-5'>
+						<div>
+							<p><strong>Cliente: </strong>{{reserva.id_cliente_fk}}</p>
+							<p><strong>Habitación </strong>{{reserva.id_habitacion_fk}}</p>
+							<p><strong>Fecha de Entrada: </strong>{{reserva.fecha_entrada}}</p>
+							<p><strong>Fecha de Salida: </strong>{{reserva.fecha_salida}}</p>
+							<hr>
+							<p><strong>Costo de alojamiento : </strong>{{reserva.tag_costo_alojamiento}}</p>
+							<p><strong>Consumo : </strong>{{reserva.tag_total_consumo}}</p>
+							<hr>
+							<p><strong>Monto Abonado : </strong>{{reserva.tag_total_pagos}}</p>
+							<p><strong>Saldo Pendiente : </strong>{{reserva.tag_saldo_pendiente}}</p>
+							<hr>
+
+							{% if not request.user.is_client %}
+							<form method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								{{ form|crispy }}
+
 								<div class='row justify-content-center mb-3'>
+									<button type="submit" class="btn btn-success">
+										<i class="fas fa-save"></i>
+										Pagar
+									</button>&nbsp;&nbsp;
 									<a href="{% url 'leerReserva' 'pago' %}" type="submit" class="btn btn-primary">
 										<i class="fas fa-caret-left"></i>
-										Volver
+										Cancelar
 									</a>
 								</div>
-								{% endif %}
-
-								<hr>
+							</form>
+							{% else %}
+							<div class='row justify-content-center mb-3'>
+								<a href="{% url 'leerReserva' 'pago' %}" type="submit" class="btn btn-primary">
+									<i class="fas fa-caret-left"></i>
+									Volver
+								</a>
 							</div>
+							{% endif %}
+
+							<hr>
 						</div>
-						
-						<div class='col-lg-7'>				
-							<div class="card mb-0">			
-								<div class="header py-3">
-									<h5 class="m-0 font-weight-bold text-align-center">Consumo</h5>
-								</div>				
-								<div class="card-body">	
-								
-								
+					</div>
+
+					<div class='col-lg-7'>
+						<div class="card mb-0">
+							<div class="header">
+								<h5 class="mt-3 mb-0 mx-4 font-weight-bold">Consumo</h5>
+							</div>
+							<div class="card-body">
+
+
 								<div class="table-responsive">
 
 									<table class="table " width="100%" cellspacing="0">
@@ -78,7 +80,7 @@
 												<th>Precio</th>
 												<th>Subtotal</th>
 											</tr>
-										</thead>				
+										</thead>
 										<tbody>
 											<!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'cliente' y los listamos -->
 											{% for consumo in detalle_venta_prod %}
@@ -89,24 +91,25 @@
 												<td>{{ consumo.tag_sub_total }}</td>
 											</tr>
 											{% endfor %}
-											<tr><td></td>
+											<tr>
+												<td></td>
 												<td></td>
 												<td><strong>Total Consumo:</strong></td>
 												<td>{{ reserva.tag_total_consumo }}</td>
 											</tr>
 										</tbody>
-									</table>			
-								
-								</div>				
+									</table>
+
+								</div>
 							</div>
 						</div>
-						
+
 					</div>
-				</div>	
+				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<script type="text/javascript">
 		function pagar() {
 			var x = confirm("Pagar Reserva?");
@@ -116,7 +119,7 @@
 				return false;
 		}
 	</script>
-	
-	
+
+
 
 	{% endblock %}

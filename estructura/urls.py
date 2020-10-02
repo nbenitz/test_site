@@ -8,7 +8,7 @@ from estructura.views import ProductoCrear, ProductoActualizar, ProductoEliminar
 from estructura.views import CategoriaHabCrear, CategoriaHabActualizar, CategoriaHabEliminar 
 from estructura.views import CategoriaProdCrear, CategoriaProdActualizar, CategoriaProdEliminar
 from estructura.views import ServicioCrear, ServicioActualizar, ServicioEliminar
-from estructura.views import DispositivoCrear, DispositivoActualizar, DispositivoEliminar, Tablero, ObjetoListado, ObjetoDetalle
+from estructura.views import DispositivoCrear, DispositivoActualizar, DispositivoEliminar, Tablero, ObjetoListado, ObjetoDetalle, ListadoHabReserv
 
 urlpatterns = [
     path('habitacion/', ObjetoListado.as_view(model = models.Habitacion, template_name="habitacion/index.html"), name='leerHabitacion'),
@@ -141,7 +141,7 @@ urlpatterns = [
     
     path('dispositivo/eliminar/<str:pk>', DispositivoEliminar.as_view(), name='eliminarDispositivo'),
     
-    path('dispositivo/tablero', Tablero.as_view(template_name="dispositivo/monitor.html"), name='tablero'),
+    path('dispositivo/reservas', ListadoHabReserv.as_view(template_name="dispositivo/index_reserva.html"), name='leerHabReserv'),
 
+    path('dispositivo/tablero/<str:id_hab>', Tablero.as_view(template_name="dispositivo/monitor.html"), name='tablero'),
 ]
-

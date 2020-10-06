@@ -4,7 +4,6 @@ from django.core.mail import send_mail
 from .forms import ContactForm
 from django.shortcuts import render
 from django.core import management
-from django.core.management.commands import loaddata
 from django.http.response import HttpResponse
 
 from django.views.generic import TemplateView
@@ -180,10 +179,7 @@ def atributos_meta(request):
     return HttpResponse('<table>%s</table>' % '\n'.join(html))
 
 def about(request):
-    #management.call_command('dumpdata', 'estructura', output='estructura/fixtures/db.json', format='json')
-    management.call_command('loaddata', 'db.json', format='json', app_label='estructura')
     return render(request, "about.html")
-    loaddata
 
 def contact(request):
     titulo = "Contacto"
@@ -214,7 +210,7 @@ def contact(request):
         "titulo": titulo,
         "form": form,
     }
-    return render(request, "contact.html", context)
+    return render(request, "crud/crear_editar.html", context)
     
     
 

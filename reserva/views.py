@@ -302,7 +302,7 @@ def ajax_search_products(request, pk):
         )|Producto.broswer.is_active().filter(
             descripcion__icontains=q
             ) if q else Producto.broswer.is_active()
-    products = products[6]
+    products = products[:6]
     products = ProductTable(products)
     RequestConfig(request).configure(products)
     data = dict()

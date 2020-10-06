@@ -45,11 +45,19 @@ def report_reserva(request, fecha1, fecha2, estado):
     c.line(460, 747, 560, 747)
     
     # Tabla Reservas
-    reservas = list(Reserva.objects.exclude(
+    reservas = Reserva.objects.none()
+    if estado == 'Todos':
+        reservas = list(Reserva.objects.exclude(
         estado="Anulado"
         ).filter(
             fecha_entrada__gte=fecha1,
-            fecha_entrada__lt=fecha2))
+            fecha_entrada__lt=fecha2,
+            ))
+    else:
+        reservas = list(Reserva.objects.filter(
+            fecha_entrada__gte=fecha1,
+            fecha_entrada__lt=fecha2,
+            estado=estado))
     
     # Table header
     styles = getSampleStyleSheet()

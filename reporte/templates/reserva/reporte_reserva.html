@@ -20,18 +20,19 @@
 						id="id_fecha_inicial" placeholder="Fecha Inicial">
 					<input type="text" id="id_fecha_final" class="mb-4 dateinput form-control" required=""
 						id="id_fecha_final" placeholder="Fecha Final">
-					<select name="dataTable_length" aria-controls="dataTable" class="mb-4 custom-select form-control">
-						<option value="Todos">Todos</option>
-						<option value="Pagados">Pagados</option>
-						<option value="Pendientes">Pendientes de Pago</option>
-						<option value="Ocupadas">Ocupadas</option>
-						<option value="Anuladas">Anuladas</option>
+					<select id="id_estado" name="dataTable_length" aria-controls="dataTable"
+						class="mb-4 custom-select form-control">
+						<option value="Todos">Todas</option>
+						<option value="Reservado">Reservadas</option>
+						<option value="Confirmado">Confirmadas</option>
+						<option value="Finalizado">Finalizadas</option>
+						<option value="Anulado">Anuladas</option>
 					</select>
 					<!--<button type="submit" class="btn btn-success">
 							Genarar
 						</button>-->
-					<button id="btn-gen" gen-url="{% url 'reporteReserva' %}"
-						onclick="return generar();" type="submit" class="btn btn-success">
+					<button id="btn-gen" gen-url="{% url 'reporteReserva' %}" onclick="return generar();" type="submit"
+						class="btn btn-success">
 						Generar
 					</button>
 
@@ -43,8 +44,9 @@
 </div>
 
 <script type="text/javascript">
-	var fecha_inicial = new Date(1970,0,1);
-	var fecha_final = new Date(3000,0,1);
+	var fecha_inicial = new Date(1970, 0, 1);
+	var fecha_final = new Date(3000, 0, 1);
+	var estado = 'Todos';
 
 	$(document).ready(function () {
 
@@ -101,14 +103,19 @@
 			$("#id_fecha_final").attr('type', 'date');
 		});
 
+		$("#id_estado").on('change', function () {
+			console.log('Changed option value: ' + this.value);
+			estado = this.value
+		});
+
 	});
 
 	function generar(url) {
 		var url = $("#btn-gen").attr("gen-url");
-		
+
 		var inicial = fecha_inicial.getFullYear() + "-" + (fecha_inicial.getMonth() + 1) + "-" + (fecha_inicial.getDate());
 		var final = fecha_final.getFullYear() + "-" + (fecha_final.getMonth() + 1) + "-" + (fecha_final.getDate());
-		window.location.href = url + inicial + "/" + final + "/";
+		window.location.href = url + inicial + "/" + final + "/" + estado + "/";
 
 	}
 
